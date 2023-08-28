@@ -7,8 +7,8 @@ import { Body, Cell, Head, HeaderCell, HeaderRow, Row as TableRow, Table } from 
 import { Well, Title } from '@zendeskgarden/react-notifications';
 import { Row, Col } from '@zendeskgarden/react-grid';
 
-import { GetTicketResponse } from "./model/ticket";
-import { getOrganization, getOrganizationFields, getUser, getUserFields } from "./data";
+import { GetTicketResponse } from "./model";
+import { zafData } from "@app/zendesk/common";
 
 function App() {
   const [requester, setRequester] = React.useState("")
@@ -19,11 +19,10 @@ function App() {
 
   const fetchAll = async () => {
     const { ticket }: GetTicketResponse = await zafClient.get("ticket");
-    const userFields = await getUserFields()
-    const user = await getUser(ticket.requester.id)
-    const organizationFields = await getOrganizationFields()
-    const organization = await getOrganization(user.organization_id)
-
+    const userFields = await zafData.getUserFields()
+    const user = await zafData.getUser(ticket.requester.id)
+    const organizationFields = await zafData.getOrganizationFields()
+    const organization = await zafData.getOrganization(user.organization_id)
 
     setRequester(ticket.requester?.name || "Some Requester")
 

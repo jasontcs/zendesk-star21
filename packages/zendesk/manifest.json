@@ -23,6 +23,15 @@
 				"url": "assets/nav_bar/index.html",
 				"dev:url": "localhost",
 				"dev:port": 3001
+			},
+			"organization_sidebar": {
+				"url": "assets/organization_sidebar/index.html",
+				"size": {
+					"height": "500px",
+					"width": "340px"
+				},
+				"dev:url": "localhost",
+				"dev:port": 5173
 			}
 		}
 	},
