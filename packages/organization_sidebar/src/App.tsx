@@ -1,67 +1,54 @@
 import { useState } from 'react'
 import './App.css'
 import React from 'react'
-import { zafData, zafUtil } from "@app/zendesk/common";
+import { zafDomain, zafUtil } from "@app/zendesk/common";
 import zafClient from '@app/zendesk/sdk'
 import { GetOrganizationResponse } from './model'
-import { Body, Cell, Row as TableRow, Table } from '@zendeskgarden/react-tables';
+import { Body, Cell, Head, HeaderCell, HeaderRow, Row as TableRow, Table } from '@zendeskgarden/react-tables';
 import { Tag } from '@zendeskgarden/react-tags';
-import { User } from '@app/zendesk/common/model';
+import { UserEntity } from '@app/zendesk/common/entity';
 
 function App() {
-  const [authorizedUsers, setAuthorizedUsers] = useState<User[]>([])
+  const [authorizedUsers, setAuthorizedUsers] = useState<UserEntity[]>([])
 
   const fetchAll = async () => {
     const { organization }: GetOrganizationResponse = await zafClient.get("organization");
-    const users = await zafData.getOrganizationUsers(organization.id)
-    setAuthorizedUsers(users.filter((user) => zafData.isAuthorized(user)))
+    const { importantContacts } = await zafDomain.getOrganization(organization.id)
+    setAuthorizedUsers(importantContacts)
+    zafUtil.resizeWindow()
   }
 
   React.useEffect(() => {
-    zafUtil.resizeWindow()
     fetchAll()
   }, []);
 
   return (
     <>
       <Table>
+        <Head>
+          <HeaderRow>
+            <HeaderCell>AUTHORISED CONTACTS</HeaderCell>
+            <HeaderCell width="60px"></HeaderCell>
+          </HeaderRow>
+        </Head>
         <Body>
           {
             authorizedUsers.map((user) =>
-              <TableRow>
+              <TableRow isFocused={false}>
                 <Cell>
                   {user.name}
-                  {zafData.isVip(user) &&
+                </Cell>
+                <Cell>
+                  {user.isVip &&
                     <Tag hue="yellow">
                       <span>VIP</span>
-                    </Tag>
-                  }
+                    </Tag>}
                 </Cell>
               </TableRow>
             )
           }
         </Body>
       </Table>
-      {/* <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
     </>
   )
 }

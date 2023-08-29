@@ -1,9 +1,8 @@
 {
-	"name": "Vite Boilerplate",
+	"name": "Customer Products v2",
 	"author": {
-		"name": "OlegGulevskyy",
-		"email": "oleggulevskyy@gmail.com",
-		"url": "https://github.com/OlegGulevskyy/zendesk-vite-boilerplate"
+		"name": "Jason Tse",
+		"email": "jasont@star21.com.au"
 	},
 	"defaultLocale": "en",
 	"private": true,
@@ -12,8 +11,8 @@
 			"ticket_sidebar": {
 				"url": "assets/ticket_sidebar/index.html",
 				"size": {
-					"height": "500px",
-					"width": "340px"
+					"height": "800px",
+					"width": "320px"
 				},
 				"flexible": true,
 				"dev:url": "localhost",
@@ -27,9 +26,10 @@
 			"organization_sidebar": {
 				"url": "assets/organization_sidebar/index.html",
 				"size": {
-					"height": "500px",
-					"width": "340px"
+					"height": "200px",
+					"width": "320px"
 				},
+				"flexible": true,
 				"dev:url": "localhost",
 				"dev:port": 5173
 			}

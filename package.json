@@ -22,6 +22,7 @@
   "license": "ISC",
   "packageManager": "yarn@3.2.1",
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "minimist": "^1.2.6"
   },
   "dependencies": {
@@ -47,6 +48,6 @@
     "@zendeskgarden/react-theming": "^8.62.0",
     "@zendeskgarden/react-tooltips": "^8.62.0",
     "@zendeskgarden/react-typography": "^8.62.0",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.11"
   }
 }
