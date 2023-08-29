@@ -9,7 +9,7 @@ import { Row, Col } from '@zendeskgarden/react-grid';
 
 import { GetTicketResponse } from "./model";
 import { zafDomain } from "@app/zendesk/common";
-import { ServiceEntity, ServiceType, UserFlagTypeAuthorized } from "@app/zendesk/common/entity";
+import { ServiceEntity, ServiceType, UserFlagTypeAuthorized, UserFlagTypeVip } from "@app/zendesk/common/entity";
 import { SM, MD, LG, XL, XXL, XXXL } from '@zendeskgarden/react-typography';
 import styled from "styled-components";
 import { DEFAULT_THEME, focusStyles } from '@zendeskgarden/react-theming';
@@ -33,7 +33,7 @@ function App() {
     setIsVip(user.isVip)
 
     setUserFlags(user.userFlags
-      .filter((flag) => flag.type instanceof UserFlagTypeAuthorized)
+      .filter((flag) => !(flag.type instanceof UserFlagTypeVip))
       .map((flag) => flag.name)
     )
 
