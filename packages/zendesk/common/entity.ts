@@ -85,7 +85,7 @@ export class ServiceEntity {
         this.name = name
         this.key = key
         this.description = description
-        this.type = ServiceType[description]
+        this.type = ServiceType[description as keyof typeof ServiceType]
     }
     id: number
     name: string
