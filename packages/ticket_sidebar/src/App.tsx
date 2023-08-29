@@ -85,7 +85,7 @@ function App() {
         </Body>
       </Table>
       <Table size="small">
-        <Body style={{ textAlign: "center" }}>
+        <Body>
           {
             organizationServices
               .filter((service) => service.type)
@@ -95,7 +95,7 @@ function App() {
                   <Cell>
                     {service.name}
                   </Cell>
-                  <Cell width="100px">
+                  <Cell width="100px" style={{ textAlign: "center" }}>
                     <Tag hue={typeColor(service.type)} style={{ width: "100%" }}>
                       <span>{service.type}</span>
                     </Tag>
