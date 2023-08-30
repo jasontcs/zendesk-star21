@@ -25,12 +25,12 @@ export class ZafData {
     }
 
     async getOrganizationUsers(id: number): Promise<User[]> {
-        var nextPage: string | null 
-        var users: User[]  = []
+        var nextPage: string | null | undefined = undefined
+        var users: User[] = []
         while (nextPage === undefined || nextPage !== null) {
-            const response = await zafClient.request<any>(nextPage ?? `/api/v2/organizations/${id}/users`)
+            const response: any = await zafClient.request<any>(nextPage ?? `/api/v2/organizations/${id}/users`)
             nextPage = response.next_page
-            users.concat(response.users)
+            users = users.concat(response.users)
         }
         return users
     }

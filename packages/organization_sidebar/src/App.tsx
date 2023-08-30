@@ -36,7 +36,7 @@ function App() {
         <Body>
           {
             authorizedUsers.map((user) =>
-              <TableRow isFocused={false}>
+              <TableRow isFocused={true}>
                 <Cell>
                   {user.name}
                 </Cell>

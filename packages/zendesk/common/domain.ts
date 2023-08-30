@@ -35,8 +35,8 @@ export class ZafDomain {
         const rawUsers = await zafData.getOrganizationUsers(id)
         const userFields = await zafData.getUserFields()
         const users = rawUsers.map((user) => new UserEntity(
-            user.id, 
-            user.name, 
+            user.id,
+            user.name,
             user.tags.flatMap(
                 (tag) => {
                     const field = userFields.find((field) => field.tag == tag)
@@ -73,7 +73,7 @@ export class ZafDomain {
 }
 
 zafClient.on('ticket.save', async function () {
-    const ticket: Ticket = await zafClient.get('ticket').then((r) => r.ticket )
+    const ticket: Ticket = await zafClient.get('ticket').then((r: any) => r.ticket)
 
     if (ticket.status !== 'solved') return Promise.resolve(true)
 
@@ -82,11 +82,11 @@ zafClient.on('ticket.save', async function () {
     const organization = ticket.organization
     const settings = await zafClient.metadata<IMetadataSettings>()
 
-    const yourOrganization = Number(settings.settings.yourOrganization)
-    const whitelistedInternalForms = settings.settings.whitelistedInternalForms.split(',').map((e) => Number(e))
-    const blockedForms = settings.settings.blockedForms.split(',').map((e) => Number(e))
-    const blockedOrgs = settings.settings.blockedOrgs.split(',').map((e) => Number(e))
-    const adminID = settings.settings.adminOverrideID.split(',').map((e) => Number(e))
+    const yourOrganization = Number(settings.settings?.yourOrganization)
+    const whitelistedInternalForms = settings.settings?.whitelistedInternalForms?.split(',').map((e) => Number(e)) ?? []
+    const blockedForms = settings.settings?.blockedForms?.split(',').map((e) => Number(e)) ?? []
+    const blockedOrgs = settings.settings?.blockedOrgs?.split(',').map((e) => Number(e)) ?? []
+    const adminID = settings.settings?.adminOverrideID?.split(',').map((e) => Number(e)) ?? []
 
     const isStar21 = organization.id == yourOrganization
     const isInternalForm = whitelistedInternalForms.includes(form.id)
@@ -123,7 +123,7 @@ zafClient.on('ticket.save', async function () {
         }
         return 'You can not solve on this form. Please select the correct form'
     }
-    
+
     return true
 
 });
