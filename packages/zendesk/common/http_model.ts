@@ -82,3 +82,50 @@ export interface OrganizationField {
     updated_at:            Date;
     url:                   string;
 }
+export interface TicketForm {
+    active:               boolean;
+    agent_conditions:     AgentCondition[];
+    created_at:           Date;
+    default:              boolean;
+    display_name:         string;
+    end_user_conditions:  EndUserCondition[];
+    end_user_visible:     boolean;
+    id:                   number;
+    in_all_brands:        boolean;
+    name:                 string;
+    position:             number;
+    raw_display_name:     string;
+    raw_name:             string;
+    restricted_brand_ids: number[];
+    ticket_field_ids:     number[];
+    updated_at:           Date;
+    url:                  string;
+}
+
+export interface AgentCondition {
+    child_fields:    AgentConditionChildField[];
+    parent_field_id: number;
+    value:           string;
+}
+
+export interface AgentConditionChildField {
+    id:                   number;
+    is_required:          boolean;
+    required_on_statuses: RequiredOnStatuses;
+}
+
+export interface RequiredOnStatuses {
+    statuses?: string[];
+    type:      string;
+}
+
+export interface EndUserCondition {
+    child_fields:    EndUserConditionChildField[];
+    parent_field_id: number;
+    value:           string;
+}
+
+export interface EndUserConditionChildField {
+    id:          number;
+    is_required: boolean;
+}

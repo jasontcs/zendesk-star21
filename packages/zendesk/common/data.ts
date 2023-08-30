@@ -1,7 +1,7 @@
 
 import zafClient from "../sdk/index";
 import { zafConfig as zafConfig } from "./index";
-import { Organization, OrganizationField, User, UserField } from "./model";
+import { Organization, OrganizationField, TicketForm, User, UserField } from "./http_model";
 
 export class ZafData {
     async getUserFields(): Promise<UserField[]> {
@@ -25,8 +25,14 @@ export class ZafData {
     }
 
     async getOrganizationUsers(id: number): Promise<User[]> {
-        const response = await zafClient.request<any>(`/api/v2/organizations/${id}/users`)
-        return response.users
+        var nextPage: string | null 
+        var users: User[]  = []
+        while (nextPage === undefined || nextPage !== null) {
+            const response = await zafClient.request<any>(nextPage ?? `/api/v2/organizations/${id}/users`)
+            nextPage = response.next_page
+            users.concat(response.users)
+        }
+        return users
     }
 
     isVip(user: User): boolean {
@@ -37,4 +43,8 @@ export class ZafData {
         return Object.entries(user.user_fields).some((f) => f[0].startsWith(zafConfig.authPrefix))
     }
 
+    async getTicketForm(id: number): Promise<TicketForm> {
+        const response = await zafClient.request<any>(`/api/v2/ticket_forms/${id}`)
+        return response.ticket_form
+    }
 }

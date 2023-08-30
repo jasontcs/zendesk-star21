@@ -3,7 +3,7 @@ import './App.css'
 import React from 'react'
 import { zafDomain, zafUtil } from "@app/zendesk/common";
 import zafClient from '@app/zendesk/sdk'
-import { GetOrganizationResponse } from './model'
+import { GetOrganizationResponse } from '@app/zendesk/common/api_model'
 import { Body, Cell, Head, HeaderCell, HeaderRow, Row as TableRow, Table } from '@zendeskgarden/react-tables';
 import { Tag } from '@zendeskgarden/react-tags';
 import { UserEntity } from '@app/zendesk/common/entity';
@@ -20,6 +20,7 @@ function App() {
 
   React.useEffect(() => {
     fetchAll()
+    zafClient.off('app.registered', fetchAll)
     zafClient.on('app.registered', fetchAll)
   }, []);
 

@@ -17,6 +17,7 @@ interface IClient {
   metadata: <U>() => IMetadata<U>;
   request: <U>(data: Object) => Promise<U>;
   on: (eventName: string, listener: (...args: any) => any) => void;
+  off: (eventName: string, listener: (...args: any) => any) => void;
 }
 
 declare global {

@@ -11,7 +11,7 @@ import { Tag } from '@zendeskgarden/react-tags';
 import { zafConfig, zafDomain } from "@app/zendesk/common";
 import { ServiceEntity, ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
 
-import { GetTicketResponse } from "./model";
+import { GetTicketResponse } from '@app/zendesk/common/api_model';
 
 function App() {
   const [requester, setRequester] = React.useState<string | undefined>()
@@ -41,9 +41,9 @@ function App() {
 
   React.useEffect(() => {
     fetchAll();
+    zafClient.off('app.registered', fetchAll)
     zafClient.on('app.registered', fetchAll)
   }, []);
-
 
   return (
     <>
@@ -81,13 +81,13 @@ function App() {
               .sort((a, b) => Object.values(ServiceType).indexOf(a.type) - Object.values(ServiceType).indexOf(b.type))
               .map((service) =>
                 <TableRow isFocused={false}>
-                  <Cell>
-                    {service.name}
-                  </Cell>
                   <Cell width="100px" style={{ textAlign: "center" }}>
                     <Tag hue={zafConfig.typeColor(service.type)} style={{ width: "100%" }}>
                       <span>{zafConfig.typeTitle(service.type)}</span>
                     </Tag>
+                  </Cell>
+                  <Cell style={{ textAlign: "right" }}>
+                    {service.name}
                   </Cell>
                 </TableRow>
               )
