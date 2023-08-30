@@ -18,11 +18,6 @@
 				"dev:url": "localhost",
 				"dev:port": 3000
 			},
-			"nav_bar": {
-				"url": "assets/nav_bar/index.html",
-				"dev:url": "localhost",
-				"dev:port": 3001
-			},
 			"organization_sidebar": {
 				"url": "assets/organization_sidebar/index.html",
 				"size": {
@@ -32,9 +27,46 @@
 				"flexible": true,
 				"dev:url": "localhost",
 				"dev:port": 5173
+			},
+			"new_ticket_sidebar": {
+				"url": "assets/new_ticket_sidebar/index.html",
+				"size": {
+					"height": "800px",
+					"width": "320px"
+				},
+				"flexible": true,
+				"dev:url": "localhost",
+				"dev:port": 5174
 			}
 		}
 	},
+	"parameters": [
+		{
+			"name": "yourOrganization",
+			"type": "text",
+			"value": "zcp_yourOrganization"
+		},
+		{
+			"name": "blockedOrgs",
+			"type": "text",
+			"value": "zcp_blockedOrgs"
+		},
+		{
+			"name": "blockedForms",
+			"type": "text",
+			"value": "zcp_blockedForms"
+		},
+		{
+			"name": "whitelistedInternalForms",
+			"type": "text",
+			"value": "zcp_whitelistedInternalForms"
+		},
+		{
+			"name": "adminOverrideID",
+			"type": "text",
+			"value": "zcp_adminOverrideID"
+		}
+	],
 	"version": "1.0.0",
 	"frameworkVersion": "2.0"
 }

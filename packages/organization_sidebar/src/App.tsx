@@ -20,6 +20,7 @@ function App() {
 
   React.useEffect(() => {
     fetchAll()
+    zafClient.on('app.registered', fetchAll)
   }, []);
 
   return (

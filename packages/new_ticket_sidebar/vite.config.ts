@@ -1,17 +1,17 @@
 import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
+import react from '@vitejs/plugin-react-swc'
 import * as pluginPkg from '@app/zendesk/vite-plugin-inject-zaf-html/index.js'
 const { injectZafHtmlPlugin } = pluginPkg.default
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svelte(), injectZafHtmlPlugin()],
+  plugins: [react(), injectZafHtmlPlugin()],
   base: "./",
   build: {
     outDir: `${process.env.INIT_CWD}/dist/assets/${process.env.ADDON_TYPE}`,
     emptyOutDir: true
   },
   server: {
-    port: 3001
+    port: 5174
   }
 })

@@ -1,17 +1,14 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import zafClient from "@app/zendesk/sdk";
+import './App.css'
+import React from 'react'
+import zafClient from '@app/zendesk/sdk'
 
 import { Button } from '@zendeskgarden/react-buttons';
 import { Body, Cell, Row as TableRow, Table } from '@zendeskgarden/react-tables';
-import { XL, } from '@zendeskgarden/react-typography';
+import { LG , XL } from '@zendeskgarden/react-typography';
 import { Tag } from '@zendeskgarden/react-tags';
 
 import { zafConfig, zafDomain } from "@app/zendesk/common";
 import { ServiceEntity, ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
-
-import { GetTicketResponse } from "./model";
 
 function App() {
   const [requester, setRequester] = React.useState<string | undefined>()
@@ -20,12 +17,11 @@ function App() {
   const [organizationServices, setOrganizationServices] = React.useState<ServiceEntity[]>([])
   const [guideUrl, setGuideUrl] = React.useState<string>('')
 
-  const fetchAll = async () => {
-    const { ticket }: GetTicketResponse = await zafClient.get("ticket");
-    const user = await zafDomain.getUser(ticket.requester.id)
+  async function requesterChanged(id: number) {
+    const user = await zafDomain.getUser(id)
     const organization = await zafDomain.getOrganization(user.organizationId)
 
-    setRequester(ticket.requester.name)
+    setRequester(user.name)
 
     setIsVip(user.isVip)
 
@@ -37,13 +33,18 @@ function App() {
     setOrganizationServices(organization.services)
 
     setGuideUrl(organization.guideUrl)
-  };
+  }
 
   React.useEffect(() => {
-    fetchAll();
-    zafClient.on('app.registered', fetchAll)
-  }, []);
+    zafClient.on('ticket.requester.id.changed', requesterChanged)
+  })
 
+
+  if (!requester) return (
+    <>
+      <LG isBold style={{ textAlign: "center" }}>Please select a requester!</LG>
+    </>
+  )
 
   return (
     <>
@@ -99,31 +100,7 @@ function App() {
         <Button isPrimary isStretched>Customer Guide</Button>
       </a>
     </>
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       <a
-    //         className="App-link"
-    //         href="https://reactjs.org"
-    //         target="_blank"
-    //         rel="noopener noreferrer"
-    //       >
-    //         Learn React
-    //       </a>
-    //       {" | "}
-    //       <a
-    //         className="App-link"
-    //         href="https://vitejs.dev/guide/features.html"
-    //         target="_blank"
-    //         rel="noopener noreferrer"
-    //       >
-    //         Vite Docs
-    //       </a>
-    //     </p>
-    //   </header>
-    // </div>
-  );
+  )
 }
 
-export default App;
+export default App
