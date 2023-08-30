@@ -83,13 +83,13 @@ function App() {
               .sort((a, b) => Object.values(ServiceType).indexOf(a.type) - Object.values(ServiceType).indexOf(b.type))
               .map((service) =>
                 <TableRow isFocused={false}>
-                  <Cell>
-                    {service.name}
-                  </Cell>
                   <Cell width="100px" style={{ textAlign: "center" }}>
                     <Tag hue={zafConfig.typeColor(service.type)} style={{ width: "100%" }}>
                       <span>{zafConfig.typeTitle(service.type)}</span>
                     </Tag>
+                  </Cell>
+                  <Cell style={{ textAlign: "right" }}>
+                    {service.name}
                   </Cell>
                 </TableRow>
               )
