@@ -77,6 +77,7 @@ export interface OrganizationField {
     raw_description:       string;
     raw_title:             string;
     regexp_for_validation: null;
+    tag:                   string;
     title:                 string;
     type:                  string;
     updated_at:            Date;

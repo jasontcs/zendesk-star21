@@ -55,7 +55,7 @@ export class ZafDomain {
             organization.id,
             organization.tags.flatMap(
                 (tag) => {
-                    const field = fields.find((field) => field.key == tag)
+                    const field = fields.find((field) => field.tag == tag)
                     return field
                         ? [new ServiceEntity(
                             field.id,
