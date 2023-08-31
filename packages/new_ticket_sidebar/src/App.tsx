@@ -15,7 +15,7 @@ function App() {
   const [isVip, setIsVip] = React.useState(false)
   const [userFlags, setUserFlags] = React.useState<string[]>([])
   const [organizationServices, setOrganizationServices] = React.useState<ServiceEntity[]>([])
-  const [guideUrl, setGuideUrl] = React.useState<string>('')
+  const [guideUrl, setGuideUrl] = React.useState<string | undefined>()
 
   async function requesterChanged(id: number) {
     const user = await zafDomain.getUser(id)
@@ -96,10 +96,15 @@ function App() {
           }
         </Body>
       </Table>
-      <p></p>
-      <a href={guideUrl} target="_blank">
-        <Button isPrimary isStretched>Customer Guide</Button>
-      </a>
+      {
+        guideUrl &&
+        <>
+          <p></p>
+          <a href={guideUrl} target="_blank">
+            <Button isPrimary isStretched>Customer Guide</Button>
+          </a>
+        </>
+      }
     </>
   )
 }

@@ -61,7 +61,7 @@ export class OrganizationEntity {
         id: number,
         services: ServiceEntity[],
         importantContacts: UserEntity[],
-        guideUrl: string
+        guideUrl?: string
     ) {
         this.id = id
         this.services = services
@@ -71,7 +71,7 @@ export class OrganizationEntity {
     id: number
     services: ServiceEntity[]
     importantContacts: UserEntity[]
-    guideUrl: string
+    guideUrl?: string
 }
 
 export class ServiceEntity {
