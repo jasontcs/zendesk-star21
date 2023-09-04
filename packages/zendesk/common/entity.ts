@@ -80,18 +80,24 @@ export class ServiceEntity {
         name: string,
         key: string,
         description: string,
+        typeTitle?: string,
+        color?: string,
     ) {
         this.id = id
         this.name = name
         this.key = key
         this.description = description
         this.type = ServiceType[description as keyof typeof ServiceType]
+        this.typeTitle = typeTitle
+        this.color = color
     }
     id: number
     name: string
     key: string
     description: string
-    type: ServiceType
+    type?: ServiceType
+    typeTitle?: string
+    color?: string
 }
 
 export enum ServiceType {

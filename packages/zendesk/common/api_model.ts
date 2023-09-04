@@ -52,4 +52,11 @@ export interface IMetadataSettings {
     title?: string;
     whitelistedInternalForms?: string;
     yourOrganization?: string;
+    organizations_services_setting: string;
+}
+
+export interface OrganizationServiceSetting {
+    key: string;
+    title: string;
+    color: string;
 }

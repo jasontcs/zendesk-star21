@@ -25,6 +25,8 @@ function App() {
     const user = await zafDomain.getUser(ticket.requester.id)
     const organization = await zafDomain.getOrganization(user.organizationId)
 
+    console.log(organization.services)
+
     setRequester(ticket.requester.name)
 
     setIsVip(user.isVip)
@@ -79,12 +81,12 @@ function App() {
           {
             organizationServices
               .filter((service) => service.type)
-              .sort((a, b) => Object.values(ServiceType).indexOf(a.type) - Object.values(ServiceType).indexOf(b.type))
+              .sort((a, b) => Object.values(ServiceType).indexOf(a.type!) - Object.values(ServiceType).indexOf(b.type!))
               .map((service) =>
                 <TableRow isFocused={false}>
                   <Cell width="100px" style={{ textAlign: "center" }}>
-                    <Tag hue={zafConfig.typeColor(service.type)} style={{ width: "100%" }}>
-                      <span>{zafConfig.typeTitle(service.type)}</span>
+                    <Tag hue={service.color} style={{ width: "100%" }}>
+                      <span>{service.typeTitle}</span>
                     </Tag>
                   </Cell>
                   <Cell style={{ textAlign: "right" }}>

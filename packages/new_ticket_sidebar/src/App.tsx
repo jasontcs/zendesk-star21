@@ -7,7 +7,7 @@ import { Body, Cell, Row as TableRow, Table } from '@zendeskgarden/react-tables'
 import { LG , XL } from '@zendeskgarden/react-typography';
 import { Tag } from '@zendeskgarden/react-tags';
 
-import { zafConfig, zafDomain } from "@app/zendesk/common";
+import { zafDomain } from "@app/zendesk/common";
 import { ServiceEntity, ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
 
 function App() {
@@ -81,12 +81,12 @@ function App() {
           {
             organizationServices
               .filter((service) => service.type)
-              .sort((a, b) => Object.values(ServiceType).indexOf(a.type) - Object.values(ServiceType).indexOf(b.type))
+              .sort((a, b) => Object.values(ServiceType).indexOf(a.type!) - Object.values(ServiceType).indexOf(b.type!))
               .map((service) =>
                 <TableRow isFocused={false}>
                   <Cell width="100px" style={{ textAlign: "center" }}>
-                    <Tag hue={zafConfig.typeColor(service.type)} style={{ width: "100%" }}>
-                      <span>{zafConfig.typeTitle(service.type)}</span>
+                    <Tag hue={service.color} style={{ width: "100%" }}>
+                      <span>{service.typeTitle}</span>
                     </Tag>
                   </Cell>
                   <Cell style={{ textAlign: "right" }}>
