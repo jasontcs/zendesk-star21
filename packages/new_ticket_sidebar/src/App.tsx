@@ -97,15 +97,10 @@ function App() {
           }
         </Body>
       </Table>
-      {
-        guideUrl &&
-        <>
-          <p></p>
-          <a href={guideUrl} target="_blank">
-            <Button isPrimary isStretched>Customer Guide</Button>
-          </a>
-        </>
-      }
+      <p></p>
+      <a href={guideUrl} target="_blank">
+        <Button isPrimary isStretched disabled={guideUrl == null}>Customer Guide</Button>
+      </a>
     </>
   )
 }
