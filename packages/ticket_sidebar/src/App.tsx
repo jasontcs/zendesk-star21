@@ -8,7 +8,7 @@ import { Body, Cell, Row as TableRow, Table } from '@zendeskgarden/react-tables'
 import { XL, } from '@zendeskgarden/react-typography';
 import { Tag } from '@zendeskgarden/react-tags';
 
-import { zafConfig, zafDomain } from "@app/zendesk/common";
+import { zafDomain } from "@app/zendesk/common";
 import { ServiceEntity, ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
 
 import { GetTicketResponse } from '@app/zendesk/common/api_model';
@@ -24,8 +24,6 @@ function App() {
     const { ticket }: GetTicketResponse = await zafClient.get("ticket");
     const user = await zafDomain.getUser(ticket.requester.id)
     const organization = await zafDomain.getOrganization(user.organizationId)
-
-    console.log(organization.services)
 
     setRequester(ticket.requester.name)
 
