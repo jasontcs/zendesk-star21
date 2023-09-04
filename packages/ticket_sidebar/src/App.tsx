@@ -1,6 +1,5 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import './App.css'
 import zafClient from "@app/zendesk/sdk";
 
 import { Button } from '@zendeskgarden/react-buttons';
@@ -100,31 +99,7 @@ function App() {
         <Button isPrimary isStretched disabled={guideUrl == null}>Customer Guide</Button>
       </a>
     </>
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       <a
-    //         className="App-link"
-    //         href="https://reactjs.org"
-    //         target="_blank"
-    //         rel="noopener noreferrer"
-    //       >
-    //         Learn React
-    //       </a>
-    //       {" | "}
-    //       <a
-    //         className="App-link"
-    //         href="https://vitejs.dev/guide/features.html"
-    //         target="_blank"
-    //         rel="noopener noreferrer"
-    //       >
-    //         Vite Docs
-    //       </a>
-    //     </p>
-    //   </header>
-    // </div>
-  );
+  )
 }
 
-export default App;
+export default App

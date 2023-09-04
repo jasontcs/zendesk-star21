@@ -1,6 +1,7 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { injectZafHtmlPlugin } from "@app/zendesk/vite-plugin-inject-zaf-html";
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
+import * as pluginPkg from '@app/zendesk/vite-plugin-inject-zaf-html/index.js'
+const { injectZafHtmlPlugin } = pluginPkg.default
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,4 +14,4 @@ export default defineConfig({
   server: {
     port: 3000
   }
-});
+})
