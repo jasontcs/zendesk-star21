@@ -31,7 +31,7 @@ function App() {
         <Head>
           <HeaderRow>
             <HeaderCell>AUTHORISED CONTACTS</HeaderCell>
-            <HeaderCell width="60px"></HeaderCell>
+            <HeaderCell width="90px"></HeaderCell>
           </HeaderRow>
         </Head>
         <Body>
@@ -42,10 +42,12 @@ function App() {
                   {user.name}
                 </Cell>
                 <Cell>
-                  {user.isVip &&
-                    <Tag hue="yellow">
+                    <Tag size='small' hue="yellow" style={{visibility: user.isVip ? 'visible' : 'hidden', margin: '0 0 0 4px'}}>
                       <span>VIP</span>
-                    </Tag>}
+                    </Tag>
+                    <Tag size='small' hue="red" style={{visibility: user.isAuthorized ? 'visible' : 'hidden', margin: '0 0 0 4px'}}>
+                      <span>Auth</span>
+                    </Tag>
                 </Cell>
               </TableRow>
             )
