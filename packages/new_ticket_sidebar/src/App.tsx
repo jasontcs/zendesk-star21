@@ -36,8 +36,9 @@ function App() {
   }
 
   React.useEffect(() => {
-    zafClient.off('ticket.requester.id.changed', requesterChanged)
-    zafClient.on('ticket.requester.id.changed', requesterChanged)
+    if (!zafClient.has('ticket.requester.id.changed', requesterChanged)) {
+      zafClient.on('ticket.requester.id.changed', requesterChanged)
+    }
   })
 
 

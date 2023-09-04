@@ -18,6 +18,7 @@ interface IClient {
   request: <U>(data: Object) => Promise<U>;
   on: (eventName: string, listener: (...args: any) => any) => void;
   off: (eventName: string, listener: (...args: any) => any) => void;
+  has: (eventName: string, listener: (...args: any) => any) => boolean;
 }
 
 declare global {

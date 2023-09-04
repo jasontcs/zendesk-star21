@@ -20,8 +20,9 @@ function App() {
 
   React.useEffect(() => {
     fetchAll()
-    zafClient.off('app.registered', fetchAll)
-    zafClient.on('app.registered', fetchAll)
+    if (!zafClient.has('app.registered', fetchAll)) {
+      zafClient.on('app.registered', fetchAll)
+    }
   }, []);
 
   return (
