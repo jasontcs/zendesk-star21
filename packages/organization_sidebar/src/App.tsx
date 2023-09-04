@@ -37,17 +37,17 @@ function App() {
         <Body>
           {
             authorizedUsers.map((user) =>
-              <TableRow isFocused={true}>
+              <TableRow isFocused={true} key={user.id}>
                 <Cell>
                   {user.name}
                 </Cell>
                 <Cell>
-                    <Tag size='small' hue="yellow" style={{visibility: user.isVip ? 'visible' : 'hidden', margin: '0 0 0 4px'}}>
-                      <span>VIP</span>
-                    </Tag>
-                    <Tag size='small' hue="red" style={{visibility: user.isAuthorized ? 'visible' : 'hidden', margin: '0 0 0 4px'}}>
-                      <span>Auth</span>
-                    </Tag>
+                  <Tag size='small' hue="yellow" style={{ visibility: user.isVip ? 'visible' : 'hidden', margin: '0 0 0 4px' }}>
+                    <span>VIP</span>
+                  </Tag>
+                  <Tag size='small' hue="red" style={{ visibility: user.isAuthorized ? 'visible' : 'hidden', margin: '0 0 0 4px' }}>
+                    <span>Auth</span>
+                  </Tag>
                 </Cell>
               </TableRow>
             )

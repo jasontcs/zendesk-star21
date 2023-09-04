@@ -62,7 +62,7 @@ function App() {
           }
           {
             userFlags.map((flag) =>
-              <TableRow isFocused={false}>
+              <TableRow isFocused={false} key={flag}>
                 <Cell>
                   <Tag size="large" hue="green" style={{ width: "100%" }}>
                     <span>{flag}</span>
@@ -80,7 +80,7 @@ function App() {
               .filter((service) => service.type)
               .sort((a, b) => Object.values(ServiceType).indexOf(a.type!) - Object.values(ServiceType).indexOf(b.type!))
               .map((service) =>
-                <TableRow isFocused={false}>
+                <TableRow isFocused={false} key={service.id}>
                   <Cell width="100px" style={{ textAlign: "center" }}>
                     <Tag hue={service.color} style={{ width: "100%" }}>
                       <span>{service.typeTitle}</span>
