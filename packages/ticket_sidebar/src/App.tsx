@@ -6,7 +6,7 @@ import { zafDomain } from "@app/zendesk/common";
 import { ServiceEntity, UserFlagTypeVip } from "@app/zendesk/common/entity";
 
 import { GetTicketResponse } from '@app/zendesk/common/api_model';
-import { AppThemeProvider, CustomerGuideButton, ImportantContactTags, OrganizationServices, RequesterTitle } from '@app/zendesk/components';
+import { AppThemeProvider, OrganizationPanel } from '@app/zendesk/components';
 
 function App() {
   const [requester, setRequester] = React.useState<string | undefined>()
@@ -14,6 +14,7 @@ function App() {
   const [userFlags, setUserFlags] = React.useState<string[]>([])
   const [organizationServices, setOrganizationServices] = React.useState<ServiceEntity[]>([])
   const [guideUrl, setGuideUrl] = React.useState<string | undefined>()
+  const [specialRequirements, setSpecialRequirements] = React.useState<string | undefined>()
 
   const fetchAll = async () => {
     const { ticket }: GetTicketResponse = await zafClient.get("ticket");
@@ -32,6 +33,8 @@ function App() {
     setOrganizationServices(organization.services)
 
     setGuideUrl(organization.guideUrl)
+
+    setSpecialRequirements("Details")
   };
 
   React.useEffect(() => {
@@ -43,10 +46,14 @@ function App() {
 
   return (
     <AppThemeProvider>
-      <RequesterTitle requester={requester}></RequesterTitle>
-      <ImportantContactTags isVip={isVip} userFlags={userFlags}></ImportantContactTags>
-      <OrganizationServices organizationServices={organizationServices}></OrganizationServices>
-      <CustomerGuideButton guideUrl={guideUrl}></CustomerGuideButton>
+      <OrganizationPanel 
+        requester={requester}
+        guideUrl={guideUrl}
+        isVip={isVip}
+        userFlags={userFlags}
+        organizationServices={organizationServices}
+        specialRequirements={specialRequirements}
+      ></OrganizationPanel>
     </AppThemeProvider>
   )
 }

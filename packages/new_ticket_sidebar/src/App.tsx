@@ -4,7 +4,7 @@ import zafClient from '@app/zendesk/sdk'
 
 import { zafDomain } from "@app/zendesk/common";
 import { ServiceEntity, UserFlagTypeVip } from "@app/zendesk/common/entity";
-import { AppThemeProvider, CustomerGuideButton, ImportantContactTags, NoSelectRequesterLabel, OrganizationServices, RequesterTitle } from '@app/zendesk/components';
+import { AppThemeProvider, NoSelectRequesterLabel, OrganizationPanel } from '@app/zendesk/components';
 
 function App() {
   const [requester, setRequester] = React.useState<string | undefined>()
@@ -12,6 +12,7 @@ function App() {
   const [userFlags, setUserFlags] = React.useState<string[]>([])
   const [organizationServices, setOrganizationServices] = React.useState<ServiceEntity[]>([])
   const [guideUrl, setGuideUrl] = React.useState<string | undefined>()
+  const [specialRequirements, setSpecialRequirements] = React.useState<string | undefined>()
 
   async function requesterChanged(id: number) {
     const user = await zafDomain.getUser(id)
@@ -43,10 +44,14 @@ function App() {
   )
   return (
     <AppThemeProvider>
-      <RequesterTitle requester={requester}></RequesterTitle>
-      <ImportantContactTags isVip={isVip} userFlags={userFlags}></ImportantContactTags>
-      <OrganizationServices organizationServices={organizationServices}></OrganizationServices>
-      <CustomerGuideButton guideUrl={guideUrl}></CustomerGuideButton>
+      <OrganizationPanel 
+        requester={requester}
+        guideUrl={guideUrl}
+        isVip={isVip}
+        userFlags={userFlags}
+        organizationServices={organizationServices}
+        specialRequirements={specialRequirements}
+      ></OrganizationPanel>
     </AppThemeProvider>
   )
 }
