@@ -28,7 +28,7 @@ export const ImportantContactTags = ({ isVip, userFlags }: ImportantContactTagsP
         }
         {
           userFlags.map((flag) =>
-            <StyledRow>
+            <StyledRow key={flag}>
               <Col>
                 <Tag size="large" hue="green" style={{ width: "100%" }}>
                   <span>{flag}</span>
