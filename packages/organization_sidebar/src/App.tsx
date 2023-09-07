@@ -9,12 +9,12 @@ import { ImportantContactList } from '@app/zendesk/components';
 
 
 function App() {
-  const [authorizedUsers, setAuthorizedUsers] = useState<UserEntity[]>([])
+  const [importantUsers, setImportantUsers] = useState<UserEntity[]>([])
 
   const fetchAll = async () => {
     const { organization }: GetOrganizationResponse = await zafClient.get("organization");
     const { importantContacts } = await zafDomain.getOrganization(organization.id)
-    setAuthorizedUsers(importantContacts)
+    setImportantUsers(importantContacts)
     zafUtil.resizeWindow()
   }
 
@@ -26,7 +26,7 @@ function App() {
   }, []);
 
   return (
-    <ImportantContactList authorizedUsers={authorizedUsers} ></ImportantContactList>
+    <ImportantContactList importantUsers={importantUsers} ></ImportantContactList>
   )
 }
 
