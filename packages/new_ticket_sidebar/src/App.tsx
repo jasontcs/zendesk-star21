@@ -2,13 +2,9 @@ import './App.css'
 import React from 'react'
 import zafClient from '@app/zendesk/sdk'
 
-import { Button } from '@zendeskgarden/react-buttons';
-import { Body, Cell, Row as TableRow, Table } from '@zendeskgarden/react-tables';
-import { LG, XL } from '@zendeskgarden/react-typography';
-import { Tag } from '@zendeskgarden/react-tags';
-
 import { zafDomain } from "@app/zendesk/common";
-import { ServiceEntity, ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
+import { ServiceEntity, UserFlagTypeVip } from "@app/zendesk/common/entity";
+import { AppThemeProvider, CustomerGuideButton, ImportantContactTags, NoSelectRequesterLabel, OrganizationServices, RequesterTitle } from '@app/zendesk/components';
 
 function App() {
   const [requester, setRequester] = React.useState<string | undefined>()
@@ -43,65 +39,15 @@ function App() {
 
 
   if (!requester) return (
-    <>
-      <LG isBold style={{ textAlign: "center" }}>Please select a requester!</LG>
-    </>
+    <NoSelectRequesterLabel></NoSelectRequesterLabel>
   )
-
   return (
-    <>
-      <XL isBold style={{ textAlign: "center" }}>{requester}</XL>
-      <hr />
-      <Table size="small">
-        <Body style={{ textAlign: "center" }}>
-          {isVip &&
-            <TableRow isFocused={false}>
-              <Cell>
-                <Tag size="large" hue="yellow" style={{ width: "100%" }}>
-                  <span>VIP</span>
-                </Tag>
-              </Cell>
-            </TableRow>
-          }
-          {
-            userFlags.map((flag) =>
-              <TableRow isFocused={false} key={flag}>
-                <Cell>
-                  <Tag size="large" hue="green" style={{ width: "100%" }}>
-                    <span>{flag}</span>
-                  </Tag>
-                </Cell>
-              </TableRow>
-            )
-          }
-        </Body>
-      </Table>
-      <Table size="small">
-        <Body>
-          {
-            organizationServices
-              .filter((service) => service.type)
-              .sort((a, b) => Object.values(ServiceType).indexOf(a.type!) - Object.values(ServiceType).indexOf(b.type!))
-              .map((service) =>
-                <TableRow isFocused={false} key={service.id}>
-                  <Cell width="100px" style={{ textAlign: "center" }}>
-                    <Tag hue={service.color} style={{ width: "100%" }}>
-                      <span>{service.typeTitle}</span>
-                    </Tag>
-                  </Cell>
-                  <Cell style={{ textAlign: "right" }}>
-                    {service.name}
-                  </Cell>
-                </TableRow>
-              )
-          }
-        </Body>
-      </Table>
-      <p></p>
-      <a href={guideUrl} target="_blank">
-        <Button isPrimary isStretched disabled={guideUrl == null}>Customer Guide</Button>
-      </a>
-    </>
+    <AppThemeProvider>
+      <RequesterTitle requester={requester}></RequesterTitle>
+      <ImportantContactTags isVip={isVip} userFlags={userFlags}></ImportantContactTags>
+      <OrganizationServices organizationServices={organizationServices}></OrganizationServices>
+      <CustomerGuideButton guideUrl={guideUrl}></CustomerGuideButton>
+    </AppThemeProvider>
   )
 }
 

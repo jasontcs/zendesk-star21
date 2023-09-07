@@ -2,15 +2,11 @@ import React from "react";
 import './App.css'
 import zafClient from "@app/zendesk/sdk";
 
-import { Button } from '@zendeskgarden/react-buttons';
-import { Body, Cell, Row as TableRow, Table } from '@zendeskgarden/react-tables';
-import { XL, MD, Span } from '@zendeskgarden/react-typography';
-import { Tag } from '@zendeskgarden/react-tags';
-
 import { zafDomain } from "@app/zendesk/common";
-import { ServiceEntity, ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
+import { ServiceEntity, UserFlagTypeVip } from "@app/zendesk/common/entity";
 
 import { GetTicketResponse } from '@app/zendesk/common/api_model';
+import { AppThemeProvider, CustomerGuideButton, ImportantContactTags, OrganizationServices, RequesterTitle } from '@app/zendesk/components';
 
 function App() {
   const [requester, setRequester] = React.useState<string | undefined>()
@@ -46,61 +42,12 @@ function App() {
   }, []);
 
   return (
-    <>
-      <XL isBold style={{ textAlign: "center" }}>{requester}</XL>
-      <hr />
-      <Table size="small">
-        <Body style={{ textAlign: "center" }}>
-          {isVip &&
-            <TableRow isFocused={false}>
-              <Cell>
-                <Tag size="large" hue="yellow" style={{ width: "100%" }}>
-                  <span>VIP</span>
-                </Tag>
-              </Cell>
-            </TableRow>
-          }
-          {
-            userFlags.map((flag) =>
-              <TableRow isFocused={false} key={flag}>
-                <Cell>
-                  <Tag size="large" hue="green" style={{ width: "100%" }}>
-                    <span>{flag}</span>
-                  </Tag>
-                </Cell>
-              </TableRow>
-            )
-          }
-        </Body>
-      </Table>
-      <Table size="small">
-        <Body>
-          {
-            organizationServices
-              .filter((service) => service.type)
-              .sort((a, b) => Object.values(ServiceType).indexOf(a.type!) - Object.values(ServiceType).indexOf(b.type!))
-              .map((service, index) =>
-                <TableRow isFocused={false} key={service.id} isStriped={index % 2 === 0}>
-                  <Cell width="100px" style={{ textAlign: "center" }}>
-                    <Tag hue={service.color} style={{ width: "100%" }}>
-                      <span>{service.typeTitle}</span>
-                    </Tag>
-                  </Cell>
-                  <Cell style={{ textAlign: "right" }}>
-                    <MD isBold>
-                      <Span hue={service.color}>{service.name}</Span>
-                    </MD>
-                  </Cell>
-                </TableRow>
-              )
-          }
-        </Body>
-      </Table>
-      <p></p>
-      <a href={guideUrl} target="_blank">
-        <Button isPrimary isStretched disabled={guideUrl == null}>Customer Guide</Button>
-      </a>
-    </>
+    <AppThemeProvider>
+      <RequesterTitle requester={requester}></RequesterTitle>
+      <ImportantContactTags isVip={isVip} userFlags={userFlags}></ImportantContactTags>
+      <OrganizationServices organizationServices={organizationServices}></OrganizationServices>
+      <CustomerGuideButton guideUrl={guideUrl}></CustomerGuideButton>
+    </AppThemeProvider>
   )
 }
 
