@@ -25,7 +25,8 @@ export class ZafDomain {
                         : []
                 }
             ),
-            user.organization_id
+            user.organization_id,
+            user.user_fields['special_requirements']
         )
     }
 
@@ -50,7 +51,8 @@ export class ZafDomain {
                         : []
                 }
             ),
-            user.organization_id
+            user.organization_id,
+            user.user_fields['special_requirements']
         ))
         return new OrganizationEntity(
             organization.id,

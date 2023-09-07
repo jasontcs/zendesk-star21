@@ -30,6 +30,8 @@ function App() {
     setOrganizationServices(organization.services)
 
     setGuideUrl(organization.guideUrl)
+
+    setSpecialRequirements(user.specialRequirements)
   }
 
   React.useEffect(() => {

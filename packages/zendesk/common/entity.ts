@@ -1,20 +1,24 @@
+
 export class UserEntity {
     constructor (
         id: number, 
         name: string, 
         userFlags: UserFlagEntity[],
         organizationId: number,
+        specialRequirements?: string,
     ) {
         this.id = id
         this.name = name
         this.userFlags = userFlags
         this.organizationId = organizationId
+        this.specialRequirements = specialRequirements
     }
 
     id: number
     name: string
     userFlags: UserFlagEntity[]
     organizationId: number
+    specialRequirements?: string
 
     get isVip() {
         return this.userFlags.some((flag) => flag.type instanceof UserFlagTypeVip)
@@ -61,7 +65,7 @@ export class OrganizationEntity {
         id: number,
         services: ServiceEntity[],
         importantContacts: UserEntity[],
-        guideUrl?: string
+        guideUrl?: string,
     ) {
         this.id = id
         this.services = services

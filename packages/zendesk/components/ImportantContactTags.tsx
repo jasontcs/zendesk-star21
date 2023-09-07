@@ -11,7 +11,6 @@ type ImportantContactTagsProps = {
 const StyledRow = styled(Row)`
 & + & {
   margin-top: ${p => (p.theme as IGardenTheme).space.xs};
-  margin-bottom: ${p => (p.theme as IGardenTheme).space.xs};
 }
 `;
 

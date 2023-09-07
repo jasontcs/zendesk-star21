@@ -34,7 +34,8 @@ function App() {
 
     setGuideUrl(organization.guideUrl)
 
-    setSpecialRequirements("Details")
+    setSpecialRequirements(user.specialRequirements)
+    console.log(user)
   };
 
   React.useEffect(() => {
