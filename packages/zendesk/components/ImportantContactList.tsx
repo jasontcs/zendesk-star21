@@ -2,6 +2,7 @@
 import { Body, Cell, Row, Table, GroupRow } from '@zendeskgarden/react-tables';
 import { Tag } from '@zendeskgarden/react-tags';
 import { UserEntity } from '../common/entity';
+import { Span, MD } from '@zendeskgarden/react-typography';
 
 type ImportantContactListProps = {
     importantUsers: UserEntity[],
@@ -17,7 +18,7 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                 {authorizedUsers.length > 0 &&
                     <GroupRow>
                         <Cell>
-                            <b>AUTHORISED CONTACTS</b>
+                            <MD><Span isBold>AUTHORISED CONTACTS</Span></MD>
                         </Cell>
                         <Cell width={'90px'}></Cell>
                     </GroupRow>
@@ -40,7 +41,7 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                 {vips.length > 0 &&
                     <GroupRow>
                         <Cell colSpan={2}>
-                            <b>VIP CONTACTS</b>
+                            <MD><Span isBold>VIP CONTACTS</Span></MD>
                         </Cell>
                     </GroupRow>
                 }
