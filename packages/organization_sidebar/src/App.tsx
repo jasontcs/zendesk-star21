@@ -15,13 +15,15 @@ function App() {
     const { organization }: GetOrganizationResponse = await zafClient.get("organization");
     const { importantContacts } = await zafDomain.getOrganization(organization.id)
     setImportantUsers(importantContacts)
-    zafUtil.resizeWindow()
   }
 
   React.useEffect(() => {
     fetchAll()
     if (!zafClient.has('app.registered', fetchAll)) {
       zafClient.on('app.registered', fetchAll)
+    }
+    if (!zafClient.has('app.activated', fetchAll)) {
+      zafClient.on('app.activated', fetchAll)
     }
   }, []);
 

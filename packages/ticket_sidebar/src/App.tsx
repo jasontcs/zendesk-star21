@@ -46,6 +46,9 @@ function App() {
     if (!zafClient.has('app.registered', fetchAll)) {
       zafClient.on('app.registered', fetchAll)
     }
+    if (!zafClient.has('app.activated', fetchAll)) {
+      zafClient.on('app.activated', fetchAll)
+    }
   }, []);
 
   return (
