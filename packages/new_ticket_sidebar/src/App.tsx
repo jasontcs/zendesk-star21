@@ -3,39 +3,28 @@ import React from 'react'
 import zafClient from '@app/zendesk/sdk'
 
 import { zafDomain } from "@app/zendesk/common";
-import { ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
+import { OrganizationEntity, UserEntity } from "@app/zendesk/common/entity";
 import { AppThemeProvider, NoSelectRequesterLabel, OrganizationPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from '@app/zendesk/components/ImportantContactAlert';
 
 function App() {
-  const [requester, setRequester] = React.useState<string | undefined>()
-  const [isVip, setIsVip] = React.useState(false)
-  const [userFlags, setUserFlags] = React.useState<string[]>([])
-  const [organizationServices, setOrganizationServices] = React.useState<ServiceType[]>([])
-  const [guideUrl, setGuideUrl] = React.useState<string | undefined>()
-  const [specialRequirements, setSpecialRequirements] = React.useState<string | undefined>()
   const { setVisible } = useImportantContactAlertContext()
+  const [user, setUser] = React.useState<UserEntity | undefined>()
+  const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
 
   async function requesterChanged(id: number) {
-    const user = await zafDomain.getUser(id)
-    const organization = await zafDomain.getOrganization(user.organizationId)
+    const _user = await zafDomain.getUser(id)
+    const _organization = await zafDomain.getOrganization(_user.organizationId)
 
-    setRequester(user.name)
+    if (
+      (user?.isVip === false || user?.isAuthorized === false) &&
+      (_user.isVip || _user.isAuthorized)
+    ) {
+      setVisible(true)
+    }
 
-    setIsVip(user.isVip)
-
-    setUserFlags(user.userFlags
-      .filter((flag) => !(flag.type instanceof UserFlagTypeVip))
-      .map((flag) => flag.name)
-    )
-
-    setOrganizationServices(organization.services)
-
-    setGuideUrl(organization.guideUrl)
-
-    setSpecialRequirements(user.specialRequirements)
-
-    setVisible(user.isAuthorized || user.isVip)
+    setUser(_user)
+    setOrganization(_organization)
   }
 
   React.useEffect(() => {
@@ -45,18 +34,14 @@ function App() {
   })
 
 
-  if (!requester) return (
+  if (!user || !organization) return (
     <NoSelectRequesterLabel></NoSelectRequesterLabel>
   )
   return (
     <AppThemeProvider>
       <OrganizationPanel 
-        requester={requester}
-        guideUrl={guideUrl}
-        isVip={isVip}
-        userFlags={userFlags}
-        organizationServices={organizationServices}
-        specialRequirements={specialRequirements}
+        user={user}
+        organization={organization}
       ></OrganizationPanel>
     </AppThemeProvider>
   )

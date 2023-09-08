@@ -23,7 +23,7 @@ export const NoSupportServices = ({ types }: NoSupportServicesProps) => {
                             types
                             .filter((type) => type.noService)
                             .map((type) =>
-                                <div><Span>{type.noService?.name}</Span></div>
+                                <div key={type.key}><Span>{type.noService?.name}</Span></div>
                             )
                         }
                     </Alert>
