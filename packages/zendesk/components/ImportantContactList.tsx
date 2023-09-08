@@ -3,6 +3,7 @@ import { Body, Cell, Row, Table, GroupRow } from '@zendeskgarden/react-tables';
 import { Tag } from '@zendeskgarden/react-tags';
 import { UserEntity } from '../common/entity';
 import { Span, MD } from '@zendeskgarden/react-typography';
+import zafClient from '../sdk';
 
 type ImportantContactListProps = {
     importantUsers: UserEntity[],
@@ -11,6 +12,10 @@ type ImportantContactListProps = {
 export const ImportantContactList = ({ importantUsers }: ImportantContactListProps) => {
     const authorizedUsers = importantUsers.filter((user) => user.isAuthorized)
     const vips = importantUsers.filter((user) => user.isVip)
+
+    const userOnClick = (user: UserEntity): void => {
+        zafClient.invoke('routeTo', 'user', user.id)
+    }
 
     return (
         <Table>
@@ -26,7 +31,7 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                 {
                     authorizedUsers
                         .map((user) =>
-                            <Row isFocused={false} key={user.id}>
+                            <Row isFocused={false} key={user.id} onClick={() => userOnClick(user)}>
                                 <Cell>
                                     {user.name}
                                 </Cell>
@@ -48,7 +53,7 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                 {
                     vips
                         .map((user) =>
-                            <Row isFocused={false} key={user.id}>
+                            <Row isFocused={false} key={user.id} onClick={() => userOnClick(user)}>
                                 <Cell>
                                     {user.name}
                                 </Cell>
