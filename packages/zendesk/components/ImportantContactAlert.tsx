@@ -60,7 +60,7 @@ export const ImportantContactAlert = ({ isVip, isAuthorised, children }: Importa
                                     {
                                         isVip &&
                                         <>
-                                            <Tag hue='yellow' style={{ margin: '4px' }}>
+                                            <Tag hue='yellow' style={{ marginLeft: '4px' }}>
                                                 <Span>VIP</Span>
                                             </Tag>
                                         </>
@@ -68,7 +68,7 @@ export const ImportantContactAlert = ({ isVip, isAuthorised, children }: Importa
                                     {
                                         isAuthorised &&
                                         <>
-                                            <Tag hue='green'>
+                                            <Tag hue='green' style={{ marginLeft: '4px' }}>
                                                 <Span>Authorised</Span>
                                             </Tag>
                                         </>

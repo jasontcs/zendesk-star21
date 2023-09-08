@@ -5,6 +5,7 @@ import zafClient from '@app/zendesk/sdk'
 import { zafDomain } from "@app/zendesk/common";
 import { ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
 import { AppThemeProvider, NoSelectRequesterLabel, OrganizationPanel } from '@app/zendesk/components';
+import { useImportantContactAlertContext } from '@app/zendesk/components/ImportantContactAlert';
 
 function App() {
   const [requester, setRequester] = React.useState<string | undefined>()
@@ -13,6 +14,7 @@ function App() {
   const [organizationServices, setOrganizationServices] = React.useState<ServiceType[]>([])
   const [guideUrl, setGuideUrl] = React.useState<string | undefined>()
   const [specialRequirements, setSpecialRequirements] = React.useState<string | undefined>()
+  const { setVisible } = useImportantContactAlertContext()
 
   async function requesterChanged(id: number) {
     const user = await zafDomain.getUser(id)
@@ -32,6 +34,8 @@ function App() {
     setGuideUrl(organization.guideUrl)
 
     setSpecialRequirements(user.specialRequirements)
+
+    setVisible(user.isAuthorized || user.isVip)
   }
 
   React.useEffect(() => {

@@ -7,7 +7,7 @@ import { ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
 
 import { GetTicketResponse } from '@app/zendesk/common/api_model';
 import { AppThemeProvider, OrganizationPanel } from '@app/zendesk/components';
-import { useSpecialRequestAlertContext } from "@app/zendesk/components/SpecialRequestAlert";
+import { useImportantContactAlertContext } from "@app/zendesk/components/ImportantContactAlert";
 
 function App() {
   const [requester, setRequester] = React.useState<string | undefined>()
@@ -16,6 +16,7 @@ function App() {
   const [organizationServices, setOrganizationServices] = React.useState<ServiceType[]>([])
   const [guideUrl, setGuideUrl] = React.useState<string | undefined>()
   const [specialRequirements, setSpecialRequirements] = React.useState<string | undefined>()
+  const { setVisible } = useImportantContactAlertContext()
 
   const fetchAll = async () => {
     const { ticket }: GetTicketResponse = await zafClient.get("ticket");
@@ -37,6 +38,7 @@ function App() {
 
     setSpecialRequirements(user.specialRequirements)
     
+    setVisible(user.isAuthorized || user.isVip)
   };
 
   React.useEffect(() => {
