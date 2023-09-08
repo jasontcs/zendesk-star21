@@ -3,14 +3,14 @@ import React from 'react'
 import zafClient from '@app/zendesk/sdk'
 
 import { zafDomain } from "@app/zendesk/common";
-import { ServiceEntity, UserFlagTypeVip } from "@app/zendesk/common/entity";
+import { ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
 import { AppThemeProvider, NoSelectRequesterLabel, OrganizationPanel } from '@app/zendesk/components';
 
 function App() {
   const [requester, setRequester] = React.useState<string | undefined>()
   const [isVip, setIsVip] = React.useState(false)
   const [userFlags, setUserFlags] = React.useState<string[]>([])
-  const [organizationServices, setOrganizationServices] = React.useState<ServiceEntity[]>([])
+  const [organizationServices, setOrganizationServices] = React.useState<ServiceType[]>([])
   const [guideUrl, setGuideUrl] = React.useState<string | undefined>()
   const [specialRequirements, setSpecialRequirements] = React.useState<string | undefined>()
 

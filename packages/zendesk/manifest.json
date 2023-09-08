@@ -69,7 +69,7 @@
 		{
 			"name": "organizations_services_setting",
 			"type": "multiline",
-			"default": "[\r\n   {\r\n      \"key\": \"managed\",\r\n      \"title\": \"Managed\",\r\n      \"color\": \"red\"\r\n   },\r\n   {\r\n      \"key\": \"mobility\",\r\n      \"title\": \"Mobility\",\r\n      \"color\": \"black\"\r\n   },\r\n   {\r\n      \"key\": \"projects\",\r\n      \"title\": \"Projects\",\r\n      \"color\": \"green\"\r\n   },\r\n   {\r\n      \"key\": \"cloud\",\r\n      \"title\": \"Cloud\",\r\n      \"color\": \"blue\"\r\n   }\r\n]"
+			"default": "[\r\n   {\r\n      \"key\": \"managed\",\r\n      \"title\": \"Managed\",\r\n      \"color\": \"red\",\r\n      \"no_support_field_key\": \"mdm\"\r\n   },\r\n   {\r\n      \"key\": \"mobility\",\r\n      \"title\": \"Mobility\",\r\n      \"color\": \"black\",\r\n      \"no_support_field_key\": \"mobile_no_support\"\r\n   },\r\n   {\r\n      \"key\": \"projects\",\r\n      \"title\": \"Projects\",\r\n      \"color\": \"green\",\r\n      \"no_support_field_key\": \"o365_no_support\"\r\n   },\r\n   {\r\n      \"key\": \"cloud\",\r\n      \"title\": \"Cloud\",\r\n      \"color\": \"blue\",\r\n      \"no_support_field_key\": \"tco_no_support\"\r\n   }\r\n]"
 		}
 	],
 	"version": "1.0.0",

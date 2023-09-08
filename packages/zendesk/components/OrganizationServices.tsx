@@ -1,12 +1,12 @@
 import { Tag } from '@zendeskgarden/react-tags';
 import { Body, Cell, Row as TableRow, Table } from '@zendeskgarden/react-tables';
 import { MD, Span } from '@zendeskgarden/react-typography';
-import { ServiceEntity, ServiceType } from "../common/entity";
+import { ServiceType } from "../common/entity";
 
 
 
 type OrganizationServicesProps = {
-    organizationServices: ServiceEntity[],
+    organizationServices: ServiceType[],
 }
 
 export const OrganizationServices = ({ organizationServices }: OrganizationServicesProps) => {
@@ -15,21 +15,22 @@ export const OrganizationServices = ({ organizationServices }: OrganizationServi
             <Body>
                 {
                     organizationServices
-                        .filter((service) => service.type)
-                        .sort((a, b) => Object.values(ServiceType).indexOf(a.type!) - Object.values(ServiceType).indexOf(b.type!))
-                        .map((service, index) =>
-                            <TableRow isFocused={false} key={service.id} isStriped={index % 2 === 0}>
+                        .filter((type) => !type.noService)
+                        .flatMap((type) => type.items
+                            .map((service) => 
+                            <TableRow isFocused={false} key={service.id}>
                                 <Cell width="100px" style={{ textAlign: "center" }}>
-                                    <Tag hue={service.color} style={{ width: "100%" }}>
-                                        <span>{service.typeTitle}</span>
+                                    <Tag hue={type.color} style={{ width: "100%" }}>
+                                        <span>{type.title}</span>
                                     </Tag>
                                 </Cell>
                                 <Cell style={{ textAlign: "right" }}>
                                     <MD isBold>
-                                        <Span hue={service.color}>{service.name}</Span>
+                                        <Span hue={type.color}>{service.name}</Span>
                                     </MD>
                                 </Cell>
                             </TableRow>
+                            )
                         )
                 }
             </Body>

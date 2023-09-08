@@ -1,7 +1,7 @@
 import zafClient from "../sdk/index";
 import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
 import { ZafData } from "./data";
-import { OrganizationEntity, ServiceEntity, UserEntity, UserFlagEntity } from "./entity";
+import { OrganizationEntity, ServiceEntity, ServiceType, UserEntity, UserFlagEntity } from "./entity";
 import { UserField } from "./http_model";
 
 const zafData = new ZafData()
@@ -35,7 +35,7 @@ export class ZafDomain {
         const organization = await zafData.getOrganization(id)
         const rawUsers = await zafData.getOrganizationUsers(id)
         const userFields = await zafData.getUserFields()
-        const servicesSetting = await this.getOrganizationServicesSetting()
+        const servicesSettings = await this.getOrganizationServicesSettings()
         const users = rawUsers.map((user) => new UserEntity(
             user.id,
             user.name,
@@ -56,28 +56,37 @@ export class ZafDomain {
         ))
         return new OrganizationEntity(
             organization.id,
-            organization.tags.flatMap(
-                (tag) => {
-                    const field = fields.find((field) => field.tag == tag)
-                    const setting = servicesSetting.find((setting) => setting.key == field?.description)
-                    return field
-                        ? [new ServiceEntity(
-                            field.id,
-                            field.title,
-                            field.key,
-                            field.description,
-                            setting?.title,
-                            setting?.color,
-                        )]
-                        : []
-                }
-            ),
             users.filter((user) => user.isVip || user.isAuthorized),
             organization.organization_fields['guide_url'],
+            servicesSettings.map((setting) => new ServiceType(
+                setting.key,
+                setting.title,
+                setting.color,
+                organization.tags.reduce<ServiceEntity | undefined>((previous, current) => {
+                    if (previous) return previous
+                    const field = fields.find((field) => field.tag == current)
+                    return field?.key == setting.no_support_field_key ?
+                        new ServiceEntity(field.id, field.title, field.description) : undefined
+                }, undefined),
+                organization.tags
+                    .flatMap(
+                        (tag) => {
+                            const field = fields.find((field) => field.tag == tag)
+                            return setting.key == field?.description
+                                ? [new ServiceEntity(
+                                    field.id,
+                                    field.title,
+                                    field.description,
+                                )]
+                                : []
+                        }
+                    )
+            ),
+            )
         )
     }
 
-    private async getOrganizationServicesSetting(): Promise<OrganizationServiceSetting[]> {
+    private async getOrganizationServicesSettings(): Promise<OrganizationServiceSetting[]> {
         const settings = await zafClient.metadata<IMetadataSettings>()
         return settings.settings?.organizations_services_setting ? JSON.parse(settings.settings!.organizations_services_setting) : []
     }

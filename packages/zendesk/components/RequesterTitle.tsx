@@ -7,7 +7,8 @@ type RequesterTitleProps = {
 
 export const RequesterTitle = ({ requester }: RequesterTitleProps) => {
     return (
-        <>
+        <>  
+            <p></p>
             <XL isBold style={{ textAlign: "center" }}>{requester}</XL>
             <hr />
         </>

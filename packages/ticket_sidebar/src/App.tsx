@@ -3,16 +3,17 @@ import './App.css'
 import zafClient from "@app/zendesk/sdk";
 
 import { zafDomain } from "@app/zendesk/common";
-import { ServiceEntity, UserFlagTypeVip } from "@app/zendesk/common/entity";
+import { ServiceType, UserFlagTypeVip } from "@app/zendesk/common/entity";
 
 import { GetTicketResponse } from '@app/zendesk/common/api_model';
 import { AppThemeProvider, OrganizationPanel } from '@app/zendesk/components';
+import { useSpecialRequestAlertContext } from "@app/zendesk/components/SpecialRequestAlert";
 
 function App() {
   const [requester, setRequester] = React.useState<string | undefined>()
   const [isVip, setIsVip] = React.useState(false)
   const [userFlags, setUserFlags] = React.useState<string[]>([])
-  const [organizationServices, setOrganizationServices] = React.useState<ServiceEntity[]>([])
+  const [organizationServices, setOrganizationServices] = React.useState<ServiceType[]>([])
   const [guideUrl, setGuideUrl] = React.useState<string | undefined>()
   const [specialRequirements, setSpecialRequirements] = React.useState<string | undefined>()
 
@@ -35,7 +36,7 @@ function App() {
     setGuideUrl(organization.guideUrl)
 
     setSpecialRequirements(user.specialRequirements)
-    console.log(user)
+    
   };
 
   React.useEffect(() => {
@@ -47,7 +48,7 @@ function App() {
 
   return (
     <AppThemeProvider>
-      <OrganizationPanel 
+      <OrganizationPanel
         requester={requester}
         guideUrl={guideUrl}
         isVip={isVip}

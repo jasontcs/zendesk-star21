@@ -1,11 +1,11 @@
 
 export class UserEntity {
-    constructor (
-        id: number, 
-        name: string, 
+    constructor(
+        id: number,
+        name: string,
         userFlags: UserFlagEntity[],
         organizationId: number,
-        specialRequirements?: string,
+        specialRequirements: string | undefined,
     ) {
         this.id = id
         this.name = name
@@ -22,7 +22,7 @@ export class UserEntity {
 
     get isVip() {
         return this.userFlags.some((flag) => flag.type instanceof UserFlagTypeVip)
-    } 
+    }
 
     get isAuthorized() {
         return this.userFlags.some((flag) => flag.type instanceof UserFlagTypeAuthorized)
@@ -30,7 +30,7 @@ export class UserEntity {
 }
 
 export class UserFlagEntity {
-    constructor (
+    constructor(
         id: number,
         key: string,
         name: string,
@@ -48,7 +48,7 @@ export class UserFlagEntity {
     type: UserFlagType
 }
 
-export abstract class UserFlagType {}
+export abstract class UserFlagType { }
 
 export class UserFlagTypeVip extends UserFlagType {
     static key = 'mms_vip'
@@ -58,55 +58,57 @@ export class UserFlagTypeAuthorized extends UserFlagType {
     static prefix = 'auth_'
 }
 
-export class UserFlagTypeOther extends UserFlagType {}
+export class UserFlagTypeOther extends UserFlagType { }
 
 export class OrganizationEntity {
-    constructor (
+    constructor(
         id: number,
-        services: ServiceEntity[],
         importantContacts: UserEntity[],
-        guideUrl?: string,
+        guideUrl: string | undefined,
+        services: ServiceType[],
     ) {
         this.id = id
-        this.services = services
         this.importantContacts = importantContacts
         this.guideUrl = guideUrl
+        this.services = services
     }
     id: number
-    services: ServiceEntity[]
     importantContacts: UserEntity[]
     guideUrl?: string
+    services: ServiceType[]
 }
 
 export class ServiceEntity {
-    constructor (
+    constructor(
         id: number,
         name: string,
-        key: string,
         description: string,
-        typeTitle?: string,
-        color?: string,
     ) {
         this.id = id
         this.name = name
-        this.key = key
         this.description = description
-        this.type = ServiceType[description as keyof typeof ServiceType]
-        this.typeTitle = typeTitle
-        this.color = color
     }
     id: number
     name: string
-    key: string
     description: string
-    type?: ServiceType
-    typeTitle?: string
-    color?: string
 }
-
-export enum ServiceType {
-    managed = "managed",
-    mobility = "mobility",
-    projects = "projects",
-    cloud = "cloud",
+export class ServiceType {
+    constructor(
+    key: string,
+    title: string,
+    color: string,
+    noService: ServiceEntity | undefined,
+    items: ServiceEntity[],
+) {
+    this.key = key
+    this.title = title
+    this.color = color
+    this.noService = noService
+    this.items = items
+}
+    key: string
+    title: string
+    color: string
+    noService?: ServiceEntity
+    items: ServiceEntity[]
 }
