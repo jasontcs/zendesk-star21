@@ -8,16 +8,15 @@ type NoSupportServicesProps = {
     types: ServiceType[],
 }
 
-const StyledSpacer = styled.div`
-  height: ${p => (p.theme as IGardenTheme).space.xs};
+const StyledAlert = styled(Alert)`
+    margin: ${p => (p.theme as IGardenTheme).space.xs} ${p => (p.theme as IGardenTheme).space.xs} ${p => (p.theme as IGardenTheme).space.xs} ${p => (p.theme as IGardenTheme).space.xs};
 `;
 export const NoSupportServices = ({ types }: NoSupportServicesProps) => {
     return (
         <>
             {types.some((type) => type.noService) &&
                 <>
-                    <StyledSpacer></StyledSpacer>
-                    <Alert type="error">
+                    <StyledAlert type="error">
                         <Title>Warning</Title>
                         {
                             types
@@ -26,8 +25,7 @@ export const NoSupportServices = ({ types }: NoSupportServicesProps) => {
                                 <div key={type.key}><Span>{type.noService?.name}</Span></div>
                             )
                         }
-                    </Alert>
-                    <StyledSpacer></StyledSpacer>
+                    </StyledAlert>
                 </>
             }
         </>
