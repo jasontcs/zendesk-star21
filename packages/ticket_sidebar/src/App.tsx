@@ -2,7 +2,7 @@ import React from "react";
 import './App.css'
 import zafClient from "@app/zendesk/sdk";
 
-import { zafDomain } from "@app/zendesk/common";
+import { zafDomain, zafUtil } from "@app/zendesk/common";
 import { OrganizationEntity, UserEntity } from "@app/zendesk/common/entity";
 
 import { GetTicketResponse } from '@app/zendesk/common/api_model';
@@ -28,6 +28,7 @@ function App() {
 
     setUser(_user)
     setOrganization(_organization)
+    zafUtil.resizeWindow()
   };
 
   React.useEffect(() => {

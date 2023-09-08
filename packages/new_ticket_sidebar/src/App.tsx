@@ -2,7 +2,7 @@ import './App.css'
 import React from 'react'
 import zafClient from '@app/zendesk/sdk'
 
-import { zafDomain } from "@app/zendesk/common";
+import { zafDomain, zafUtil } from "@app/zendesk/common";
 import { OrganizationEntity, UserEntity } from "@app/zendesk/common/entity";
 import { AppThemeProvider, NoSelectRequesterLabel, OrganizationPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from '@app/zendesk/components/ImportantContactAlert';
@@ -25,6 +25,7 @@ function App() {
 
     setUser(_user)
     setOrganization(_organization)
+    zafUtil.resizeWindow()
   }
 
   React.useEffect(() => {

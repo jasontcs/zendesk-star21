@@ -15,6 +15,7 @@ function App() {
     const { organization }: GetOrganizationResponse = await zafClient.get("organization");
     const { importantContacts } = await zafDomain.getOrganization(organization.id)
     setImportantUsers(importantContacts)
+    zafUtil.resizeWindow()
   }
 
   React.useEffect(() => {
