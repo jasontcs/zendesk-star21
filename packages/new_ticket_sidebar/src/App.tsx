@@ -4,7 +4,7 @@ import zafClient from '@app/zendesk/sdk'
 
 import { zafDomain, zafUtil } from "@app/zendesk/common";
 import { OrganizationEntity, UserEntity } from "@app/zendesk/common/entity";
-import { AppThemeProvider, NoSelectRequesterLabel, OrganizationPanel } from '@app/zendesk/components';
+import { NoSelectRequesterLabel, OrganizationPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from '@app/zendesk/components/ImportantContactAlert';
 
 function App() {
@@ -39,12 +39,10 @@ function App() {
     <NoSelectRequesterLabel></NoSelectRequesterLabel>
   )
   return (
-    <AppThemeProvider>
-      <OrganizationPanel 
-        user={user}
-        organization={organization}
-      ></OrganizationPanel>
-    </AppThemeProvider>
+    <OrganizationPanel
+      user={user}
+      organization={organization}
+    ></OrganizationPanel>
   )
 }
 

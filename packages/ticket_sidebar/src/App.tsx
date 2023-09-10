@@ -6,7 +6,7 @@ import { zafDomain, zafUtil } from "@app/zendesk/common";
 import { OrganizationEntity, UserEntity } from "@app/zendesk/common/entity";
 
 import { GetTicketResponse } from '@app/zendesk/common/api_model';
-import { AppThemeProvider, OrganizationPanel } from '@app/zendesk/components';
+import { OrganizationPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from "@app/zendesk/components/ImportantContactAlert";
 
 function App() {
@@ -18,9 +18,9 @@ function App() {
     const { ticket }: GetTicketResponse = await zafClient.get("ticket");
     const _user = await zafDomain.getUser(ticket.requester.id)
     const _organization = await zafDomain.getOrganization(_user.organizationId)
-
+    
     if (
-      (user?.isVip === false || user?.isAuthorized === false) &&
+      (!user?.isVip || !user?.isAuthorized) &&
       (_user.isVip || _user.isAuthorized)
     ) {
       setVisible(true)
@@ -44,12 +44,10 @@ function App() {
   return (
     <>
       {user && organization &&
-        <AppThemeProvider>
-          <OrganizationPanel
-            user={user}
-            organization={organization}
-          ></OrganizationPanel>
-        </AppThemeProvider>
+        <OrganizationPanel
+          user={user}
+          organization={organization}
+        ></OrganizationPanel>
       }
     </>
   )

@@ -1,4 +1,4 @@
-export { AppThemeProvider } from './AppThemeProvider'
+export { AppWrapper } from './AppWrapper'
 export { ImportantContactList } from './ImportantContactList'
 export { OrganizationPanel } from './OrganizationPanel'
 export { NoSupportServices } from './NoSupportServices'

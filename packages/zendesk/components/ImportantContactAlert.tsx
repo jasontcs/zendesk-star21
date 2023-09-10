@@ -11,10 +11,10 @@ import { Modal, Body } from '@zendeskgarden/react-modals';
 import { Row, Col } from '@zendeskgarden/react-grid';
 import { Tag } from '@zendeskgarden/react-tags';
 import { LG, MD, Paragraph, Span } from '@zendeskgarden/react-typography';
+import { UserEntity } from "../common/entity";
 
 type ImportantContactAlertProps = {
-    isVip: boolean,
-    isAuthorised: boolean,
+    user: UserEntity,
     children: React.ReactNode;
 }
 
@@ -29,7 +29,7 @@ export const ImportantContactAlertContext = React.createContext<{
 export const useImportantContactAlertContext = () => React.useContext(ImportantContactAlertContext)
 
 export const ImportantContactAlertProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [visible, setVisible] = React.useState(true);
+    const [visible, setVisible] = React.useState(false);
     return (
         <ImportantContactAlertContext.Provider value={{
             visible,
@@ -40,7 +40,7 @@ export const ImportantContactAlertProvider: React.FC<{ children: React.ReactNode
     );
 };
 
-export const ImportantContactAlert = ({ isVip, isAuthorised, children }: ImportantContactAlertProps) => {
+export const ImportantContactAlert = ({ user, children }: ImportantContactAlertProps) => {
     const { visible, setVisible } = useImportantContactAlertContext()
     return (
         <Row>
@@ -55,10 +55,10 @@ export const ImportantContactAlert = ({ isVip, isAuthorised, children }: Importa
                                 </LG>
                             </Paragraph>
                             <Paragraph>
-                                <MD>Name: <Span isBold>Butterworth, Paul</Span></MD>
+                                <MD>Name: <Span isBold>{user.name}</Span></MD>
                                 <MD>Types:
                                     {
-                                        isVip &&
+                                        user.isVip &&
                                         <>
                                             <Tag hue='yellow' style={{ marginLeft: '4px' }}>
                                                 <Span>VIP</Span>
@@ -66,7 +66,7 @@ export const ImportantContactAlert = ({ isVip, isAuthorised, children }: Importa
                                         </>
                                     }
                                     {
-                                        isAuthorised &&
+                                        user.isAuthorized &&
                                         <>
                                             <Tag hue='green' style={{ marginLeft: '4px' }}>
                                                 <Span>Authorised</Span>
