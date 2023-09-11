@@ -34,6 +34,15 @@
 				"flexible": true,
 				"dev:url": "localhost",
 				"dev:port": 5174
+			},
+			"user_sidebar": {
+				"url": "assets/user_sidebar/index.html",
+				"size": {
+					"width": "320px"
+				},
+				"flexible": true,
+				"dev:url": "localhost",
+				"dev:port": 5175
 			}
 		}
 	},

@@ -22,6 +22,7 @@ export interface Assignee {
 export interface User {
     name:          string;
     id:            number;
+    tags:          string[];
 }
 
 export interface Form {
@@ -60,4 +61,9 @@ export interface OrganizationServiceSetting {
     title: string;
     color: string;
     no_support_field_key: string;
+}
+
+export interface GetUserResponse {
+    errors: Errors;
+    user:   User;
 }
