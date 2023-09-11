@@ -23,7 +23,7 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                 {authorizedUsers.length > 0 &&
                     <GroupRow>
                         <Cell>
-                            <MD><Span isBold>AUTHORISED CONTACTS</Span></MD>
+                            <MD><Span>AUTHORISED CONTACTS</Span></MD>
                         </Cell>
                         <Cell width={'90px'}></Cell>
                     </GroupRow>
@@ -31,13 +31,13 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                 {
                     authorizedUsers
                         .map((user) =>
-                            <Row isFocused={false} key={user.id} onClick={() => userOnClick(user)} style={{ cursor: 'pointer' }}>
+                            <Row isFocused={true} key={user.id} onClick={() => userOnClick(user)} style={{ cursor: 'pointer' }}>
                                 <Cell>
-                                    {user.name}
+                                    <Span isBold>{user.name}</Span>
                                 </Cell>
                                 <Cell>
                                     <Tag hue="red" style={{ visibility: user.isAuthorized ? 'visible' : 'hidden', margin: '0 0 0 4px', width: "100%" }}>
-                                        <span>Auth</span>
+                                        <Span>Auth</Span>
                                     </Tag>
                                 </Cell>
                             </Row>
@@ -46,20 +46,20 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                 {vips.length > 0 &&
                     <GroupRow>
                         <Cell colSpan={2}>
-                            <MD><Span isBold>VIP CONTACTS</Span></MD>
+                            <MD><Span>VIP CONTACTS</Span></MD>
                         </Cell>
                     </GroupRow>
                 }
                 {
                     vips
                         .map((user) =>
-                            <Row isFocused={false} key={user.id} onClick={() => userOnClick(user)} style={{ cursor: 'pointer' }}>
+                            <Row isFocused={true} key={user.id} onClick={() => userOnClick(user)} style={{ cursor: 'pointer' }}>
                                 <Cell>
-                                    {user.name}
+                                    <Span isBold>{user.name}</Span>
                                 </Cell>
                                 <Cell >
                                     <Tag hue="yellow" style={{ visibility: user.isVip ? 'visible' : 'hidden', margin: '0 0 0 4px', width: "100%" }}>
-                                        <span>VIP</span>
+                                        <Span>VIP</Span>
                                     </Tag>
                                 </Cell>
                             </Row>

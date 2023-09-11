@@ -1,10 +1,9 @@
 import './App.css'
 import React from 'react'
-import zafClient from '@app/zendesk/sdk'
 
 import { zafDomain, zafUtil } from "@app/zendesk/common";
 import { OrganizationEntity, UserEntity } from "@app/zendesk/common/entity";
-import { NoSelectRequesterLabel, OrganizationPanel } from '@app/zendesk/components';
+import { NoSelectRequesterLabel, TicketPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from '@app/zendesk/components/ImportantContactAlert';
 
 function App() {
@@ -29,9 +28,10 @@ function App() {
   }
 
   React.useEffect(() => {
-    if (!zafClient.has('ticket.requester.id.changed', requesterChanged)) {
-      zafClient.on('ticket.requester.id.changed', requesterChanged)
-    }
+    zafUtil.on([
+      'ticket.requester.id.changed', 
+      '*.changed',
+    ], requesterChanged)
   })
 
 
@@ -39,10 +39,10 @@ function App() {
     <NoSelectRequesterLabel></NoSelectRequesterLabel>
   )
   return (
-    <OrganizationPanel
+    <TicketPanel
       user={user}
       organization={organization}
-    ></OrganizationPanel>
+    ></TicketPanel>
   )
 }
 

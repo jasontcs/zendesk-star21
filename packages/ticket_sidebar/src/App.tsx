@@ -6,7 +6,7 @@ import { zafDomain, zafUtil } from "@app/zendesk/common";
 import { OrganizationEntity, UserEntity } from "@app/zendesk/common/entity";
 
 import { GetTicketResponse } from '@app/zendesk/common/api_model';
-import { OrganizationPanel } from '@app/zendesk/components';
+import { TicketPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from "@app/zendesk/components/ImportantContactAlert";
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
     const { ticket }: GetTicketResponse = await zafClient.get("ticket");
     const _user = await zafDomain.getUser(ticket.requester.id)
     const _organization = await zafDomain.getOrganization(_user.organizationId)
-    
+
     if (
       (!user?.isVip || !user?.isAuthorized) &&
       (_user.isVip || _user.isAuthorized)
@@ -33,21 +33,20 @@ function App() {
 
   React.useEffect(() => {
     fetchAll();
-    if (!zafClient.has('app.registered', fetchAll)) {
-      zafClient.on('app.registered', fetchAll)
-    }
-    if (!zafClient.has('app.activated', fetchAll)) {
-      zafClient.on('app.activated', fetchAll)
-    }
+    zafUtil.on([
+      'app.registered', 
+      'app.activated',
+      '*.changed'
+    ], fetchAll)
   }, []);
 
   return (
     <>
       {user && organization &&
-        <OrganizationPanel
+        <TicketPanel
           user={user}
           organization={organization}
-        ></OrganizationPanel>
+        ></TicketPanel>
       }
     </>
   )
