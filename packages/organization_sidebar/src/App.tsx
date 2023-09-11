@@ -22,7 +22,7 @@ function App() {
     zafUtil.on([
       'app.registered',
       'app.activated',
-      '*.changed',
+      'organization.tags.changed'
     ], fetchAll)
   }, []);
 

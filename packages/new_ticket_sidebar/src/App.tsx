@@ -29,8 +29,9 @@ function App() {
 
   React.useEffect(() => {
     zafUtil.on([
+      'app.registered',
+      'app.activated',
       'ticket.requester.id.changed', 
-      '*.changed',
     ], requesterChanged)
   })
 

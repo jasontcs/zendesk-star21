@@ -19,6 +19,10 @@ function App() {
     const _user = await zafDomain.getUser(userRaw.id)
     const _organization = await zafDomain.getOrganization(_user.organizationId)
 
+    console.log('---')
+    console.log(user)
+    console.log(_user.isAuthorized)
+    console.log('---')
     if (
       (!user?.isVip || !user?.isAuthorized) &&
       (_user.isVip || _user.isAuthorized)
@@ -36,7 +40,7 @@ function App() {
     zafUtil.on([
       'app.registered', 
       'app.activated',
-      '*.changed'
+      'user.tags.changed'
     ], fetchAll)
   }, []);
 

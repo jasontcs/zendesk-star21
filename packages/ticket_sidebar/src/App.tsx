@@ -36,7 +36,6 @@ function App() {
     zafUtil.on([
       'app.registered', 
       'app.activated',
-      '*.changed'
     ], fetchAll)
   }, []);
 
