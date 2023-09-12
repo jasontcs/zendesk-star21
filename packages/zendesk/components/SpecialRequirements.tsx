@@ -1,9 +1,10 @@
 
 import { Accordion } from '@zendeskgarden/react-accordions';
-import { Row, Col } from '@zendeskgarden/react-grid';
+import { Row, Col, Grid } from '@zendeskgarden/react-grid';
 import { Well } from '@zendeskgarden/react-notifications';
 import { IGardenTheme } from '@zendeskgarden/react-theming';
 import styled from "styled-components";
+import { Span } from '@zendeskgarden/react-typography';
 
 type SpecialRequirementsProps = {
     content: string,
@@ -15,18 +16,24 @@ const StyledRow = styled(Row)`
 }
 `;
 
+const StyledSpan = styled(Span)`
+& + & {
+    margin-left: ${p => (p.theme as IGardenTheme).space.sm};
+    margin-right: ${p => (p.theme as IGardenTheme).space.sm};
+}`
+
 export const SpecialRequirements = ({ content }: SpecialRequirementsProps) => {
     return (
-        <>
+        <Grid gutters={false}>
             <StyledRow></StyledRow>
             <StyledRow>
                 <Col>
                     <Well isRecessed style={{ padding: 0 }}>
-                        <Accordion level={1} isBare isCompact isCollapsible defaultExpandedSections={[]}>
+                        <Accordion level={1} isBare isCompact isCollapsible>
                             <Accordion.Section>
                                 <Accordion.Header>
                                     <Accordion.Label>
-                                        Special Requirement
+                                        <StyledSpan>Special Requirement</StyledSpan>
                                     </Accordion.Label>
                                 </Accordion.Header>
                                 <Accordion.Panel>
@@ -37,6 +44,6 @@ export const SpecialRequirements = ({ content }: SpecialRequirementsProps) => {
                     </Well>
                 </Col>
             </StyledRow>
-        </>
+        </Grid>
     )
 }

@@ -1,7 +1,7 @@
 import zafClient from "../sdk/index";
 import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
 import { ZafData } from "./data";
-import { OrganizationEntity, ServiceEntity, ServiceType, UserEntity, UserFlagEntity } from "./entity";
+import { OrganizationEntity, ServiceEntity, ServiceType, TicketEntity, TicketStatusType, UserEntity, UserFlagEntity } from "./entity";
 import { UserField } from "./http_model";
 
 const zafData = new ZafData()
@@ -10,6 +10,7 @@ export class ZafDomain {
     async getUser(id: number, userFields?: UserField[]): Promise<UserEntity> {
         const fields = userFields ?? await zafData.getUserFields()
         const user = await zafData.getUser(id)
+        const tickets = await zafData.getUserTickets(id)
         return new UserEntity(
             user.id,
             user.name,
@@ -26,7 +27,15 @@ export class ZafDomain {
                 }
             ),
             user.organization_id,
-            user.user_fields['special_requirements']
+            user.user_fields['special_requirements'],
+            tickets.map(
+                (ticket) => {
+                    return new TicketEntity(
+                        ticket.id,
+                        ticket.status as "new" | "open" | "pending" | "hold" | "solved" | "closed"
+                    )
+                }
+            )
         )
     }
 
@@ -52,7 +61,8 @@ export class ZafDomain {
                 }
             ),
             user.organization_id,
-            user.user_fields['special_requirements']
+            user.user_fields['special_requirements'],
+            [],
         ))
         return new OrganizationEntity(
             organization.id,

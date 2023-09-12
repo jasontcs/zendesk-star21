@@ -8,7 +8,7 @@
 import React from "react"
 import { Button } from '@zendeskgarden/react-buttons';
 import { Modal, Body } from '@zendeskgarden/react-modals';
-import { Row, Col } from '@zendeskgarden/react-grid';
+import { Grid, Row, Col } from '@zendeskgarden/react-grid';
 import { Tag } from '@zendeskgarden/react-tags';
 import { LG, MD, Paragraph, Span } from '@zendeskgarden/react-typography';
 import { UserEntity } from "../common/entity";
@@ -43,47 +43,49 @@ export const ImportantContactAlertProvider: React.FC<{ children: React.ReactNode
 export const ImportantContactAlert = ({ user, children }: ImportantContactAlertProps) => {
     const { visible, setVisible } = useImportantContactAlertContext()
     return (
-        <Row>
-            <Col>
-                {children}
-                {visible && (
-                    <Modal onClose={() => setVisible(false)}>
-                        <Body>
-                            <Paragraph>
-                                <LG>
-                                    <Span isBold>Important Requester!</Span>
-                                </LG>
-                            </Paragraph>
-                            <Paragraph>
-                                <MD>Name: <Span isBold>{user.name}</Span></MD>
-                                <MD>Types:
-                                    {
-                                        user.isVip &&
-                                        <>
-                                            <Tag hue='yellow' style={{ marginLeft: '4px' }}>
-                                                <Span>VIP</Span>
-                                            </Tag>
-                                        </>
-                                    }
-                                    {
-                                        user.isAuthorized &&
-                                        <>
-                                            <Tag hue='green' style={{ marginLeft: '4px' }}>
-                                                <Span>Authorised</Span>
-                                            </Tag>
-                                        </>
-                                    }
-                                </MD>
-                            </Paragraph>
-                            <Paragraph>
-                                <Button isBasic onClick={() => setVisible(false)} size='small' style={{ width: '100%' }}>
-                                    Dismiss
-                                </Button>
-                            </Paragraph>
-                        </Body>
-                    </Modal>
-                )}
-            </Col>
-        </Row>
+        <Grid gutters={false}>
+            <Row>
+                <Col>
+                    {children}
+                    {visible && (
+                        <Modal onClose={() => setVisible(false)}>
+                            <Body>
+                                <Paragraph>
+                                    <LG>
+                                        <Span isBold>Important Requester!</Span>
+                                    </LG>
+                                </Paragraph>
+                                <Paragraph>
+                                    <MD>Name: <Span isBold>{user.name}</Span></MD>
+                                    <MD>Types:
+                                        {
+                                            user.isVip &&
+                                            <>
+                                                <Tag hue='yellow' style={{ marginLeft: '4px' }}>
+                                                    <Span>VIP</Span>
+                                                </Tag>
+                                            </>
+                                        }
+                                        {
+                                            user.isAuthorized &&
+                                            <>
+                                                <Tag hue='green' style={{ marginLeft: '4px' }}>
+                                                    <Span>Authorised</Span>
+                                                </Tag>
+                                            </>
+                                        }
+                                    </MD>
+                                </Paragraph>
+                                <Paragraph>
+                                    <Button isBasic onClick={() => setVisible(false)} size='small' style={{ width: '100%' }}>
+                                        Dismiss
+                                    </Button>
+                                </Paragraph>
+                            </Body>
+                        </Modal>
+                    )}
+                </Col>
+            </Row>
+        </Grid>
     );
 };

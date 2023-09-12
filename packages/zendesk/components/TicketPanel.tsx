@@ -19,7 +19,7 @@ export const TicketPanel = ({
 }: TicketPanelProps) => {
     return (
         <ImportantContactAlert user={user}>
-            <RequesterTitle requester={user.name}></RequesterTitle>
+            <RequesterTitle requester={user.name} tickets={user.requestedTickets}></RequesterTitle>
             <ImportantContactTags isVip={user.isVip} userFlags={user.userFlags.filter((flag) => !(flag.type instanceof UserFlagTypeVip))}></ImportantContactTags>
             {user.specialRequirements && <SpecialRequirements content={user.specialRequirements}></SpecialRequirements>}
             <NoSupportServices types={organization.services}></NoSupportServices>

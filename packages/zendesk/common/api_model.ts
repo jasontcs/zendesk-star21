@@ -7,6 +7,7 @@ export interface Errors {
 }
 
 export interface Ticket {
+    id:             number;
     tags:           string[];
     assignee:       Assignee;
     requester:      User;

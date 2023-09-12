@@ -2,6 +2,7 @@
 import zafClient from "../sdk/index";
 import { zafConfig as zafConfig } from "./index";
 import { Organization, OrganizationField, TicketForm, User, UserField } from "./http_model";
+import { Ticket } from "./api_model";
 
 export class ZafData {
     async getUserFields(): Promise<UserField[]> {
@@ -33,6 +34,11 @@ export class ZafData {
             users = users.concat(response.users)
         }
         return users
+    }
+
+    async getUserTickets(id: number): Promise<Ticket[]> {
+        const response = await zafClient.request<any>(`/api/v2/users/${id}/tickets/requested`)
+        return response.tickets
     }
 
     isVip(user: User): boolean {

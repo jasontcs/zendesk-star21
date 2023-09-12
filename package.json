@@ -25,7 +25,8 @@
   "packageManager": "yarn@3.2.1",
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
-    "minimist": "^1.2.6"
+    "minimist": "^1.2.6",
+    "vite-plugin-svgr": "^3.2.0"
   },
   "dependencies": {
     "@zendesk/zcli": "^1.0.0-beta.38",

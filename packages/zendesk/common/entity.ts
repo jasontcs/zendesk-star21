@@ -6,12 +6,14 @@ export class UserEntity {
         userFlags: UserFlagEntity[],
         organizationId: number,
         specialRequirements: string | undefined,
+        requestedTickets: TicketEntity[]
     ) {
         this.id = id
         this.name = name
         this.userFlags = userFlags
         this.organizationId = organizationId
         this.specialRequirements = specialRequirements
+        this.requestedTickets = requestedTickets
     }
 
     id: number
@@ -19,6 +21,7 @@ export class UserEntity {
     userFlags: UserFlagEntity[]
     organizationId: number
     specialRequirements?: string
+    requestedTickets: TicketEntity[]
 
     get isVip() {
         return this.userFlags.some((flag) => flag.type instanceof UserFlagTypeVip)
@@ -94,21 +97,35 @@ export class ServiceEntity {
 }
 export class ServiceType {
     constructor(
-    key: string,
-    title: string,
-    color: string,
-    noService: ServiceEntity | undefined,
-    items: ServiceEntity[],
-) {
-    this.key = key
-    this.title = title
-    this.color = color
-    this.noService = noService
-    this.items = items
-}
+        key: string,
+        title: string,
+        color: string,
+        noService: ServiceEntity | undefined,
+        items: ServiceEntity[],
+    ) {
+        this.key = key
+        this.title = title
+        this.color = color
+        this.noService = noService
+        this.items = items
+    }
     key: string
     title: string
     color: string
     noService?: ServiceEntity
     items: ServiceEntity[]
 }
+
+export class TicketEntity {
+    constructor(
+        id: number,
+        status: TicketStatusType
+    ) {
+        this.id = id
+        this.status = status
+    }
+    id: number
+    status: TicketStatusType
+}
+
+export type TicketStatusType = "new" | "open" | "pending" | "hold" | "solved" | "closed"
