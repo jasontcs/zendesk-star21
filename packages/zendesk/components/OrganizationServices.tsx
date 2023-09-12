@@ -1,7 +1,7 @@
 import { Tag } from '@zendeskgarden/react-tags';
 import { Body, Cell, Row as TableRow, Table } from '@zendeskgarden/react-tables';
 import { MD, Span } from '@zendeskgarden/react-typography';
-import { ServiceType } from "../common/entity";
+import { ServiceEntity, ServiceType } from "../common/entity";
 
 
 
@@ -16,21 +16,20 @@ export const OrganizationServices = ({ organizationServices }: OrganizationServi
                 {
                     organizationServices
                         .filter((type) => !type.noService)
-                        .flatMap((type) => type.items
-                            .map((service) => 
-                            <TableRow isFocused={false} key={service.id}>
+                        .flatMap((type) => type.items.map((service) => [type, service] as [ServiceType, ServiceEntity])
+                        ).map((service, index) =>
+                            <TableRow isFocused={false} key={service[1].id} isStriped={index % 2 == 0}>
                                 <Cell width="100px" style={{ textAlign: "center" }}>
-                                    <Tag hue={type.color} style={{ width: "100%" }}>
-                                        <span>{type.title}</span>
+                                    <Tag hue={service[0].color} style={{ width: "100%" }}>
+                                        <span>{service[0].title}</span>
                                     </Tag>
                                 </Cell>
                                 <Cell style={{ textAlign: "right" }}>
                                     <MD isBold>
-                                        <Span hue={type.color}>{service.name}</Span>
+                                        <Span hue={service[0].color}>{service[1].name}</Span>
                                     </MD>
                                 </Cell>
                             </TableRow>
-                            )
                         )
                 }
             </Body>
