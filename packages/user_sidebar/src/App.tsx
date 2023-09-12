@@ -10,9 +10,10 @@ import { TicketPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from "@app/zendesk/components/ImportantContactAlert";
 
 function App() {
+  console.log("init")
   const [user, setUser] = React.useState<UserEntity | undefined>()
   const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
-  const { setVisible } = useImportantContactAlertContext()
+  const { visible, setVisible } = useImportantContactAlertContext()
 
   const fetchAll = async () => {
     const { user:userRaw }: GetUserResponse = await zafClient.get("user");
@@ -20,7 +21,8 @@ function App() {
     const _organization = await zafDomain.getOrganization(_user.organizationId)
 
     console.log('---')
-    console.log(user)
+    console.log('visible', visible)
+    console.log('user', user)
     console.log(_user.isAuthorized)
     console.log('---')
     if (

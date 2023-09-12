@@ -50,6 +50,7 @@
     "@zendeskgarden/react-theming": "^8.62.0",
     "@zendeskgarden/react-tooltips": "^8.62.0",
     "@zendeskgarden/react-typography": "^8.62.0",
+    "@zendeskgarden/svg-icons": "^6.33.0",
     "styled-components": "^5.3.11"
   }
 }
