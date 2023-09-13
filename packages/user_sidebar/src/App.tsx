@@ -10,7 +10,6 @@ import { TicketPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from "@app/zendesk/components/ImportantContactAlert";
 
 function App() {
-  console.log("init")
   const [user, setUser] = React.useState<UserEntity | undefined>()
   const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
   const { visible, setVisible } = useImportantContactAlertContext()
@@ -20,11 +19,6 @@ function App() {
     const _user = await zafDomain.getUser(userRaw.id)
     const _organization = await zafDomain.getOrganization(_user.organizationId)
 
-    console.log('---')
-    console.log('visible', visible)
-    console.log('user', user)
-    console.log(_user.isAuthorized)
-    console.log('---')
     if (
       (!user?.isVip || !user?.isAuthorized) &&
       (_user.isVip || _user.isAuthorized)
