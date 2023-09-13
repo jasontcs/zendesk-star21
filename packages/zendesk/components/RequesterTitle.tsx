@@ -3,6 +3,7 @@ import { SM, Span, XL } from '@zendeskgarden/react-typography';
 import { Tag } from '@zendeskgarden/react-tags';
 import { TicketEntity, TicketStatusType } from '../common/entity';
 import { Row, Col, Grid } from '@zendeskgarden/react-grid';
+import React from 'react';
 
 type RequesterTitleProps = {
     requester: string | undefined,

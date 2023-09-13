@@ -2,6 +2,7 @@ import { Tag } from '@zendeskgarden/react-tags';
 import { Body, Cell, Row as TableRow, Table } from '@zendeskgarden/react-tables';
 import { MD, Span } from '@zendeskgarden/react-typography';
 import { ServiceEntity, ServiceType } from "../common/entity";
+import React from 'react';
 
 
 

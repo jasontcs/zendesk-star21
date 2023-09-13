@@ -1,7 +1,7 @@
 import zafClient from "../sdk/index";
 import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
 import { ZafData } from "./data";
-import { OrganizationEntity, ServiceEntity, ServiceType, TicketEntity, TicketStatusType, UserEntity, UserFlagEntity } from "./entity";
+import { OrganizationEntity, ServiceEntity, ServiceType, TicketEntity, UserEntity, UserFlagEntity } from "./entity";
 import { UserField } from "./http_model";
 
 const zafData = new ZafData()

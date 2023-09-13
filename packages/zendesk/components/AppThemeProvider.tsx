@@ -1,4 +1,5 @@
 import { DEFAULT_THEME } from "@zendeskgarden/react-theming";
+import React from "react";
 import { ThemeProvider } from "styled-components";
 
 type AppThemeProviderProps = {

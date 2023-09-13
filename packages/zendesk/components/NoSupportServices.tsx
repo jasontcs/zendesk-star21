@@ -3,6 +3,7 @@ import { Alert, Title } from '@zendeskgarden/react-notifications';
 import { ServiceType } from "../common/entity";
 import { Span } from '@zendeskgarden/react-typography';
 import { IGardenTheme } from '@zendeskgarden/react-theming';
+import React from 'react';
 
 type NoSupportServicesProps = {
     types: ServiceType[],

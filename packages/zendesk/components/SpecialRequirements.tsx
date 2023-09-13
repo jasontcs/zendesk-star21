@@ -5,6 +5,7 @@ import { Well } from '@zendeskgarden/react-notifications';
 import { IGardenTheme } from '@zendeskgarden/react-theming';
 import styled from "styled-components";
 import { Span } from '@zendeskgarden/react-typography';
+import React from 'react';
 
 type SpecialRequirementsProps = {
     content: string,

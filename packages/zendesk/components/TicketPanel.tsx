@@ -1,3 +1,4 @@
+import React from "react"
 import { OrganizationEntity, UserEntity, UserFlagTypeVip } from "../common/entity"
 import { CustomerGuideButton } from "./CustomerGuideButton"
 import { ImportantContactAlert } from "./ImportantContactAlert"

@@ -1,4 +1,5 @@
 import { LG } from "@zendeskgarden/react-typography"
+import React from "react"
 
 export const NoSelectRequesterLabel = () => {
     return (

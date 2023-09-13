@@ -4,6 +4,7 @@ import { Tag } from '@zendeskgarden/react-tags';
 import { UserEntity } from '../common/entity';
 import { Span, MD } from '@zendeskgarden/react-typography';
 import zafClient from '../sdk';
+import React from 'react';
 
 type ImportantContactListProps = {
     importantUsers: UserEntity[],

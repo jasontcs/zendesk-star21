@@ -1,5 +1,6 @@
 
 import { Button } from '@zendeskgarden/react-buttons';
+import React from 'react';
 
 type CustomerGuideButtonProps = {
     guideUrl: string | undefined,

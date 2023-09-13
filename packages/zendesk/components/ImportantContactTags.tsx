@@ -3,6 +3,7 @@ import { Grid, Row, Col } from '@zendeskgarden/react-grid';
 import { IGardenTheme } from '@zendeskgarden/react-theming';
 import styled from "styled-components";
 import { UserFlagEntity } from '../common/entity';
+import React from 'react';
 
 type ImportantContactTagsProps = {
   isVip: boolean,
