@@ -14,6 +14,7 @@ export interface Ticket {
     status:         string;
     form:           Form;
     organization:   Organization;
+    updated_at:     string;
 }
 
 export interface Assignee {

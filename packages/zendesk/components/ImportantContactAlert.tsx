@@ -47,7 +47,7 @@ export const ImportantContactAlert = ({ user, children }: ImportantContactAlertP
             <Row>
                 <Col>
                     {children}
-                    {visible && (
+                    {false && visible && (
                         <Modal onClose={() => setVisible(false)}>
                             <Body>
                                 <Paragraph>

@@ -12,7 +12,7 @@ type OrganizationServicesProps = {
 
 export const OrganizationServices = ({ organizationServices }: OrganizationServicesProps) => {
     return (
-        <Table size="small">
+        <Table size="small" style={{marginTop: '4px'}}>
             <Body>
                 {
                     organizationServices

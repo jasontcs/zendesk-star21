@@ -11,6 +11,7 @@ export class ZafDomain {
         const fields = userFields ?? await zafData.getUserFields()
         const user = await zafData.getUser(id)
         const tickets = await zafData.getUserTickets(id)
+        const specialRequirementsTitle = fields.find((field) => field.key == 'special_requirements')!.title
         return new UserEntity(
             user.id,
             user.name,
@@ -28,11 +29,13 @@ export class ZafDomain {
             ),
             user.organization_id,
             user.user_fields['special_requirements'],
+            specialRequirementsTitle,
             tickets.map(
                 (ticket) => {
                     return new TicketEntity(
                         ticket.id,
-                        ticket.status as "new" | "open" | "pending" | "hold" | "solved" | "closed"
+                        ticket.status as "new" | "open" | "pending" | "hold" | "solved" | "closed",
+                        new Date(ticket.updated_at),
                     )
                 }
             )
@@ -45,6 +48,7 @@ export class ZafDomain {
         const rawUsers = await zafData.getOrganizationUsers(id)
         const userFields = await zafData.getUserFields()
         const servicesSettings = await this.getOrganizationServicesSettings()
+        const specialRequirementsTitle = userFields.find((field) => field.key == 'special_requirements')!.title
         const users = rawUsers.map((user) => new UserEntity(
             user.id,
             user.name,
@@ -62,6 +66,7 @@ export class ZafDomain {
             ),
             user.organization_id,
             user.user_fields['special_requirements'],
+            specialRequirementsTitle,
             [],
         ))
         return new OrganizationEntity(

@@ -12,10 +12,10 @@ import { useImportantContactAlertContext } from "@app/zendesk/components/Importa
 function App() {
   const [user, setUser] = React.useState<UserEntity | undefined>()
   const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
-  const { visible, setVisible } = useImportantContactAlertContext()
+  const { setVisible } = useImportantContactAlertContext()
 
   const fetchAll = async () => {
-    const { user:userRaw }: GetUserResponse = await zafClient.get("user");
+    const { user: userRaw }: GetUserResponse = await zafClient.get("user");
     const _user = await zafDomain.getUser(userRaw.id)
     const _organization = await zafDomain.getOrganization(_user.organizationId)
 
@@ -34,7 +34,7 @@ function App() {
   React.useEffect(() => {
     fetchAll();
     zafUtil.on([
-      'app.registered', 
+      'app.registered',
       'app.activated',
       'user.tags.changed'
     ], fetchAll)

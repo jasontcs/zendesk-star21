@@ -32,7 +32,7 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                 {
                     authorizedUsers
                         .map((user) =>
-                            <Row isFocused={true} key={user.id} onClick={() => userOnClick(user)} style={{ cursor: 'pointer' }}>
+                            <Row key={user.id} onClick={() => userOnClick(user)} style={{ cursor: 'pointer' }} isFocused={true} isSelected>
                                 <Cell>
                                     <Span isBold>{user.name}</Span>
                                 </Cell>
@@ -54,7 +54,7 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                 {
                     vips
                         .map((user) =>
-                            <Row isFocused={true} key={user.id} onClick={() => userOnClick(user)} style={{ cursor: 'pointer' }}>
+                            <Row key={user.id} onClick={() => userOnClick(user)} style={{ cursor: 'pointer' }} isFocused={true} isSelected isStriped>
                                 <Cell>
                                     <Span isBold>{user.name}</Span>
                                 </Cell>

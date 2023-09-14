@@ -1,5 +1,5 @@
 import React from "react"
-import { NoSupportServices } from "."
+import { NoSupportServices } from "./NoSupportServices"
 import { OrganizationEntity } from "../common/entity"
 import { ImportantContactList } from "./ImportantContactList"
 import { OrganizationServices } from "./OrganizationServices"
@@ -14,9 +14,8 @@ export const OrganizationPanel = ({
 }: OrganizationPanelProps) => {
     return (
         <>
-            <ImportantContactList importantUsers={organization.importantContacts}></ImportantContactList>
-            <p></p>
             <NoSupportServices types={organization.services}></NoSupportServices>
+            <ImportantContactList importantUsers={organization.importantContacts}></ImportantContactList>
             <OrganizationServices organizationServices={organization.services}></OrganizationServices>
         </>
     )

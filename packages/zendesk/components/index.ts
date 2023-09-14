@@ -1,6 +1,4 @@
 export { AppWrapper } from './AppWrapper'
 export { TicketPanel } from './TicketPanel'
-export { NoSupportServices } from './NoSupportServices'
-export { NoSelectRequesterLabel } from './NoSelectRequesterLabel'
-export { SpecialRequirements } from './SpecialRequirements'
 export { OrganizationPanel } from './OrganizationPanel'
+export { NoSelectRequesterLabel } from './NoSelectRequesterLabel'

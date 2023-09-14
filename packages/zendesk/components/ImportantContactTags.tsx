@@ -22,7 +22,7 @@ export const ImportantContactTags = ({ isVip, userFlags }: ImportantContactTagsP
       isVip &&
       <StyledRow>
         <Col>
-          <Tag size="large" hue="yellow" style={{ width: "100%" }}>
+          <Tag size="large" hue="yellow" style={{ width: "100%" }} className='blink_me'>
             <span>VIP</span>
           </Tag>
         </Col>
