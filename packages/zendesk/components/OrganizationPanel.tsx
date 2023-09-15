@@ -14,8 +14,8 @@ export const OrganizationPanel = ({
 }: OrganizationPanelProps) => {
     return (
         <>
-            <NoSupportServices types={organization.services}></NoSupportServices>
             <ImportantContactList importantUsers={organization.importantContacts}></ImportantContactList>
+            <NoSupportServices types={organization.services}></NoSupportServices>
             <OrganizationServices organizationServices={organization.services}></OrganizationServices>
         </>
     )
