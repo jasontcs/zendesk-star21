@@ -2,8 +2,9 @@ import { Tag } from '@zendeskgarden/react-tags';
 import { Grid, Row, Col } from '@zendeskgarden/react-grid';
 import { IGardenTheme } from '@zendeskgarden/react-theming';
 import styled from "styled-components";
-import { UserFlagEntity } from '../common/entity';
+import { UserFlagEntity, UserFlagTypeAuthorized } from '../common/entity';
 import React from 'react';
+import { Span } from '@zendeskgarden/react-typography';
 
 type ImportantContactTagsProps = {
   isVip: boolean,
@@ -29,11 +30,13 @@ export const ImportantContactTags = ({ isVip, userFlags }: ImportantContactTagsP
       </StyledRow>
     }
     {
-      userFlags.map((flag) =>
+      userFlags
+      .sort((_, b) => b.type instanceof UserFlagTypeAuthorized ? 1 : -1)
+      .map((flag) =>
         <StyledRow key={flag.key}>
           <Col>
             <Tag size="large" hue="green" style={{ width: "100%" }}>
-              <span>{flag.name}</span>
+              <Span>{flag.name}</Span>
             </Tag>
           </Col>
         </StyledRow>

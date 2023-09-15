@@ -2,7 +2,6 @@
 import { LG, SM } from '@zendeskgarden/react-typography';
 import { TicketEntity, TicketStatusType } from '../common/entity';
 import { Row, Col, Grid } from '@zendeskgarden/react-grid';
-import { Tooltip } from '@zendeskgarden/react-tooltips';
 import React from 'react';
 import { zafUtil } from '../common';
 
@@ -27,9 +26,7 @@ export const RequesterTicketCounter = ({ tickets }: RequesterTicketCounterProps)
                 <CounterTile background='#c72a1c' count={map.get('open') ?? 0} title='Open'></CounterTile>
                 <CounterTile background='#3091ec' count={map.get('pending') ?? 0} title='Pending'></CounterTile>
                 <CounterTile background='#2f3941' count={map.get('hold') ?? 0} title='On-hold'></CounterTile>
-                <Tooltip content="Eat, drink, and be rosemary">
-                    <CounterTile background='#87929d' count={map.get('solved') ?? 0 + (map.get('closed') ?? 0)} title='Solved'></CounterTile>
-                </Tooltip>
+                <CounterTile background='#87929d' count={map.get('solved') ?? 0 + (map.get('closed') ?? 0)} title='Solved'></CounterTile>
             </Row>
         </Grid>
     )
