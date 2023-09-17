@@ -5,7 +5,7 @@ import { zafDomain, zafUtil } from "@app/zendesk/common";
 import zafClient from '@app/zendesk/sdk'
 import { GetOrganizationResponse } from '@app/zendesk/common/api_model'
 import { OrganizationEntity } from '@app/zendesk/common/entity';
-import { OrganizationPanel } from '@app/zendesk/components';
+import { AppLoader, OrganizationPanel } from '@app/zendesk/components';
 
 
 function App() {
@@ -28,7 +28,11 @@ function App() {
 
   return (
     <>
-      {organizationEntity && <OrganizationPanel organization={organizationEntity}></OrganizationPanel>}
+      {
+        organizationEntity
+          ? <OrganizationPanel organization={organizationEntity}></OrganizationPanel>
+          : <AppLoader></AppLoader>
+      }
     </>
 
   )

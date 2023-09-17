@@ -6,7 +6,7 @@ import { zafDomain, zafUtil } from "@app/zendesk/common";
 import { OrganizationEntity, UserEntity } from "@app/zendesk/common/entity";
 
 import { GetUserResponse } from '@app/zendesk/common/api_model';
-import { TicketPanel } from '@app/zendesk/components';
+import { AppLoader, TicketPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from "@app/zendesk/components/ImportantContactAlert";
 
 function App() {
@@ -42,11 +42,13 @@ function App() {
 
   return (
     <>
-      {user && organization &&
-        <TicketPanel
-          user={user}
-          organization={organization}
-        ></TicketPanel>
+      {
+        user && organization
+          ? <TicketPanel
+            user={user}
+            organization={organization}
+          ></TicketPanel>
+          : <AppLoader></AppLoader>
       }
     </>
   )
