@@ -43,9 +43,11 @@ const CounterTile = ({ count, background, title, fullTitle, titleOnClick }: { co
     return (<>
         {(count > 0) &&
             <Col size={2} style={{ width: 'initial', textAlign: 'center', margin: '0 6px' }}>
-                <LG isBold style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
-                    <Tooltip content={(fullTitle ?? title) + ' = ' + count} placement='bottom-end'>
-                        <Anchor onClick={titleOnClick}><SM>{title}</SM></Anchor>
+            <Tooltip content={(fullTitle ?? title) + ' = ' + count} placement='bottom'>
+                <Anchor onClick={titleOnClick}>
+                    <LG isBold style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
+                        <SM>{title}</SM>
+                </Anchor>
                     </Tooltip>
             </Col>
         }
