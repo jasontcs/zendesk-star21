@@ -4,7 +4,7 @@ import { SM } from '@zendeskgarden/react-typography';
 import { IGardenTheme } from '@zendeskgarden/react-theming';
 import React from 'react';
 import { Col, Grid, Row } from '@zendeskgarden/react-grid';
-import { ReactComponent as AlertWarningStrokeIcon } from '@zendeskgarden/svg-icons/src/16/alert-warning-stroke.svg';
+import { ReactComponent as AlertWarningFillIcon } from '@zendeskgarden/svg-icons/src/16/alert-warning-fill.svg';
 import { Tag } from '@zendeskgarden/react-tags';
 
 
@@ -32,7 +32,7 @@ export const NoSupportServices = ({ types }: NoSupportServicesProps) => {
                     <Grid>
                         <Row justifyContent="center" alignItems='center'>
                             <StyledCol style={{ textAlign: 'start' }}>
-                                <AlertWarningStrokeIcon style={{ verticalAlign: 'middle' }} />
+                                <AlertWarningFillIcon style={{ verticalAlign: 'middle' }} />
                             </StyledCol>
                             <StyledCol md='auto'>
                                 {
