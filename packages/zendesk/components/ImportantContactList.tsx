@@ -26,7 +26,7 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                         <Cell>
                             <MD><Span>AUTHORISED CONTACTS</Span></MD>
                         </Cell>
-                        <Cell width={'90px'}></Cell>
+                        <Cell width={'75px'}></Cell>
                     </GroupRow>
                 }
                 {
@@ -38,7 +38,7 @@ export const ImportantContactList = ({ importantUsers }: ImportantContactListPro
                                 </Cell>
                                 <Cell>
                                     <Tag hue="red" style={{ visibility: user.isAuthorized ? 'visible' : 'hidden', margin: '0 0 0 4px', width: "100%" }}>
-                                        <Span>Auth</Span>
+                                        <Span>AUTH</Span>
                                     </Tag>
                                 </Cell>
                             </Row>
