@@ -2,7 +2,9 @@ import zafClient from "../sdk/index";
 
 export class ZafUtil {
     async resizeWindow() {
-        await zafClient.invoke("resize", { height: document.body.offsetHeight + 5 })
+        await new Promise(f => setTimeout(f, 0))
+        const height = document.body.offsetHeight
+        await zafClient.invoke("resize", { height: height + 5 })
     }
 
     on(eventNames: string[], listener: (...args: any) => any) {
