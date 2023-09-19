@@ -15,6 +15,7 @@ export interface Ticket {
     form:           Form;
     organization:   Organization;
     updated_at:     string;
+    subject:        string;
 }
 
 export interface Assignee {

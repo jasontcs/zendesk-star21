@@ -126,15 +126,18 @@ export class TicketEntity {
     constructor(
         id: number,
         status: TicketStatusType,
-        updateAt: Date
+        updateAt: Date,
+        subject: string,
     ) {
         this.id = id
         this.status = status
         this.updateAt = updateAt
+        this.subject = subject
     }
     id: number
     status: TicketStatusType
     updateAt: Date
+    subject: string
 }
 
 export type TicketStatusType = "new" | "open" | "pending" | "hold" | "solved" | "closed"

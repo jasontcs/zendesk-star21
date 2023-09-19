@@ -16,4 +16,15 @@ export class ZafUtil {
         var diff = Math.abs(d1.getTime() - d2.getTime());
         return diff / (1000 * 60 * 60 * 24);
     };
+    groupBy<K, V>(array: V[], grouper: (item: V) => K) {
+        return array.reduce((store, item) => {
+          var key = grouper(item)
+          if (!store.has(key)) {
+            store.set(key, [item])
+          } else {
+            store.get(key)!.push(item)
+          }
+          return store
+        }, new Map<K, V[]>())
+      }
 }

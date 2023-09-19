@@ -1,6 +1,6 @@
 
 import { LG } from '@zendeskgarden/react-typography';
-import { TicketEntity, TicketStatusType } from '../common/entity';
+import { TicketEntity } from '../common/entity';
 import { Row, Col, Grid } from '@zendeskgarden/react-grid';
 import React from 'react';
 import { zafUtil } from '../common';
@@ -14,43 +14,83 @@ type RequesterTicketCounterProps = {
 }
 
 export const RequesterTicketCounter = ({ tickets, titleOnClick }: RequesterTicketCounterProps) => {
-    const map = tickets.reduce(
-        (entryMap, e) => {
-            if ((e.status == 'solved' || e.status == 'closed') && zafUtil.numDaysBetween(e.updateAt, new Date()) > 30) {
-                return entryMap
-            }
-            return entryMap.set(e.status, entryMap.get(e.status) ? entryMap.get(e.status)! + 1 : 1)
-        },
-        new Map<TicketStatusType, number>()
-    );
+    const map = zafUtil.groupBy(tickets, (e) => e.status)
 
-    const solved = map.get('solved') ?? 0 + (map.get('closed') ?? 0)
+    const props: CounterTileProps[] = [
+        {
+            tickets: map.get('new') ?? [],
+            background: '#ffb057',
+            color: '#703815',
+            title: 'New',
+        },
+        {
+            tickets: map.get('open') ?? [],
+            background: '#c72a1c',
+            title: 'Open',
+        },
+        {
+            tickets: map.get('pending') ?? [],
+            background: '#3091ec',
+            title: 'Pending',
+        },
+        {
+            tickets: map.get('hold') ?? [],
+            background: '#2f3941',
+            title: 'On-hold',
+        },
+        {
+            tickets: [
+                ...map.get('solved')?.filter((t) => zafUtil.numDaysBetween(t.updateAt, new Date()) > 30) ?? [],
+                ...map.get('closed')?.filter((t) => zafUtil.numDaysBetween(t.updateAt, new Date()) > 30) ?? [],
+            ],
+            background: '#87929d',
+            title: 'Solved',
+        },
+    ]
+
+    const CounterTile = ({ tickets, background, title, color }: CounterTileProps) => {
+        const count = tickets.length
+        const tooltip = tickets.length == 1 ? tickets[0].subject : undefined
+        return (<>
+            {(count > 0) &&
+                <Col size={2} style={{ width: 'initial', textAlign: 'center' }}>
+                    {
+                        tooltip
+                            ? <Tooltip content={tooltip} placement='bottom'>
+                                <Anchor onClick={titleOnClick}>
+                                    <LG style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
+                                    <Tag size='small' style={{ backgroundColor: background, color: color ?? 'white', cursor: 'pointer', margin: '-10px 0 0 0' }}>{title}</Tag>
+                                </Anchor>
+                            </Tooltip>
+                            : <Anchor onClick={titleOnClick}>
+                                <LG style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
+                                <Tag size='small' style={{ backgroundColor: background, color: color ?? 'white', cursor: 'pointer', margin: '-10px 0 0 0' }}>{title}</Tag>
+                            </Anchor>
+                    }
+                </Col>
+            }
+        </>)
+    }
 
     return (
         <Grid gutters={false}>
             <Row justifyContent='center'>
-                <CounterTile titleOnClick={titleOnClick} background='#ffb057' count={map.get('new') ?? 0} title='New' color='#703815'></CounterTile>
-                <CounterTile titleOnClick={titleOnClick} background='#c72a1c' count={map.get('open') ?? 0} title='Open'></CounterTile>
-                <CounterTile titleOnClick={titleOnClick} background='#3091ec' count={map.get('pending') ?? 0} title='Pending'></CounterTile>
-                <CounterTile titleOnClick={titleOnClick} background='#2f3941' count={map.get('hold') ?? 0} title='On-hold'></CounterTile>
-                <CounterTile titleOnClick={titleOnClick} background='#87929d' count={solved} title='Solved' tooltip={'Solved (30 days)'}></CounterTile>
+                {props.map((props) =>
+                    <CounterTile
+                        tickets={props.tickets}
+                        background={props.background}
+                        title={props.title}
+                        color={props.color}
+                    ></CounterTile>
+                )}
             </Row>
         </Grid>
     )
 }
 
-const CounterTile = ({ count, background, title, tooltip, titleOnClick, color }: { count: number, background: string, color?: string, title: string, tooltip?: string, titleOnClick?: () => void }) => {
-
-    return (<>
-        {(count > 0) &&
-            <Col size={2} style={{ width: 'initial', textAlign: 'center'}}>
-                <Tooltip content={(tooltip ?? title) + ' = ' + count} placement='bottom' isVisible={false}>
-                    <Anchor onClick={titleOnClick}>
-                        <LG style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
-                        <Tag size='small' style={{ backgroundColor: background, color: color ?? 'white', cursor: 'pointer', margin: '-10px 0 0 0' }}>{title}</Tag>
-                    </Anchor>
-                </Tooltip>
-            </Col>
-        }
-    </>)
+type CounterTileProps = {
+    tickets: TicketEntity[],
+    background: string,
+    color?: string,
+    title: string,
 }

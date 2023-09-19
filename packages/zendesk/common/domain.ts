@@ -37,6 +37,7 @@ export class ZafDomain {
                         ticket.id,
                         ticket.status as "new" | "open" | "pending" | "hold" | "solved" | "closed",
                         new Date(ticket.updated_at),
+                        ticket.subject,
                     )
                 }
             )
