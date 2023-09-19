@@ -76,6 +76,11 @@
 			"name": "organizations_services_setting",
 			"type": "multiline",
 			"default": "[\r\n   {\r\n      \"key\": \"managed\",\r\n      \"title\": \"Managed\",\r\n      \"color\": \"red\",\r\n      \"no_support_field_key\": \"mdm\"\r\n   },\r\n   {\r\n      \"key\": \"mobility\",\r\n      \"title\": \"Mobility\",\r\n      \"color\": \"black\",\r\n      \"no_support_field_key\": \"mobile_no_support\"\r\n   },\r\n   {\r\n      \"key\": \"projects\",\r\n      \"title\": \"Projects\",\r\n      \"color\": \"green\",\r\n      \"no_support_field_key\": \"o365_no_support\"\r\n   },\r\n   {\r\n      \"key\": \"cloud\",\r\n      \"title\": \"Cloud\",\r\n      \"color\": \"blue\",\r\n      \"no_support_field_key\": \"tco_no_support\"\r\n   }\r\n]"
+		},
+		{
+			"name": "authorised_field_keys",
+			"type": "text",
+			"default": "authorised_contact_billing,auth_contact_cradlepoint,authorised_contact_mdm,authorised_contact_mms,authorised_contact_o365,authorised_contact_purchasing,authorised_contact_tco,authorised_contact_pbx_purchase"
 		}
 	],
 	"version": "1.0.0",

@@ -1,6 +1,5 @@
 
 import zafClient from "../sdk/index";
-import { zafConfig as zafConfig } from "./index";
 import { Organization, OrganizationField, TicketForm, User, UserField } from "./http_model";
 import { Ticket } from "./api_model";
 
@@ -39,14 +38,6 @@ export class ZafData {
     async getUserTickets(id: number): Promise<Ticket[]> {
         const response = await zafClient.request<any>(`/api/v2/users/${id}/tickets/requested`)
         return response.tickets
-    }
-
-    isVip(user: User): boolean {
-        return user.user_fields[zafConfig.vipKey]
-    }
-
-    isAuthorized(user: User): boolean {
-        return Object.entries(user.user_fields).some((f) => f[0].startsWith(zafConfig.authPrefix))
     }
 
     async getTicketForm(id: number): Promise<TicketForm> {

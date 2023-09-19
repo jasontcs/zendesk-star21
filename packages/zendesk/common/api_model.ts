@@ -57,6 +57,7 @@ export interface IMetadataSettings {
     whitelistedInternalForms?: string;
     yourOrganization?: string;
     organizations_services_setting: string;
+    authorised_field_keys: string;
 }
 
 export interface OrganizationServiceSetting {

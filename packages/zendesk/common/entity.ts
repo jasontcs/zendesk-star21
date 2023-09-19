@@ -41,14 +41,14 @@ export class UserFlagEntity {
         key: string,
         name: string,
         tag: string | undefined,
+        type: UserFlagType | undefined,
     ) {
         this.id = id
         this.key = key
         this.name = name
         this.tag = tag
+        this.type = type ?? new UserFlagTypeOther()
         if (key == UserFlagTypeVip.key) this.type = new UserFlagTypeVip()
-        else if (UserFlagTypeAuthorized.prefixes.some((prefix) => tag?.startsWith(prefix))) this.type = new UserFlagTypeAuthorized()
-        else this.type = new UserFlagTypeOther()
     }
     id: number
     key: string
@@ -63,9 +63,7 @@ export class UserFlagTypeVip extends UserFlagType {
     static key = 'mms_vip'
 }
 
-export class UserFlagTypeAuthorized extends UserFlagType {
-    static prefixes = ['auth_', 'authorised_',]
-}
+export class UserFlagTypeAuthorized extends UserFlagType {}
 
 export class UserFlagTypeOther extends UserFlagType { }
 

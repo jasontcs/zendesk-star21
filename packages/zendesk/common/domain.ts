@@ -1,7 +1,7 @@
 import zafClient from "../sdk/index";
 import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
 import { ZafData } from "./data";
-import { OrganizationEntity, ServiceEntity, ServiceType, TicketEntity, UserEntity, UserFlagEntity } from "./entity";
+import { OrganizationEntity, ServiceEntity, ServiceType, TicketEntity, UserEntity, UserFlagEntity, UserFlagTypeAuthorized } from "./entity";
 import { UserField } from "./http_model";
 
 const zafData = new ZafData()
@@ -12,6 +12,7 @@ export class ZafDomain {
         const user = await zafData.getUser(id)
         const tickets = await zafData.getUserTickets(id)
         const specialRequirementsTitle = fields.find((field) => field.key == 'special_requirements')!.title
+        const authorisedFieldKeys = await this.getAuthorisedFieldKeys()
         return new UserEntity(
             user.id,
             user.name,
@@ -24,6 +25,7 @@ export class ZafDomain {
                             field.key,
                             field.title,
                             field.tag,
+                            authorisedFieldKeys.includes(field.key) ? new UserFlagTypeAuthorized() : undefined
                         )]
                         : []
                 }
@@ -51,6 +53,7 @@ export class ZafDomain {
         const userFields = await zafData.getUserFields()
         const servicesSettings = await this.getOrganizationServicesSettings()
         const specialRequirementsTitle = userFields.find((field) => field.key == 'special_requirements')!.title
+        const authorisedFieldKeys = await this.getAuthorisedFieldKeys()
         const users = rawUsers.map((user) => new UserEntity(
             user.id,
             user.name,
@@ -63,6 +66,7 @@ export class ZafDomain {
                             field.key,
                             field.title,
                             field.tag,
+                            authorisedFieldKeys.includes(field.key) ? new UserFlagTypeAuthorized() : undefined
                         )]
                         : []
                 }
@@ -107,6 +111,11 @@ export class ZafDomain {
     private async getOrganizationServicesSettings(): Promise<OrganizationServiceSetting[]> {
         const settings = await zafClient.metadata<IMetadataSettings>()
         return settings.settings?.organizations_services_setting ? JSON.parse(settings.settings!.organizations_services_setting) : []
+    }
+
+    private async getAuthorisedFieldKeys(): Promise<string[]> {
+        const settings = await zafClient.metadata<IMetadataSettings>()
+        return settings.settings?.authorised_field_keys.split(',') ?? []
     }
 }
 
