@@ -77,6 +77,7 @@ export const RequesterTicketCounter = ({ tickets, titleOnClick }: RequesterTicke
             <Row justifyContent='center'>
                 {props.map((props) =>
                     <CounterTile
+                        key={props.title}
                         tickets={props.tickets}
                         background={props.background}
                         title={props.title}
