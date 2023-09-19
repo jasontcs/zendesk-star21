@@ -1,9 +1,19 @@
 .blink_me {
-    animation: blinker 2s ease-in-out infinite;
+    animation: blinker 1.5s ease-in-out infinite;
 }
 
 @keyframes blinker {
     50% {
         opacity: 0;
+    }
+}
+
+.blink_border {
+    animation: border_blinker 1.5s ease-in-out infinite;
+}
+
+@keyframes border_blinker {
+    50% {
+        border: 2px solid;
     }
 }

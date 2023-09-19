@@ -1,11 +1,12 @@
 
-import { LG, SM } from '@zendeskgarden/react-typography';
+import { LG } from '@zendeskgarden/react-typography';
 import { TicketEntity, TicketStatusType } from '../common/entity';
 import { Row, Col, Grid } from '@zendeskgarden/react-grid';
 import React from 'react';
 import { zafUtil } from '../common';
 import { Anchor } from '@zendeskgarden/react-buttons';
 import { Tooltip } from '@zendeskgarden/react-tooltips';
+import { Tag } from '@zendeskgarden/react-tags';
 
 type RequesterTicketCounterProps = {
     tickets: TicketEntity[],
@@ -32,23 +33,23 @@ export const RequesterTicketCounter = ({ tickets, titleOnClick }: RequesterTicke
                 <CounterTile titleOnClick={titleOnClick} background='#c72a1c' count={map.get('open') ?? 0} title='Open'></CounterTile>
                 <CounterTile titleOnClick={titleOnClick} background='#3091ec' count={map.get('pending') ?? 0} title='Pending'></CounterTile>
                 <CounterTile titleOnClick={titleOnClick} background='#2f3941' count={map.get('hold') ?? 0} title='On-hold'></CounterTile>
-                <CounterTile titleOnClick={titleOnClick} background='#87929d' count={solved} title='Solved*' fullTitle={'Solved (30 days)'}></CounterTile>
+                <CounterTile titleOnClick={titleOnClick} background='#87929d' count={solved} title='Solved' tooltip={'Solved (30 days)'}></CounterTile>
             </Row>
         </Grid>
     )
 }
 
-const CounterTile = ({ count, background, title, fullTitle, titleOnClick }: { count: number, background: string, color?: string, title: string, fullTitle?: string, titleOnClick?: () => void }) => {
+const CounterTile = ({ count, background, title, tooltip, titleOnClick, color }: { count: number, background: string, color?: string, title: string, tooltip?: string, titleOnClick?: () => void }) => {
 
     return (<>
         {(count > 0) &&
-            <Col size={2} style={{ width: 'initial', textAlign: 'center', margin: '0 6px' }}>
-            <Tooltip content={(fullTitle ?? title) + ' = ' + count} placement='bottom'>
-                <Anchor onClick={titleOnClick}>
-                    <LG isBold style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
-                        <SM>{title}</SM>
-                </Anchor>
-                    </Tooltip>
+            <Col size={2} style={{ width: 'initial', textAlign: 'center'}}>
+                <Tooltip content={(tooltip ?? title) + ' = ' + count} placement='bottom' isVisible={false}>
+                    <Anchor onClick={titleOnClick}>
+                        <LG style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
+                        <Tag size='small' style={{ backgroundColor: background, color: color ?? 'white', cursor: 'pointer', margin: '-10px 0 0 0' }}>{title}</Tag>
+                    </Anchor>
+                </Tooltip>
             </Col>
         }
     </>)

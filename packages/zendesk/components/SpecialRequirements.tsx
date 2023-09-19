@@ -27,17 +27,25 @@ const StyledSpan = styled(Span)`
 }`
 
 export const SpecialRequirements = ({ content, title }: SpecialRequirementsProps) => {
+
+    const [animated, setAnimated] = React.useState<boolean>(true)
+
+    const onChange = () => {
+        setAnimated(false)
+        
+    }
+
     return (
         <Grid gutters={false}>
             <StyledRow></StyledRow>
             <StyledRow>
                 <Col>
                     <Well isRecessed style={{ padding: 0 }}>
-                        <Accordion level={1} isBare isCompact isCollapsible defaultExpandedSections={[]} onTransitionEnd={() => zafUtil.resizeWindow()}>
+                        <Accordion level={1} isBare isCompact isCollapsible defaultExpandedSections={[]} onTransitionEnd={() => zafUtil.resizeWindow()} onChange={() => onChange()}>
                             <Accordion.Section>
                                 <Accordion.Header>
                                     <Accordion.Label>
-                                        <StyledSpan className='blink_me'>{title}</StyledSpan>
+                                        <StyledSpan className={animated ? 'blink_me' : undefined}>{title}</StyledSpan>
                                     </Accordion.Label>
                                 </Accordion.Header>
                                 <Accordion.Panel>

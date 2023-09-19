@@ -23,23 +23,23 @@ export const ImportantContactTags = ({ isVip, userFlags }: ImportantContactTagsP
       isVip &&
       <StyledRow>
         <Col>
-          <Tag size="large" hue="yellow" style={{ width: "100%" }} className='blink_me'>
-            <span>VIP</span>
+          <Tag size="large" hue="yellow" style={{ width: "100%" }} className='blink_border'>
+            <Span>VIP</Span>
           </Tag>
         </Col>
       </StyledRow>
     }
     {
       userFlags
-      .sort((_, b) => b.type instanceof UserFlagTypeAuthorized ? 1 : -1)
-      .map((flag) =>
-        <StyledRow key={flag.key}>
-          <Col>
-            <Tag size="large" hue="green" style={{ width: "100%" }}>
-              <Span>{flag.name}</Span>
-            </Tag>
-          </Col>
-        </StyledRow>
-      )
+        .sort((_, b) => b.type instanceof UserFlagTypeAuthorized ? 1 : -1)
+        .map((flag) =>
+          <StyledRow key={flag.key}>
+            <Col>
+              <Tag size="large" hue="green" style={{ width: "100%" }}>
+                <Span>{flag.name}</Span>
+              </Tag>
+            </Col>
+          </StyledRow>
+        )
     }
   </Grid>

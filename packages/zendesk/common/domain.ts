@@ -21,8 +21,9 @@ export class ZafDomain {
                     return field
                         ? [new UserFlagEntity(
                             field.id,
-                            field.tag,
+                            field.key,
                             field.title,
+                            field.tag,
                         )]
                         : []
                 }
@@ -58,8 +59,9 @@ export class ZafDomain {
                     return field
                         ? [new UserFlagEntity(
                             field.id,
-                            field.tag,
+                            field.key,
                             field.title,
+                            field.tag,
                         )]
                         : []
                 }
