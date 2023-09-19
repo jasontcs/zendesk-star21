@@ -57,12 +57,12 @@ export const RequesterTicketCounter = ({ tickets, titleOnClick }: RequesterTicke
                     {
                         tooltip
                             ? <Tooltip content={tooltip} placement='bottom'>
-                                <Anchor onClick={titleOnClick}>
+                                <Anchor onClick={titleOnClick} style={{textDecoration: 'none'}}>
                                     <LG style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
                                     <Tag size='small' style={{ backgroundColor: background, color: color ?? 'white', cursor: 'pointer', margin: '-10px 0 0 0' }}>{title}</Tag>
                                 </Anchor>
                             </Tooltip>
-                            : <Anchor onClick={titleOnClick}>
+                            : <Anchor onClick={titleOnClick} style={{textDecoration: 'none'}}>
                                 <LG style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
                                 <Tag size='small' style={{ backgroundColor: background, color: color ?? 'white', cursor: 'pointer', margin: '-10px 0 0 0' }}>{title}</Tag>
                             </Anchor>
