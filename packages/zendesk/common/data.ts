@@ -46,12 +46,17 @@ export class ZafData {
     }
 
     async getOrganizationServicesSettings(): Promise<OrganizationServiceSetting[]> {
-        const settings = await zafClient.metadata<IMetadataSettings>()
-        return settings.settings?.organizations_services_setting ? JSON.parse(settings.settings!.organizations_services_setting) : []
+        const settings = await this.getMetaData()
+        return settings?.organizations_services_setting ? JSON.parse(settings!.organizations_services_setting) : []
     }
 
     async getAuthorisedFieldKeys(): Promise<string[]> {
+        const settings = await this.getMetaData()
+        return settings?.authorised_field_keys.split(',') ?? []
+    }
+
+    async getMetaData(): Promise<IMetadataSettings | undefined> {
         const settings = await zafClient.metadata<IMetadataSettings>()
-        return settings.settings?.authorised_field_keys.split(',') ?? []
+        return settings.settings
     }
 }
