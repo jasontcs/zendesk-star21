@@ -1,5 +1,5 @@
 import zafClient from "../sdk/index";
-import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
+import { IMetadataSettings, Ticket } from "./api_model";
 import { ZafData } from "./data";
 import { OrganizationEntity, ServiceEntity, ServiceType, TicketEntity, UserEntity, UserFlagEntity, UserFlagTypeAuthorized } from "./entity";
 import { UserField } from "./http_model";
@@ -8,11 +8,18 @@ const zafData = new ZafData()
 
 export class ZafDomain {
     async getUser(id: number, userFields?: UserField[]): Promise<UserEntity> {
-        const fields = userFields ?? await zafData.getUserFields()
-        const user = await zafData.getUser(id)
-        const tickets = await zafData.getUserTickets(id)
+        const [
+            fields, 
+            user, 
+            tickets, 
+            authorisedFieldKeys,
+        ] = await Promise.all([
+            userFields ?? zafData.getUserFields(),
+            zafData.getUser(id),
+            zafData.getUserTickets(id),
+            zafData.getAuthorisedFieldKeys(),
+        ])
         const specialRequirementsTitle = fields.find((field) => field.key == 'special_requirements')!.title
-        const authorisedFieldKeys = await this.getAuthorisedFieldKeys()
         return new UserEntity(
             user.id,
             user.name,
@@ -47,13 +54,23 @@ export class ZafDomain {
     }
 
     async getOrganization(id: number): Promise<OrganizationEntity> {
-        const fields = await zafData.getOrganizationFields()
-        const organization = await zafData.getOrganization(id)
-        const rawUsers = await zafData.getOrganizationUsers(id)
-        const userFields = await zafData.getUserFields()
-        const servicesSettings = await this.getOrganizationServicesSettings()
+        const [
+            fields,
+            organization,
+            rawUsers,
+            userFields,
+            servicesSettings,
+            authorisedFieldKeys,
+        ] = await Promise.all([
+            zafData.getOrganizationFields(),
+            zafData.getOrganization(id),
+            zafData.getOrganizationUsers(id),
+            zafData.getUserFields(),
+            zafData.getOrganizationServicesSettings(),
+            zafData.getAuthorisedFieldKeys(),
+
+        ])
         const specialRequirementsTitle = userFields.find((field) => field.key == 'special_requirements')!.title
-        const authorisedFieldKeys = await this.getAuthorisedFieldKeys()
         const users = rawUsers.map((user) => new UserEntity(
             user.id,
             user.name,
@@ -107,27 +124,22 @@ export class ZafDomain {
             )
         )
     }
-
-    private async getOrganizationServicesSettings(): Promise<OrganizationServiceSetting[]> {
-        const settings = await zafClient.metadata<IMetadataSettings>()
-        return settings.settings?.organizations_services_setting ? JSON.parse(settings.settings!.organizations_services_setting) : []
-    }
-
-    private async getAuthorisedFieldKeys(): Promise<string[]> {
-        const settings = await zafClient.metadata<IMetadataSettings>()
-        return settings.settings?.authorised_field_keys.split(',') ?? []
-    }
 }
 
 zafClient.on('ticket.save', async function () {
     const ticket: Ticket = await zafClient.get('ticket').then((r: any) => r.ticket)
 
-    if (ticket.status !== 'solved') return Promise.resolve(true)
+    if (ticket.status !== 'solved') return true
 
     const agent = ticket.assignee
-    const form = await zafData.getTicketForm(ticket.form.id)
     const organization = ticket.organization
-    const settings = await zafClient.metadata<IMetadataSettings>()
+    const [
+        form,
+        settings,
+    ] = await Promise.all([
+        zafData.getTicketForm(ticket.form.id),
+        zafClient.metadata<IMetadataSettings>(),
+    ])
 
     const yourOrganization = Number(settings.settings?.yourOrganization)
     const whitelistedInternalForms = settings.settings?.whitelistedInternalForms?.split(',').map((e) => Number(e)) ?? []
@@ -140,12 +152,6 @@ zafClient.on('ticket.save', async function () {
     const isAdmin = adminID.includes(agent.user.id)
     const isBlockedForms = blockedForms.includes(form.id)
     const isBlockedOrg = blockedOrgs.includes(organization.id)
-
-    console.log('isStar21', isStar21)
-    console.log('isInternalForm', isInternalForm)
-    console.log('isAdmin', isAdmin)
-    console.log('isBlockedForms', isBlockedForms)
-    console.log('isBlockedOrg', isBlockedOrg)
 
     const showError = async <U>(message: string) => {
         return await zafClient.invoke<U>('notify', message, 'error', 20000)

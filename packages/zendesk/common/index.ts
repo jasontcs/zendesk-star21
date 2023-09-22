@@ -1,4 +1,4 @@
-import { ZafConfig } from "./confg";
+import { ZafConfig } from "./config";
 import { ZafDomain } from "./domain";
 import { ZafUtil } from "./util";
 

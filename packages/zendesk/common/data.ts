@@ -1,7 +1,7 @@
 
 import zafClient from "../sdk/index";
 import { Organization, OrganizationField, TicketForm, User, UserField } from "./http_model";
-import { Ticket } from "./api_model";
+import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
 
 export class ZafData {
     async getUserFields(): Promise<UserField[]> {
@@ -43,5 +43,15 @@ export class ZafData {
     async getTicketForm(id: number): Promise<TicketForm> {
         const response = await zafClient.request<any>(`/api/v2/ticket_forms/${id}`)
         return response.ticket_form
+    }
+
+    async getOrganizationServicesSettings(): Promise<OrganizationServiceSetting[]> {
+        const settings = await zafClient.metadata<IMetadataSettings>()
+        return settings.settings?.organizations_services_setting ? JSON.parse(settings.settings!.organizations_services_setting) : []
+    }
+
+    async getAuthorisedFieldKeys(): Promise<string[]> {
+        const settings = await zafClient.metadata<IMetadataSettings>()
+        return settings.settings?.authorised_field_keys.split(',') ?? []
     }
 }
