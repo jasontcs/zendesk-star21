@@ -57,12 +57,12 @@ export const RequesterTicketCounter = ({ tickets, titleOnClick }: RequesterTicke
                     {
                         tooltip
                             ? <Tooltip content={tooltip} placement='bottom'>
-                                <Anchor onClick={titleOnClick} style={{textDecoration: 'none'}}>
+                                <Anchor onClick={titleOnClick} style={{ textDecoration: 'none' }}>
                                     <LG style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
                                     <Tag size='small' style={{ backgroundColor: background, color: color ?? 'white', cursor: 'pointer', margin: '-10px 0 0 0' }}>{title}</Tag>
                                 </Anchor>
                             </Tooltip>
-                            : <Anchor onClick={titleOnClick} style={{textDecoration: 'none'}}>
+                            : <Anchor onClick={titleOnClick} style={{ textDecoration: 'none' }}>
                                 <LG style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
                                 <Tag size='small' style={{ backgroundColor: background, color: color ?? 'white', cursor: 'pointer', margin: '-10px 0 0 0' }}>{title}</Tag>
                             </Anchor>
@@ -75,14 +75,15 @@ export const RequesterTicketCounter = ({ tickets, titleOnClick }: RequesterTicke
     return (
         <Grid gutters={false}>
             <Row justifyContent='center'>
-                {props.map((props) =>
-                    <CounterTile
-                        key={props.title}
+                {props.map((props, index) => {
+                    return <CounterTile
+                        key={index}
                         tickets={props.tickets}
                         background={props.background}
                         title={props.title}
                         color={props.color}
                     ></CounterTile>
+                }
                 )}
             </Row>
         </Grid>
