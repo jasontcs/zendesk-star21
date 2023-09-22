@@ -48,7 +48,7 @@ export const SpecialRequirements = ({ content, title }: SpecialRequirementsProps
                                         <StyledSpan className={animated ? 'blink_me' : undefined}>{title}</StyledSpan>
                                     </Accordion.Label>
                                 </Accordion.Header>
-                                <Accordion.Panel>
+                                <Accordion.Panel style={{whiteSpace: "pre-wrap"}}>
                                     {content}
                                 </Accordion.Panel>
                             </Accordion.Section>
