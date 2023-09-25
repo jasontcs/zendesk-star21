@@ -54,7 +54,7 @@ export const NoSupportServices = ({ types }: NoSupportServicesProps) => {
                 //     </Grid>
                 // </StyledTag>
                 <>
-                    <Alert type="error" style={{padding: '14px 40px'}}>
+                    <Alert type="error" style={{padding: '10px 40px'}}>
                         {
                             types
                                 .filter((type) => type.noService)
