@@ -104,7 +104,7 @@ export class ZafDomain {
                 organization.tags.reduce<ServiceEntity | undefined>((previous, current) => {
                     if (previous) return previous
                     const field = fields.find((field) => field.tag == current)
-                    return field?.key == setting.no_support_field_key ?
+                    return field && field?.key == setting.no_support_field_key ?
                         new ServiceEntity(field.id, field.title, field.description) : undefined
                 }, undefined),
                 organization.tags

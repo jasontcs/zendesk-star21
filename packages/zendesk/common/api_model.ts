@@ -64,7 +64,7 @@ export interface OrganizationServiceSetting {
     key: string;
     title: string;
     color: string;
-    no_support_field_key: string;
+    no_support_field_key: string | undefined;
 }
 
 export interface GetUserResponse {
