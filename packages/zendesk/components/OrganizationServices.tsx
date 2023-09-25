@@ -26,8 +26,8 @@ export const OrganizationServices = ({ organizationServices }: OrganizationServi
                                     </Tag>
                                 </Cell>
                                 <Cell style={{ textAlign: "right" }}>
-                                    <MD isBold>
-                                        <Span hue={service[0].color}>{service[1].name}</Span>
+                                    <MD>
+                                        <Span>{service[1].name}</Span>
                                     </MD>
                                 </Cell>
                             </TableRow>
