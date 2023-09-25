@@ -1,5 +1,5 @@
 
-import { XL } from '@zendeskgarden/react-typography';
+import { LG } from '@zendeskgarden/react-typography';
 import { Row, Col, Grid } from '@zendeskgarden/react-grid';
 import React from 'react';
 
@@ -10,10 +10,9 @@ type RequesterTitleProps = {
 export const RequesterTitle = ({ requester }: RequesterTitleProps) => {
     return (
         <Grid gutters={false}>
-            <p></p>
             <Row style={{ textAlign: 'center' }}>
                 <Col>
-                    <XL isBold tag="span">{requester}</XL>
+                    <LG isBold tag="span">{requester}</LG>
                 </Col>
             </Row>
         </Grid>

@@ -1,5 +1,5 @@
 
-import { LG } from '@zendeskgarden/react-typography';
+import { LG, Span } from '@zendeskgarden/react-typography';
 import { TicketEntity } from '../common/entity';
 import { Row, Col, Grid } from '@zendeskgarden/react-grid';
 import React from 'react';
@@ -50,13 +50,17 @@ export const RequesterTicketCounter = ({ tickets, titleOnClick }: RequesterTicke
 
     const CounterTile = ({ tickets, background, title, color }: CounterTileProps) => {
         const count = tickets.length
-        const tooltip = tickets.length == 1 ? tickets[0].subject : undefined
         return (<>
             {(count > 0) &&
                 <Col size={2} style={{ width: 'initial', textAlign: 'center' }}>
                     {
-                        tooltip
-                            ? <Tooltip content={tooltip} placement='bottom'>
+                        tickets.length == 1
+                            ? <Tooltip
+                                content={<CounterTootipContent ticket={tickets[0]}></CounterTootipContent>}
+                                placement='bottom'
+                                zIndex={1}
+                                size='medium'
+                            >
                                 <Anchor onClick={titleOnClick} style={{ textDecoration: 'none' }}>
                                     <LG style={{ color: background }}>{count > 99 ? '99+' : count}</LG>
                                     <Tag size='small' style={{ backgroundColor: background, color: color ?? 'white', cursor: 'pointer', margin: '-10px 0 0 0' }}>{title}</Tag>
@@ -96,3 +100,9 @@ type CounterTileProps = {
     color?: string,
     title: string,
 }
+
+const CounterTootipContent = ({ ticket }: { ticket: TicketEntity }) =>
+    <>
+        <Span tag='div'>#{ticket.id}</Span>
+        <Span tag='div'>{ticket.subject}</Span>
+    </>

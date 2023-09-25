@@ -11,7 +11,8 @@ import '../common/style.css'
 
 type SpecialRequirementsProps = {
     title: string
-    content: string,
+    content: string
+    important?: boolean
 }
 
 const StyledRow = styled(Row)`
@@ -26,13 +27,13 @@ const StyledSpan = styled(Span)`
     margin-right: ${p => (p.theme as IGardenTheme).space.sm};
 }`
 
-export const SpecialRequirements = ({ content, title }: SpecialRequirementsProps) => {
+export const SpecialRequirements = ({ content, title, important }: SpecialRequirementsProps) => {
 
-    const [animated, setAnimated] = React.useState<boolean>(true)
+    const [animated, setAnimated] = React.useState<boolean>(important ?? false)
 
     const onChange = () => {
         setAnimated(false)
-        
+
     }
 
     return (
@@ -48,7 +49,7 @@ export const SpecialRequirements = ({ content, title }: SpecialRequirementsProps
                                         <StyledSpan className={animated ? 'blink_me' : undefined}>{title}</StyledSpan>
                                     </Accordion.Label>
                                 </Accordion.Header>
-                                <Accordion.Panel style={{whiteSpace: "pre-wrap"}}>
+                                <Accordion.Panel style={{ whiteSpace: "pre-wrap" }}>
                                     {content}
                                 </Accordion.Panel>
                             </Accordion.Section>

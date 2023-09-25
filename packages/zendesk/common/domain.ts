@@ -61,6 +61,7 @@ export class ZafDomain {
             userFields,
             servicesSettings,
             authorisedFieldKeys,
+            organizationFields,
         ] = await Promise.all([
             zafData.getOrganizationFields(),
             zafData.getOrganization(id),
@@ -68,9 +69,10 @@ export class ZafDomain {
             zafData.getUserFields(),
             zafData.getOrganizationServicesSettings(),
             zafData.getAuthorisedFieldKeys(),
-
+            zafData.getOrganizationFields(),
         ])
-        const specialRequirementsTitle = userFields.find((field) => field.key == 'special_requirements')!.title
+        const userSpecialRequirementsTitle = userFields.find((field) => field.key == 'special_requirements')!.title
+        const organizationSpecialRequirementsTitle = organizationFields.find((field) => field.key == 'special_requirements')!.title
         const users = rawUsers.map((user) => new UserEntity(
             user.id,
             user.name,
@@ -90,7 +92,7 @@ export class ZafDomain {
             ),
             user.organization_id,
             user.user_fields['special_requirements'],
-            specialRequirementsTitle,
+            userSpecialRequirementsTitle,
             [],
         ))
         return new OrganizationEntity(
@@ -121,7 +123,9 @@ export class ZafDomain {
                         }
                     )
             ),
-            )
+            ),
+            organization.organization_fields['special_requirements'],
+            organizationSpecialRequirementsTitle,
         )
     }
 }

@@ -73,16 +73,22 @@ export class OrganizationEntity {
         importantContacts: UserEntity[],
         guideUrl: string | undefined,
         services: ServiceType[],
+        specialRequirements: string | undefined,
+        specialRequirementsTitle: string,
     ) {
         this.id = id
         this.importantContacts = importantContacts
         this.guideUrl = guideUrl
         this.services = services
+        this.specialRequirements = specialRequirements
+        this.specialRequirementsTitle = specialRequirementsTitle
     }
     id: number
     importantContacts: UserEntity[]
     guideUrl?: string
     services: ServiceType[]
+    specialRequirements?: string
+    specialRequirementsTitle: string
 }
 
 export class ServiceEntity {
