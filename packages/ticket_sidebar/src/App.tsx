@@ -14,7 +14,11 @@ function App() {
   const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
   const { setVisible } = useImportantContactAlertContext()
 
+  var isLoading = false
+
   const fetchAll = async () => {
+    if (isLoading) return
+    isLoading = true
     const start = performance.now();
     const { ticket }: GetTicketResponse = await zafClient.get("ticket");
     if (!ticket) zafUtil.showToast('Cannot fetch ticket, Please refresh', 'error')
@@ -36,6 +40,7 @@ function App() {
     if (await zafUtil.isSandbox()) {
       zafUtil.logFetchTime(start, end)
     }
+    isLoading = false
   };
 
   React.useEffect(() => {

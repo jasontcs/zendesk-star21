@@ -11,7 +11,11 @@ function App() {
   const [user, setUser] = React.useState<UserEntity | undefined>()
   const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
 
+  var isLoading: number | undefined
+  
   async function requesterChanged(id: number) {
+    if (isLoading) return
+    isLoading = id
     const start = performance.now();
     const _user = await zafDomain.getUser(id)
     setUser(_user)
@@ -32,6 +36,7 @@ function App() {
     if (await zafUtil.isSandbox()) {
       zafUtil.logFetchTime(start, end)
     }
+    isLoading = undefined
   }
 
   React.useEffect(() => {

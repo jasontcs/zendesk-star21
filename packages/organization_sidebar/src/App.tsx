@@ -11,7 +11,11 @@ import { AppLoader, OrganizationPanel } from '@app/zendesk/components';
 function App() {
   const [organizationEntity, setOrganizationEntity] = useState<OrganizationEntity | undefined>()
 
+  var isLoading = false
+
   const fetchAll = async () => {
+    if (isLoading) return
+    isLoading = true
     const start = performance.now();
     const { organization }: GetOrganizationResponse = await zafClient.get("organization");
     if (!organization) zafUtil.showToast('Cannot fetch organization, Please refresh', 'error')
@@ -21,6 +25,7 @@ function App() {
     if (await zafUtil.isSandbox()) {
       zafUtil.logFetchTime(start, end)
     }
+    isLoading = false
   }
 
   React.useEffect(() => {
