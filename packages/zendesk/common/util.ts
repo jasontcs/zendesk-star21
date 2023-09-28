@@ -30,9 +30,9 @@ export class ZafUtil {
       return store
     }, new Map<K, V[]>())
   }
-  logFetchTime = (start: number, end: number) => {
+  logFetchTime = (start: number, end: number, type?: string) => {
     const total = (Math.round((end - start) / 1000 * 100) / 100).toFixed(2);
-    zafUtil.showToast('Data Loaded in ' + total + ' seconds.', 'notice')
+    zafUtil.showToast(`${type ? `[${type}]` : null} Data Loaded in ${total} seconds.`, 'notice')
   }
 
   isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development'

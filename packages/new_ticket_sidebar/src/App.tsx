@@ -34,7 +34,7 @@ function App() {
     zafUtil.resizeWindow()
     const end = performance.now();
     if (await zafUtil.isSandbox()) {
-      zafUtil.logFetchTime(start, end)
+      zafUtil.logFetchTime(start, end, 'New Ticket Sidebar')
     }
     isLoading = undefined
   }

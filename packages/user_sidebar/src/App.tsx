@@ -15,7 +15,7 @@ function App() {
   const { setVisible } = useImportantContactAlertContext()
 
   var isLoading = false
-  
+
   const fetchAll = async () => {
     if (isLoading) return
     isLoading = true
@@ -39,7 +39,7 @@ function App() {
     zafUtil.resizeWindow()
     const end = performance.now();
     if (await zafUtil.isSandbox()) {
-      zafUtil.logFetchTime(start, end)
+      zafUtil.logFetchTime(start, end, 'User Sidebar')
     }
     isLoading = false
   };
