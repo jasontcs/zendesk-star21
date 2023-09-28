@@ -43,6 +43,6 @@ export class ZafUtil {
   }
 
   showToast = async <U>(message: string, type: 'notice' | 'alert' | 'error') => {
-    return await zafClient.invoke<U>('notify', message, type, 20000)
+    return await zafClient.invoke<U>('notify', message, type, 4000)
   }
 }
