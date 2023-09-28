@@ -35,6 +35,13 @@ function App() {
       'organization.tags.changed',
       'organization.special_requirements.changed',
     ], fetchAll)
+    return () => {
+      zafUtil.off([
+        'app.activated',
+        'organization.tags.changed',
+        'organization.special_requirements.changed',
+      ], fetchAll)
+    }
   }, []);
 
   return (

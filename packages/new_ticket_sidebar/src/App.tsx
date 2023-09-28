@@ -43,6 +43,11 @@ function App() {
     zafUtil.on([
       'ticket.requester.id.changed',
     ], requesterChanged)
+    return () => {
+      zafUtil.off([
+        'ticket.requester.id.changed',
+      ], requesterChanged)
+    }
   })
 
 

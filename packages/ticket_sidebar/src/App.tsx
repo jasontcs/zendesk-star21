@@ -48,6 +48,11 @@ function App() {
     zafUtil.on([
       'app.activated',
     ], fetchAll)
+    return () => {
+      zafUtil.off([
+        'app.activated',
+      ], fetchAll)
+    }
   }, []);
 
   return (

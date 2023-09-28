@@ -51,6 +51,13 @@ function App() {
       'user.tags.changed',
       'user.special_requirements.changed',
     ], fetchAll)
+    return () => {
+      zafUtil.off([
+        'app.activated',
+        'user.tags.changed',
+        'user.special_requirements.changed',
+      ], fetchAll)
+    }
   }, []);
 
   return (
