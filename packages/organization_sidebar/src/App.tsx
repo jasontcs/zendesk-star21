@@ -26,6 +26,7 @@ function App() {
       fetchAll();
     }
     zafUtil.on([
+      'app.registered',
       'app.activated',
       'organization.tags.changed',
       'organization.special_requirements.changed',

@@ -37,6 +37,11 @@ export class ZafUtil {
 
   isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
 
+  isSandbox = async () => {
+    const response = await zafClient.get('currentAccount.subdomain')
+    return response['currentAccount.subdomain'] == 'star21cloud'
+  }
+
   showToast = async <U>(message: string, type: 'notice' | 'alert' | 'error') => {
     return await zafClient.invoke<U>('notify', message, type, 20000)
   }

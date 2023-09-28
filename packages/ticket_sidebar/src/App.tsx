@@ -41,6 +41,7 @@ function App() {
       fetchAll();
     }
     zafUtil.on([
+      'app.registered',
       'app.activated',
     ], fetchAll)
   }, []);
