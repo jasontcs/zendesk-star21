@@ -15,9 +15,15 @@ function App() {
   const { setVisible } = useImportantContactAlertContext()
 
   const fetchAll = async () => {
+    const start = performance.now();
     const { ticket }: GetTicketResponse = await zafClient.get("ticket");
+    if (!ticket) zafUtil.showToast('Cannot fetch ticket, Please refresh', 'error')
     const _user = await zafDomain.getUser(ticket.requester.id)
+    setUser(_user)
+    zafUtil.resizeWindow()
     const _organization = await zafDomain.getOrganization(_user.organizationId)
+    setOrganization(_organization)
+    zafUtil.resizeWindow()
 
     if (
       (!user?.isVip || !user?.isAuthorized) &&
@@ -25,16 +31,16 @@ function App() {
     ) {
       setVisible(true)
     }
-
-    setUser(_user)
-    setOrganization(_organization)
     zafUtil.resizeWindow()
+    const end = performance.now();
+    zafUtil.logFetchTime(start, end)
   };
 
   React.useEffect(() => {
-    fetchAll();
+    if (zafUtil.isDev) {
+      fetchAll();
+    }
     zafUtil.on([
-      'app.registered',
       'app.activated',
     ], fetchAll)
   }, []);

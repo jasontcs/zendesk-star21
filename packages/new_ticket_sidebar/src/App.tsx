@@ -12,8 +12,13 @@ function App() {
   const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
 
   async function requesterChanged(id: number) {
+    const start = performance.now();
     const _user = await zafDomain.getUser(id)
+    setUser(_user)
+    zafUtil.resizeWindow()
     const _organization = await zafDomain.getOrganization(_user.organizationId)
+    setOrganization(_organization)
+    zafUtil.resizeWindow()
 
     if (
       (user?.isVip === false || user?.isAuthorized === false) &&
@@ -22,16 +27,14 @@ function App() {
       setVisible(true)
     }
 
-    setUser(_user)
-    setOrganization(_organization)
     zafUtil.resizeWindow()
+    const end = performance.now();
+    zafUtil.logFetchTime(start, end)
   }
 
   React.useEffect(() => {
     zafUtil.on([
-      'app.registered',
-      'app.activated',
-      'ticket.requester.id.changed', 
+      'ticket.requester.id.changed',
     ], requesterChanged)
   })
 

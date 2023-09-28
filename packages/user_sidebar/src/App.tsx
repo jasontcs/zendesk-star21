@@ -15,9 +15,15 @@ function App() {
   const { setVisible } = useImportantContactAlertContext()
 
   const fetchAll = async () => {
+    const start = performance.now();
     const { user: userRaw }: GetUserResponse = await zafClient.get("user");
+    if (!userRaw) zafUtil.showToast('Cannot fetch user, Please refresh', 'error')
     const _user = await zafDomain.getUser(userRaw.id)
+    setUser(_user)
+    zafUtil.resizeWindow()
     const _organization = await zafDomain.getOrganization(_user.organizationId)
+    setOrganization(_organization)
+    zafUtil.resizeWindow()
 
     if (
       (!user?.isVip || !user?.isAuthorized) &&
@@ -26,17 +32,19 @@ function App() {
       setVisible(true)
     }
 
-    setUser(_user)
-    setOrganization(_organization)
     zafUtil.resizeWindow()
+    const end = performance.now();
+    zafUtil.logFetchTime(start, end)
   };
 
   React.useEffect(() => {
-    fetchAll();
+    if (zafUtil.isDev) {
+      fetchAll();
+    }
     zafUtil.on([
-      'app.registered',
       'app.activated',
-      'user.tags.changed'
+      'user.tags.changed',
+      'user.special_requirements.changed',
     ], fetchAll)
   }, []);
 

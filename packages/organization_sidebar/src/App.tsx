@@ -12,17 +12,23 @@ function App() {
   const [organizationEntity, setOrganizationEntity] = useState<OrganizationEntity | undefined>()
 
   const fetchAll = async () => {
+    const start = performance.now();
     const { organization }: GetOrganizationResponse = await zafClient.get("organization");
+    if (!organization) zafUtil.showToast('Cannot fetch organization, Please refresh', 'error')
     setOrganizationEntity(await zafDomain.getOrganization(organization.id))
     zafUtil.resizeWindow()
+    const end = performance.now();    
+    zafUtil.logFetchTime(start, end)
   }
 
   React.useEffect(() => {
-    fetchAll()
+    if (zafUtil.isDev) {
+      fetchAll();
+    }
     zafUtil.on([
-      'app.registered',
       'app.activated',
-      'organization.tags.changed'
+      'organization.tags.changed',
+      'organization.special_requirements.changed',
     ], fetchAll)
   }, []);
 

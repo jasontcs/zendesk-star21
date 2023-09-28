@@ -1,3 +1,4 @@
+import { zafUtil } from ".";
 import zafClient from "../sdk/index";
 import { IMetadataSettings, Ticket } from "./api_model";
 import { ZafData } from "./data";
@@ -157,13 +158,9 @@ zafClient.on('ticket.save', async function () {
     const isBlockedForms = blockedForms.includes(form.id)
     const isBlockedOrg = blockedOrgs.includes(organization.id)
 
-    const showError = async <U>(message: string) => {
-        return await zafClient.invoke<U>('notify', message, 'error', 20000)
-    }
-
     if (!isStar21 && isInternalForm) {
         if (isAdmin) {
-            showError("Validation Override\nBypassed: Star21 requesters can only submit on a Internal IT Form")
+            zafUtil.showToast("Validation Override\nBypassed: Star21 requesters can only submit on a Internal IT Form", 'error')
             return true
         }
         return 'This form can only be used for requesters that are Star21 employees'
@@ -171,7 +168,7 @@ zafClient.on('ticket.save', async function () {
 
     if (isBlockedOrg) {
         if (isAdmin) {
-            showError("Validation Override\nBypassed: You cannot solve this ticket under this organisation.")
+            zafUtil.showToast("Validation Override\nBypassed: You cannot solve this ticket under this organisation.", 'error')
             return true
         }
         return 'You cannot solve this ticket under this organisation. Please select the correct organisation in the dropdown on the left!'
@@ -179,7 +176,7 @@ zafClient.on('ticket.save', async function () {
 
     if (isBlockedForms) {
         if (isAdmin) {
-            showError("Validation Override\nBypassed: You can not solve on this form. Please select the correct form")
+            zafUtil.showToast("Validation Override\nBypassed: You can not solve on this form. Please select the correct form", 'error')
             return true
         }
         return 'You can not solve on this form. Please select the correct form'
