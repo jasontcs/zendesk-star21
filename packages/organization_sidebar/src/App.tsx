@@ -17,16 +17,15 @@ function App() {
     if (!organization) zafUtil.showToast('Cannot fetch organization, Please refresh', 'error')
     setOrganizationEntity(await zafDomain.getOrganization(organization.id))
     zafUtil.resizeWindow()
-    const end = performance.now();    
-    zafUtil.logFetchTime(start, end)
+    const end = performance.now();
+    if (await zafUtil.isSandbox()) {
+      zafUtil.logFetchTime(start, end)
+    }
   }
 
   React.useEffect(() => {
-    if (zafUtil.isDev) {
-      fetchAll();
-    }
+    fetchAll();
     zafUtil.on([
-      'app.registered',
       'app.activated',
       'organization.tags.changed',
       'organization.special_requirements.changed',

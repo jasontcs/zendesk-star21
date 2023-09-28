@@ -29,7 +29,9 @@ function App() {
 
     zafUtil.resizeWindow()
     const end = performance.now();
-    zafUtil.logFetchTime(start, end)
+    if (await zafUtil.isSandbox()) {
+      zafUtil.logFetchTime(start, end)
+    }
   }
 
   React.useEffect(() => {
