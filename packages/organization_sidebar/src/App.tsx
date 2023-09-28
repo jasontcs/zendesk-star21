@@ -29,6 +29,7 @@ function App() {
   }
 
   React.useEffect(() => {
+    console.log('organization_sidebar', 'useEffect')
     fetchAll();
     zafUtil.on([
       'app.activated',

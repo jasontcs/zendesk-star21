@@ -44,6 +44,7 @@ function App() {
   };
 
   React.useEffect(() => {
+    console.log('ticket_sidebar', 'useEffect')
     fetchAll();
     zafUtil.on([
       'app.activated',

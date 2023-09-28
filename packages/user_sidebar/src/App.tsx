@@ -45,6 +45,7 @@ function App() {
   };
 
   React.useEffect(() => {
+    console.log('user_sidebar', 'useEffect')
     fetchAll();
     zafUtil.on([
       'app.activated',

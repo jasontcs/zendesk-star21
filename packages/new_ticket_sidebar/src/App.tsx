@@ -40,6 +40,7 @@ function App() {
   }
 
   React.useEffect(() => {
+    console.log('new_ticket_sidebar', 'useEffect')
     zafUtil.on([
       'ticket.requester.id.changed',
     ], requesterChanged)
