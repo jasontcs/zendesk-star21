@@ -9,6 +9,7 @@ const zafData = new ZafData()
 
 export class ZafDomain {
     async getUser(id: number, userFields?: UserField[]): Promise<UserEntity> {
+        console.log('getUser id: ' + id + ' started')
         const [
             fields, 
             user, 
@@ -21,7 +22,7 @@ export class ZafDomain {
             zafData.getAuthorisedFieldKeys(),
         ])
         const specialRequirementsTitle = fields.find((field) => field.key == 'special_requirements')!.title
-        return new UserEntity(
+        const userEntity = new UserEntity(
             user.id,
             user.name,
             user.tags.flatMap(
@@ -52,9 +53,12 @@ export class ZafDomain {
                 }
             )
         )
+        console.log('getUser id: ' + id + ' finished')
+        return userEntity
     }
 
     async getOrganization(id: number): Promise<OrganizationEntity> {
+        console.log('getOrganization id: ' + id + ' started')
         const [
             fields,
             organization,
@@ -96,7 +100,8 @@ export class ZafDomain {
             userSpecialRequirementsTitle,
             [],
         ))
-        return new OrganizationEntity(
+
+        const organizationEntity = new OrganizationEntity(
             organization.id,
             users.filter((user) => user.isVip || user.isAuthorized),
             organization.organization_fields['guide_url'],
@@ -128,6 +133,8 @@ export class ZafDomain {
             organization.organization_fields['special_requirements'],
             organizationSpecialRequirementsTitle,
         )
+        console.log('getOrganization id: ' + id + ' finished')
+        return organizationEntity
     }
 }
 
