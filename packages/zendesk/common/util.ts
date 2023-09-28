@@ -39,7 +39,7 @@ export class ZafUtil {
 
   isSandbox = async () => {
     const response = await zafClient.get('currentAccount.subdomain')
-    return response['currentAccount.subdomain'] == 'star21cloud'
+    return response['currentAccount.subdomain'] != 'star21cloud'
   }
 
   showToast = async <U>(message: string, type: 'notice' | 'alert' | 'error') => {
