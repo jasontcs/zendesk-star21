@@ -47,7 +47,16 @@ export class ZafData {
 
     async getOrganizationServicesSettings(): Promise<OrganizationServiceSetting[]> {
         const settings = await this.getMetaData()
-        return settings?.organizations_services_setting ? JSON.parse(settings!.organizations_services_setting) : []
+
+        try {
+            if (settings?.organizations_services_setting) {
+                const results: OrganizationServiceSetting[] = JSON.parse(settings!.organizations_services_setting)
+                return results;
+            }
+        } finally {
+            const fallback = "[\r\n   {\r\n      \"key\": \"managed\",\r\n      \"title\": \"Managed\",\r\n      \"color\": \"red\",\r\n      \"no_support_field_key\": \"mdm\"\r\n   },\r\n   {\r\n      \"key\": \"mobility\",\r\n      \"title\": \"Mobility\",\r\n      \"color\": \"black\",\r\n      \"no_support_field_key\": \"mobile_no_support\"\r\n   },\r\n   {\r\n      \"key\": \"projects\",\r\n      \"title\": \"Projects\",\r\n      \"color\": \"green\",\r\n      \"no_support_field_key\": null\r\n   },\r\n   {\r\n      \"key\": \"tco\",\r\n      \"title\": \"Cloud\",\r\n      \"color\": \"blue\",\r\n      \"no_support_field_key\": \"tco_no_support\"\r\n   },\r\n   {\r\n      \"key\": \"m365\",\r\n      \"title\": \"Cloud\",\r\n      \"color\": \"blue\",\r\n      \"no_support_field_key\": \"o365_no_support\"\r\n   },\r\n   {\r\n      \"key\": \"teams_room\",\r\n      \"title\": \"Cloud\",\r\n      \"color\": \"blue\",\r\n      \"no_support_field_key\": \"teams_room_no_support\"\r\n   }\r\n]"
+            return JSON.parse(fallback)
+        }
     }
 
     async getAuthorisedFieldKeys(): Promise<string[]> {
