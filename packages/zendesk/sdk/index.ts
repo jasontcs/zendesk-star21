@@ -19,6 +19,7 @@ interface IClient {
   on: (eventName: string, listener: (...args: any) => any) => void;
   off: (eventName: string, listener: (...args: any) => any) => void;
   has: (eventName: string, listener: (...args: any) => any) => boolean;
+  context: () => Promise<IContext>
 }
 
 declare global {
@@ -38,3 +39,11 @@ if (typeof window.ZAFClient === "undefined") {
 }
 
 export default zafClient;
+
+interface IContext {
+  instanceGuid: string;
+  product: string;
+  account: { subdomain: string },
+  location: string;
+  ticketId: number
+}
