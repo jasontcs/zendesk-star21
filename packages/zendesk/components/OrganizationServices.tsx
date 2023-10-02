@@ -27,7 +27,7 @@ export const OrganizationServices = ({ organizationServices }: OrganizationServi
                                 </Cell>
                                 <Cell style={{ textAlign: "right" }}>
                                     <MD>
-                                        <Span>{service[1].name}</Span>
+                                        <Span isBold>{service[1].name}</Span>
                                     </MD>
                                 </Cell>
                             </TableRow>
