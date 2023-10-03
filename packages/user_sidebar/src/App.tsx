@@ -24,10 +24,8 @@ function App() {
     if (!userRaw) zafUtil.showToast('Cannot fetch user, Please refresh', 'error')
     const _user = await zafDomain.getUser(userRaw.id)
     setUser(_user)
-    zafUtil.resizeWindow()
     const _organization = await zafDomain.getOrganization(_user.organizationId)
     setOrganization(_organization)
-    zafUtil.resizeWindow()
 
     if (
       (!user?.isVip || !user?.isAuthorized) &&
@@ -36,7 +34,6 @@ function App() {
       setVisible(true)
     }
 
-    zafUtil.resizeWindow()
     const end = performance.now();
     if (await zafUtil.isSandbox()) {
       zafUtil.logFetchTime(start, end, 'User Sidebar')
@@ -60,6 +57,10 @@ function App() {
       ], fetchAll)
     }
   }, []);
+
+  React.useEffect(() => {
+    zafUtil.resizeWindow()
+  })
 
   return (
     <>

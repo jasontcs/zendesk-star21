@@ -24,10 +24,8 @@ function App() {
     if (!ticket) zafUtil.showToast('Cannot fetch ticket, Please refresh', 'error')
     const _user = await zafDomain.getUser(ticket.requester.id)
     setUser(_user)
-    zafUtil.resizeWindow()
     const _organization = await zafDomain.getOrganization(_user.organizationId)
     setOrganization(_organization)
-    zafUtil.resizeWindow()
 
     if (
       (!user?.isVip || !user?.isAuthorized) &&
@@ -35,7 +33,6 @@ function App() {
     ) {
       setVisible(true)
     }
-    zafUtil.resizeWindow()
     const end = performance.now();
     if (await zafUtil.isSandbox()) {
       zafUtil.logFetchTime(start, end, 'Ticket Sidebar')
@@ -55,6 +52,10 @@ function App() {
       ], fetchAll)
     }
   }, []);
+
+  React.useEffect(() => {
+    zafUtil.resizeWindow()
+  })
 
   return (
     <>

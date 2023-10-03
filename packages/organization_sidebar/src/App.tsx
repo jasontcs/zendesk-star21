@@ -20,7 +20,6 @@ function App() {
     const { organization }: GetOrganizationResponse = await zafClient.get("organization");
     if (!organization) zafUtil.showToast('Cannot fetch organization, Please refresh', 'error')
     setOrganizationEntity(await zafDomain.getOrganization(organization.id))
-    zafUtil.resizeWindow()
     const end = performance.now();
     if (await zafUtil.isSandbox()) {
       zafUtil.logFetchTime(start, end, 'Organization Sidebar')
@@ -44,6 +43,10 @@ function App() {
       ], fetchAll)
     }
   }, []);
+
+  React.useEffect(() => {
+    zafUtil.resizeWindow()
+  })
 
   return (
     <>

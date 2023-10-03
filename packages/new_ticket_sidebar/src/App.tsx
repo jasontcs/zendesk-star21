@@ -19,10 +19,8 @@ function App() {
     const start = performance.now();
     const _user = await zafDomain.getUser(id)
     setUser(_user)
-    zafUtil.resizeWindow()
     const _organization = await zafDomain.getOrganization(_user.organizationId)
     setOrganization(_organization)
-    zafUtil.resizeWindow()
 
     if (
       (user?.isVip === false || user?.isAuthorized === false) &&
@@ -31,7 +29,6 @@ function App() {
       setVisible(true)
     }
 
-    zafUtil.resizeWindow()
     const end = performance.now();
     if (await zafUtil.isSandbox()) {
       zafUtil.logFetchTime(start, end, 'New Ticket Sidebar')
@@ -49,8 +46,11 @@ function App() {
         'ticket.requester.id.changed',
       ], requesterChanged)
     }
-  })
+  }, [])
 
+  React.useEffect(() => {
+    zafUtil.resizeWindow()
+  })
 
   if (!user || !organization) return (
     <NoSelectRequesterLabel></NoSelectRequesterLabel>
