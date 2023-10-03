@@ -22,9 +22,9 @@ function App() {
     const start = performance.now();
     const { user: userRaw }: GetUserResponse = await zafClient.get("user");
     if (!userRaw) zafUtil.showToast('Cannot fetch user, Please refresh', 'error')
-    const _user = await zafDomain.getUser(userRaw.id)
+    const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(userRaw.id)
     setUser(_user)
-    const _organization = await zafDomain.getOrganization(_user.organizationId)
+    const { organizationEntity: _organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
     setOrganization(_organization)
 
     if (

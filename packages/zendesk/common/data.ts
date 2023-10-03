@@ -4,27 +4,46 @@ import { Organization, OrganizationField, TicketForm, User, UserField } from "./
 import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
 
 export class ZafData {
+
+    private logDuration(message: string, duration: number) {
+        const time = (Math.round(duration / 1000 * 100) / 100).toFixed(2);
+        console.log(message, time)
+    }
+
     async getUserFields(): Promise<UserField[]> {
+        const start = performance.now();
         const response = await zafClient.request<any>(`/api/v2/user_fields`)
+        const end = performance.now();
+        this.logDuration('getUserFields', end - start)
         return response.user_fields
     }
 
     async getUser(id: number): Promise<User> {
+        const start = performance.now();
         const response = await zafClient.request<any>(`/api/v2/users/${id}`)
+        const end = performance.now();
+        this.logDuration('getUser:' + id, end - start)
         return response.user
     }
 
     async getOrganizationFields(): Promise<OrganizationField[]> {
+        const start = performance.now();
         const response = await zafClient.request<any>(`/api/v2/organization_fields`)
+        const end = performance.now();
+        this.logDuration('getOrganizationFields', end - start)
         return response.organization_fields
     }
 
     async getOrganization(id: number): Promise<Organization> {
+        const start = performance.now();
         const response = await zafClient.request<any>(`/api/v2/organizations/${id}`)
+        const end = performance.now();
+        this.logDuration('getOrganization:' + id, end - start)
         return response.organization
     }
 
     async getOrganizationUsers(id: number): Promise<User[]> {
+        const start = performance.now();
         var nextPage: string | null | undefined = undefined
         var users: User[] = []
         while (nextPage === undefined || nextPage !== null) {
@@ -32,16 +51,24 @@ export class ZafData {
             nextPage = response.next_page
             users = users.concat(response.users)
         }
+        const end = performance.now();
+        this.logDuration('getOrganizationUsers:' + id, end - start)
         return users
     }
 
     async getUserTickets(id: number): Promise<Ticket[]> {
+        const start = performance.now();
         const response = await zafClient.request<any>(`/api/v2/users/${id}/tickets/requested`)
+        const end = performance.now();
+        this.logDuration('getUserTickets:' + id, end - start)
         return response.tickets
     }
 
     async getTicketForm(id: number): Promise<TicketForm> {
+        const start = performance.now();
         const response = await zafClient.request<any>(`/api/v2/ticket_forms/${id}`)
+        const end = performance.now();
+        this.logDuration('getTicketForm:' + id, end - start)
         return response.ticket_form
     }
 
@@ -65,7 +92,10 @@ export class ZafData {
     }
 
     async getMetaData(): Promise<IMetadataSettings | undefined> {
+        const start = performance.now();
         const settings = await zafClient.metadata<IMetadataSettings>()
+        const end = performance.now();
+        this.logDuration('getMetaData', end - start)
         return settings.settings
     }
 }

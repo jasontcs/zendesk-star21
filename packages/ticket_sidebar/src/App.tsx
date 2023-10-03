@@ -22,10 +22,10 @@ function App() {
     const start = performance.now();
     const { ticket }: GetTicketResponse = await zafClient.get("ticket");
     if (!ticket) zafUtil.showToast('Cannot fetch ticket, Please refresh', 'error')
-    const _user = await zafDomain.getUser(ticket.requester.id)
+    const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(ticket.requester.id)
     setUser(_user)
-    const _organization = await zafDomain.getOrganization(_user.organizationId)
-    setOrganization(_organization)
+    const { organizationEntity: organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
+    setOrganization(organization)
 
     if (
       (!user?.isVip || !user?.isAuthorized) &&

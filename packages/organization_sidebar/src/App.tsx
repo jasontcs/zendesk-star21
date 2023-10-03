@@ -19,7 +19,8 @@ function App() {
     const start = performance.now();
     const { organization }: GetOrganizationResponse = await zafClient.get("organization");
     if (!organization) zafUtil.showToast('Cannot fetch organization, Please refresh', 'error')
-    setOrganizationEntity(await zafDomain.getOrganization(organization.id))
+    const { organizationEntity } = await zafDomain.getOrganization(organization.id)
+    setOrganizationEntity(organizationEntity)
     const end = performance.now();
     if (await zafUtil.isSandbox()) {
       zafUtil.logFetchTime(start, end, 'Organization Sidebar')

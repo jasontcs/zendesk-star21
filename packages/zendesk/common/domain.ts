@@ -1,25 +1,24 @@
 import { zafUtil } from ".";
 import zafClient from "../sdk/index";
-import { IMetadataSettings, Ticket } from "./api_model";
+import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
 import { ZafData } from "./data";
 import { OrganizationEntity, ServiceEntity, ServiceType, TicketEntity, UserEntity, UserFlagEntity, UserFlagTypeAuthorized } from "./entity";
-import { UserField } from "./http_model";
+import { OrganizationField, UserField } from "./http_model";
 
 const zafData = new ZafData()
 
 export class ZafDomain {
-    async getUser(id: number, userFields?: UserField[]): Promise<UserEntity> {
-        console.log('getUser id: ' + id + ' started')
+    async getUser(id: number, prep?: { userFields?: UserField[], authorisedFieldKeys?: string[] }) {
         const [
-            fields, 
-            user, 
-            tickets, 
-            authorisedFieldKeys,
+            fields,
+            user,
+            tickets,
+            _authorisedFieldKeys,
         ] = await Promise.all([
-            userFields ?? zafData.getUserFields(),
+            prep?.userFields ?? zafData.getUserFields(),
             zafData.getUser(id),
             zafData.getUserTickets(id),
-            zafData.getAuthorisedFieldKeys(),
+            prep?.authorisedFieldKeys ?? zafData.getAuthorisedFieldKeys(),
         ])
         const specialRequirementsTitle = fields.find((field) => field.key == 'special_requirements')!.title
         const userEntity = new UserEntity(
@@ -34,7 +33,7 @@ export class ZafDomain {
                             field.key,
                             field.title,
                             field.tag,
-                            authorisedFieldKeys.includes(field.key) ? new UserFlagTypeAuthorized() : undefined
+                            _authorisedFieldKeys.includes(field.key) ? new UserFlagTypeAuthorized() : undefined
                         )]
                         : []
                 }
@@ -53,44 +52,40 @@ export class ZafDomain {
                 }
             )
         )
-        console.log('getUser id: ' + id + ' finished')
-        return userEntity
+        return { userEntity, userFields: fields, authorisedFieldKeys: _authorisedFieldKeys, }
     }
 
-    async getOrganization(id: number): Promise<OrganizationEntity> {
-        console.log('getOrganization id: ' + id + ' started')
+    async getOrganization(id: number, prep?: { fields?: OrganizationField[], userFields?: UserField[], servicesSettings?: OrganizationServiceSetting[], authorisedFieldKeys?: string[] }) {
         const [
-            fields,
+            _fields,
             organization,
             rawUsers,
-            userFields,
-            servicesSettings,
-            authorisedFieldKeys,
-            organizationFields,
+            _userFields,
+            _servicesSettings,
+            _authorisedFieldKeys,
         ] = await Promise.all([
-            zafData.getOrganizationFields(),
+            prep?.fields ?? zafData.getOrganizationFields(),
             zafData.getOrganization(id),
             zafData.getOrganizationUsers(id),
-            zafData.getUserFields(),
-            zafData.getOrganizationServicesSettings(),
-            zafData.getAuthorisedFieldKeys(),
-            zafData.getOrganizationFields(),
+            prep?.userFields ?? zafData.getUserFields(),
+            prep?.servicesSettings ?? zafData.getOrganizationServicesSettings(),
+            prep?.authorisedFieldKeys ?? zafData.getAuthorisedFieldKeys(),
         ])
-        const userSpecialRequirementsTitle = userFields.find((field) => field.key == 'special_requirements')!.title
-        const organizationSpecialRequirementsTitle = organizationFields.find((field) => field.key == 'special_requirements')!.title
+        const userSpecialRequirementsTitle = _userFields.find((field) => field.key == 'special_requirements')!.title
+        const organizationSpecialRequirementsTitle = _fields.find((field) => field.key == 'special_requirements')!.title
         const users = rawUsers.map((user) => new UserEntity(
             user.id,
             user.name,
             user.tags.flatMap(
                 (tag) => {
-                    const field = userFields.find((field) => field.tag == tag)
+                    const field = _userFields.find((field) => field.tag == tag)
                     return field
                         ? [new UserFlagEntity(
                             field.id,
                             field.key,
                             field.title,
                             field.tag,
-                            authorisedFieldKeys.includes(field.key) ? new UserFlagTypeAuthorized() : undefined
+                            _authorisedFieldKeys.includes(field.key) ? new UserFlagTypeAuthorized() : undefined
                         )]
                         : []
                 }
@@ -105,20 +100,20 @@ export class ZafDomain {
             organization.id,
             users.filter((user) => user.isVip || user.isAuthorized),
             organization.organization_fields['guide_url'],
-            servicesSettings.map((setting) => new ServiceType(
+            _servicesSettings.map((setting) => new ServiceType(
                 setting.key,
                 setting.title,
                 setting.color,
                 organization.tags.reduce<ServiceEntity | undefined>((previous, current) => {
                     if (previous) return previous
-                    const field = fields.find((field) => field.tag == current)
+                    const field = _fields.find((field) => field.tag == current)
                     return field && field?.key == setting.no_support_field_key ?
                         new ServiceEntity(field.id, field.title, field.description) : undefined
                 }, undefined),
                 organization.tags
                     .flatMap(
                         (tag) => {
-                            const field = fields.find((field) => field.tag == tag)
+                            const field = _fields.find((field) => field.tag == tag)
                             return setting.key == field?.description
                                 ? [new ServiceEntity(
                                     field.id,
@@ -133,8 +128,7 @@ export class ZafDomain {
             organization.organization_fields['special_requirements'],
             organizationSpecialRequirementsTitle,
         )
-        console.log('getOrganization id: ' + id + ' finished')
-        return organizationEntity
+        return { organizationEntity, fields: _fields, userFields: _userFields, servicesSettings: _servicesSettings, authorisedFieldKeys: _authorisedFieldKeys }
     }
 }
 

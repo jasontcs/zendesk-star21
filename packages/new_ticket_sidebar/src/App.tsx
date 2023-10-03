@@ -12,14 +12,14 @@ function App() {
   const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
 
   var isLoading: number | undefined
-  
+
   async function requesterChanged(id: number) {
     if (isLoading) return
     isLoading = id
     const start = performance.now();
-    const _user = await zafDomain.getUser(id)
+    const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(id)
     setUser(_user)
-    const _organization = await zafDomain.getOrganization(_user.organizationId)
+    const { organizationEntity: _organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
     setOrganization(_organization)
 
     if (
