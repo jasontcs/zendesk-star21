@@ -1,6 +1,6 @@
 import { Tag } from '@zendeskgarden/react-tags';
 import { Body, Cell, Row as TableRow, Table } from '@zendeskgarden/react-tables';
-import { LG, MD, Span } from '@zendeskgarden/react-typography';
+import { MD, Span } from '@zendeskgarden/react-typography';
 import { ServiceType } from "../common/entity";
 import React from 'react';
 import { Accordion } from '@zendeskgarden/react-accordions';
