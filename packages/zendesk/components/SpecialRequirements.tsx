@@ -13,6 +13,7 @@ type SpecialRequirementsProps = {
     title: string
     content: string
     important?: boolean
+    defaultExpanded?: boolean
 }
 
 const StyledRow = styled(Row)`
@@ -27,13 +28,12 @@ const StyledSpan = styled(Span)`
     margin-right: ${p => (p.theme as IGardenTheme).space.sm};
 }`
 
-export const SpecialRequirements = ({ content, title, important }: SpecialRequirementsProps) => {
+export const SpecialRequirements = ({ content, title, important, defaultExpanded }: SpecialRequirementsProps) => {
 
     const [animated, setAnimated] = React.useState<boolean>(important ?? false)
 
     const onChange = () => {
-        setAnimated(false)
-
+        !defaultExpanded && setAnimated(false)
     }
 
     return (
@@ -42,7 +42,7 @@ export const SpecialRequirements = ({ content, title, important }: SpecialRequir
             <StyledRow>
                 <Col>
                     <Well isRecessed style={{ padding: 0 }}>
-                        <Accordion level={1} isBare isCompact isCollapsible defaultExpandedSections={[]} onTransitionEnd={() => zafUtil.resizeWindow()} onChange={() => onChange()}>
+                        <Accordion level={1} isBare isCompact isCollapsible defaultExpandedSections={defaultExpanded ? undefined : []} onTransitionEnd={() => zafUtil.resizeWindow()} onChange={() => onChange()}>
                             <Accordion.Section>
                                 <Accordion.Header>
                                     <Accordion.Label>

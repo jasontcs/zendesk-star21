@@ -3,7 +3,7 @@ import React from 'react'
 
 import { zafDomain, zafUtil } from "@app/zendesk/common";
 import { OrganizationEntity, UserEntity } from "@app/zendesk/common/entity";
-import { NoSelectRequesterLabel, TicketPanel } from '@app/zendesk/components';
+import { NoSelectRequesterLabel, TabsPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from '@app/zendesk/components/ImportantContactAlert';
 
 function App() {
@@ -56,10 +56,7 @@ function App() {
     <NoSelectRequesterLabel></NoSelectRequesterLabel>
   )
   return (
-    <TicketPanel
-      user={user}
-      organization={organization}
-    ></TicketPanel>
+    <TabsPanel user={user} organization={organization}></TabsPanel>
   )
 }
 
