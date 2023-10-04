@@ -33,7 +33,7 @@ export const AppLoader = () => {
       <Row alignItems="center">
         <Col textAlign="center">
           <StyledSpacer></StyledSpacer>
-          <SM>Please refresh the whole page if needed</SM>
+          <SM>Please refresh the web page if needed</SM>
         </Col>
       </Row>
     }
