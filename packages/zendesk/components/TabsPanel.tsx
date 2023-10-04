@@ -13,7 +13,7 @@ import styled from "styled-components"
 import { IGardenTheme } from "@zendeskgarden/react-theming"
 import { Tabs, TabList, Tab, TabPanel } from '@zendeskgarden/react-tabs';
 import { ImportantContactList } from "./ImportantContactList"
-import { LG } from "@zendeskgarden/react-typography"
+import { MD } from "@zendeskgarden/react-typography"
 import { zafUtil } from "../common"
 
 
@@ -45,8 +45,8 @@ export const TabsPanel = ({
     return (
         <Tabs selectedItem={selectedTab} onChange={tabOnChange}>
             <TabList style={{ textAlign: 'center' }}>
-                <Tab item='user' disabled={!user}><LG isBold>Requester</LG></Tab>
-                <Tab item='organization' ><LG isBold>Organisation</LG></Tab>
+                <Tab item='user' disabled={!user} style={{ width: '31%' }}><MD isBold>Requester</MD></Tab>
+                <Tab item='organization' style={{ width: '31%' }}><MD isBold>Organisation</MD></Tab>
             </TabList>
             <TabPanel item='organization'>
                 <NoSupportServices types={organization.services}></NoSupportServices>
