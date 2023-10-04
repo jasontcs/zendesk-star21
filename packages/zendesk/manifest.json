@@ -10,10 +10,7 @@
 		"support": {
 			"ticket_sidebar": {
 				"url": "assets/ticket_sidebar/index.html",
-				"size": {
-					"width": "320px"
-				},
-				"flexible": true,
+				"flexible": false,
 				"dev:url": "localhost",
 				"dev:port": 3000
 			},
@@ -22,16 +19,12 @@
 				"size": {
 					"width": "320px"
 				},
-				"flexible": true,
 				"dev:url": "localhost",
 				"dev:port": 5173
 			},
 			"new_ticket_sidebar": {
 				"url": "assets/new_ticket_sidebar/index.html",
-				"size": {
-					"width": "320px"
-				},
-				"flexible": true,
+				"flexible": false,
 				"dev:url": "localhost",
 				"dev:port": 5174
 			},
@@ -40,7 +33,6 @@
 				"size": {
 					"width": "320px"
 				},
-				"flexible": true,
 				"dev:url": "localhost",
 				"dev:port": 5175
 			}
