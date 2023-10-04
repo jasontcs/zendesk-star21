@@ -51,4 +51,8 @@ export class ZafUtil {
   showToast = async <U>(message: string, type: 'notice' | 'alert' | 'error') => {
     return await zafClient.invoke<U>('notify', message, type, 4000)
   }
+
+  isColor = (value: string) => {
+    return CSS.supports('color', value)
+  }
 }

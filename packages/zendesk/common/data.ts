@@ -2,6 +2,8 @@
 import zafClient from "../sdk/index";
 import { Organization, OrganizationField, TicketForm, User, UserField } from "./http_model";
 import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
+import { PALETTE } from "@zendeskgarden/react-theming";
+import { zafUtil } from ".";
 
 export class ZafData {
 
@@ -78,6 +80,10 @@ export class ZafData {
         try {
             if (settings?.organizations_services_setting) {
                 const results: OrganizationServiceSetting[] = JSON.parse(settings!.organizations_services_setting)
+                results.forEach(setting => { 
+                    if ( !zafUtil.isColor(setting.color) && !Object.keys(PALETTE).includes(setting.color) )
+                    throw Error(`'${setting.color}' is not a valid color`) 
+                })
                 return results;
             }
             throw new Error('No Setting');
