@@ -23,7 +23,7 @@ export const AppLoader = () => {
   height: ${p => (p.theme as IGardenTheme).space.xxs};
 `;
 
-  return <Grid gutters={false}>
+  return <Grid gutters={false} style={{paddingBlock: '6px'}}>
     <Row alignItems="center">
       <Col textAlign="center">
         <Avatar size='small'>
