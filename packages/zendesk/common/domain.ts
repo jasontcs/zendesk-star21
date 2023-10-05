@@ -2,7 +2,7 @@ import { zafUtil } from ".";
 import zafClient from "../sdk/index";
 import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
 import { ZafData } from "./data";
-import { OrganizationEntity, ServiceEntity, ServiceType, TicketEntity, UserEntity, UserFlagEntity, UserFlagTypeAuthorized } from "./entity";
+import { OrganizationEntity, ServiceEntity, ServiceType, TicketEntity, UserEntity, UserFlagEntity, UserFlagTypeAuthorized, UserFlagTypeVip } from "./entity";
 import { OrganizationField, UserField } from "./http_model";
 
 const zafData = new ZafData()
@@ -57,19 +57,24 @@ export class ZafDomain {
 
     async getOrganization(id: number, prep?: { fields?: OrganizationField[], userFields?: UserField[], servicesSettings?: OrganizationServiceSetting[], authorisedFieldKeys?: string[] }) {
         const [
+            _authorisedFieldKeys,
+            _userFields,
+        ] = await Promise.all([
+            prep?.authorisedFieldKeys ?? await zafData.getAuthorisedFieldKeys(),
+            prep?.userFields ?? zafData.getUserFields(),
+        ])
+
+        const keys = [UserFlagTypeVip.key, ..._authorisedFieldKeys.map(key => _userFields.find(field => field.key == key)!.tag)]
+        const [
             _fields,
             organization,
             rawUsers,
-            _userFields,
             _servicesSettings,
-            _authorisedFieldKeys,
         ] = await Promise.all([
             prep?.fields ?? zafData.getOrganizationFields(),
             zafData.getOrganization(id),
-            zafData.getOrganizationUsers(id),
-            prep?.userFields ?? zafData.getUserFields(),
+            zafData.getOrganizationUsers(id, keys),
             prep?.servicesSettings ?? zafData.getOrganizationServicesSettings(),
-            prep?.authorisedFieldKeys ?? zafData.getAuthorisedFieldKeys(),
         ])
         const userSpecialRequirementsTitle = _userFields.find((field) => field.key == 'special_requirements')!.title
         const organizationSpecialRequirementsTitle = _fields.find((field) => field.key == 'special_requirements')!.title

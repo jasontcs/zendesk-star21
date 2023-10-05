@@ -44,12 +44,15 @@ export class ZafData {
         return response.organization
     }
 
-    async getOrganizationUsers(id: number): Promise<User[]> {
+    async getOrganizationUsers(id: number, tags?: string[]): Promise<User[]> {
         const start = performance.now();
         var nextPage: string | null | undefined = undefined
         var users: User[] = []
+        const queries = tags?.map(tag => ` tags:${tag}`).join('') ?? ''
+        console.log('queries', queries)
+
         while (nextPage === undefined || nextPage !== null) {
-            const response: any = await zafClient.request<any>(nextPage ?? `/api/v2/organizations/${id}/users`)
+            const response: any = await zafClient.request<any>(nextPage ?? (`/api/v2/users/search?query=organization:${id}` + queries))
             nextPage = response.next_page
             users = users.concat(response.users)
         }
