@@ -3,6 +3,15 @@
     "name": "Zen Tunes",
     "short_description": "Play the famous zen tunes in your help desk.",
     "long_description": "Play the famous zen tunes in your help desk and \n listen to the beats it has to offer.",
-    "installation_instructions": "Simply click install."
+    "installation_instructions": "Simply click install.",
+    "parameters": {
+      "yourOrganization":  { "label": "Your Organization", "helpText": "Enter the ID's of your organization" },
+      "blockedOrgs":  { "label": "Blocked Organizations", "helpText": "Enter the ID's of organizations users are not allowed to submit tickets to" },
+      "blockedForms": { "label": "Blocked Forms", "helpText": "Enter the ID's of forms users are not allowed to subnit tickets to" },
+      "whitelistedInternalForms": { "label": "Whitelisted Star21 Forms", "helpText": "Enter the ID's of forms users are allows to submit tickets to when the organization is Star21" },
+      "adminOverrideID": { "label": "Admin ID's", "helpText": "Enter the ID's of admins to bypass validation checks when submitting tickets" },
+      "organizations_services_setting": { "label": "Organisation Services Config JSON", "helpText": "Suggested Palette: https://garden.zendesk.com/components/palette If error exist in JSON, fallback config will be used. Error messages will only be available in DevTools console" },
+      "authorised_field_keys": { "label": "Authorised User Field keys", "helpText": "Enter the user field's key of authorised contact checkboxs" }
+    }
   }
 }
