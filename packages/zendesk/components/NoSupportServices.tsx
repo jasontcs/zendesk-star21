@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { ServiceType } from "../common/entity";
-import { SM } from '@zendeskgarden/react-typography';
 import { IGardenTheme } from '@zendeskgarden/react-theming';
 import React from 'react';
 // import { Col, Grid, Row } from '@zendeskgarden/react-grid';
@@ -59,7 +58,7 @@ export const NoSupportServices = ({ types }: NoSupportServicesProps) => {
                             types
                                 .filter((type) => type.noService)
                                 .map((type) =>
-                                    <div key={type.key}><SM>{type.noService?.name}</SM></div>
+                                    <div key={type.key}>{type.noService?.name}</div>
                                 )
                         }
                     </Alert>
