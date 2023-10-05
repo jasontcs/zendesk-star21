@@ -56,6 +56,17 @@ function App() {
   }, []);
 
   React.useEffect(() => {
+    zafUtil.on([
+      'ticket.save',
+    ], zafDomain.ticketOnSave)
+    return () => {
+      zafUtil.off([
+        'ticket.save',
+      ], zafDomain.ticketOnSave)
+    }
+  })
+  
+  React.useEffect(() => {
     zafUtil.resizeWindow()
   })
 

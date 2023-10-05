@@ -135,59 +135,58 @@ export class ZafDomain {
         )
         return { organizationEntity, fields: _fields, userFields: _userFields, servicesSettings: _servicesSettings, authorisedFieldKeys: _authorisedFieldKeys }
     }
+
+    async ticketOnSave() {
+        const ticket: Ticket = await zafClient.get('ticket').then((r: any) => r.ticket)
+
+        if (ticket.status !== 'solved') return true
+
+        const agent = ticket.assignee
+        const organization = ticket.organization
+        const [
+            form,
+            settings,
+        ] = await Promise.all([
+            zafData.getTicketForm(ticket.form.id),
+            zafClient.metadata<IMetadataSettings>(),
+        ])
+
+        const yourOrganization = Number(settings.settings?.yourOrganization)
+        const whitelistedInternalForms = settings.settings?.whitelistedInternalForms?.split(',').map((e) => Number(e)) ?? []
+        const blockedForms = settings.settings?.blockedForms?.split(',').map((e) => Number(e)) ?? []
+        const blockedOrgs = settings.settings?.blockedOrgs?.split(',').map((e) => Number(e)) ?? []
+        const adminID = settings.settings?.adminOverrideID?.split(',').map((e) => Number(e)) ?? []
+
+        const isStar21 = organization.id == yourOrganization
+        const isInternalForm = whitelistedInternalForms.includes(form.id)
+        const isAdmin = adminID.includes(agent.user.id)
+        const isBlockedForms = blockedForms.includes(form.id)
+        const isBlockedOrg = blockedOrgs.includes(organization.id)
+
+        if (!isStar21 && isInternalForm) {
+            if (isAdmin) {
+                zafUtil.showToast("Validation Override\nBypassed: Star21 requesters can only submit on a Internal IT Form", 'error')
+                return true
+            }
+            return 'This form can only be used for requesters that are Star21 employees'
+        }
+
+        if (isBlockedOrg) {
+            if (isAdmin) {
+                zafUtil.showToast("Validation Override\nBypassed: You cannot solve this ticket under this organisation.", 'error')
+                return true
+            }
+            return 'You cannot solve this ticket under this organisation. Please select the correct organisation in the dropdown on the left!'
+        }
+
+        if (isBlockedForms) {
+            if (isAdmin) {
+                zafUtil.showToast("Validation Override\nBypassed: You can not solve on this form. Please select the correct form", 'error')
+                return true
+            }
+            return 'You can not solve on this form. Please select the correct form'
+        }
+
+        return true
+    }
 }
-
-zafClient.on('ticket.save', async function () {
-    const ticket: Ticket = await zafClient.get('ticket').then((r: any) => r.ticket)
-
-    if (ticket.status !== 'solved') return true
-
-    const agent = ticket.assignee
-    const organization = ticket.organization
-    const [
-        form,
-        settings,
-    ] = await Promise.all([
-        zafData.getTicketForm(ticket.form.id),
-        zafClient.metadata<IMetadataSettings>(),
-    ])
-
-    const yourOrganization = Number(settings.settings?.yourOrganization)
-    const whitelistedInternalForms = settings.settings?.whitelistedInternalForms?.split(',').map((e) => Number(e)) ?? []
-    const blockedForms = settings.settings?.blockedForms?.split(',').map((e) => Number(e)) ?? []
-    const blockedOrgs = settings.settings?.blockedOrgs?.split(',').map((e) => Number(e)) ?? []
-    const adminID = settings.settings?.adminOverrideID?.split(',').map((e) => Number(e)) ?? []
-
-    const isStar21 = organization.id == yourOrganization
-    const isInternalForm = whitelistedInternalForms.includes(form.id)
-    const isAdmin = adminID.includes(agent.user.id)
-    const isBlockedForms = blockedForms.includes(form.id)
-    const isBlockedOrg = blockedOrgs.includes(organization.id)
-
-    if (!isStar21 && isInternalForm) {
-        if (isAdmin) {
-            zafUtil.showToast("Validation Override\nBypassed: Star21 requesters can only submit on a Internal IT Form", 'error')
-            return true
-        }
-        return 'This form can only be used for requesters that are Star21 employees'
-    }
-
-    if (isBlockedOrg) {
-        if (isAdmin) {
-            zafUtil.showToast("Validation Override\nBypassed: You cannot solve this ticket under this organisation.", 'error')
-            return true
-        }
-        return 'You cannot solve this ticket under this organisation. Please select the correct organisation in the dropdown on the left!'
-    }
-
-    if (isBlockedForms) {
-        if (isAdmin) {
-            zafUtil.showToast("Validation Override\nBypassed: You can not solve on this form. Please select the correct form", 'error')
-            return true
-        }
-        return 'You can not solve on this form. Please select the correct form'
-    }
-
-    return true
-
-});
