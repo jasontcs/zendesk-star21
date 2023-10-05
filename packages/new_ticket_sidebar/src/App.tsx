@@ -3,13 +3,14 @@ import React from 'react'
 
 import { zafDomain, zafUtil } from "@app/zendesk/common";
 import { OrganizationEntity, UserEntity } from "@app/zendesk/common/entity";
-import { NoSelectRequesterLabel, TicketPanel } from '@app/zendesk/components';
+import { AppLoader, NoSelectRequesterLabel, TicketPanel } from '@app/zendesk/components';
 import { useImportantContactAlertContext } from '@app/zendesk/components/ImportantContactAlert';
 
 function App() {
   const { setVisible } = useImportantContactAlertContext()
   const [user, setUser] = React.useState<UserEntity | undefined>()
   const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
+  const [userName, setUserName] = React.useState<string | undefined>()
 
   var isLoading: number | undefined
 
@@ -48,18 +49,40 @@ function App() {
     }
   }, [])
 
+  function requesterNameChanged(name: string) {
+    setUserName(name)
+  }
+
+  React.useEffect(() => {
+    zafUtil.on([
+      'ticket.requester.name.changed',
+    ], requesterNameChanged)
+    return () => {
+      zafUtil.off([
+        'ticket.requester.name.changed',
+      ], requesterNameChanged)
+    }
+  })
+
   React.useEffect(() => {
     zafUtil.resizeWindow()
   })
 
   if (!user || !organization) return (
-    <NoSelectRequesterLabel></NoSelectRequesterLabel>
+    <NoSelectRequesterLabel />
   )
   return (
-    <TicketPanel
-      user={user}
-      organization={organization}
-    ></TicketPanel>
+    <>
+      {
+        userName || user || organization
+          ? <TicketPanel
+            userName={userName}
+            user={user}
+            organization={organization}
+          />
+          : <AppLoader />
+      }
+    </>
   )
 }
 

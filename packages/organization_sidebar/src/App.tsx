@@ -53,8 +53,8 @@ function App() {
     <>
       {
         organizationEntity
-          ? <OrganizationPanel organization={organizationEntity}></OrganizationPanel>
-          : <AppLoader></AppLoader>
+          ? <OrganizationPanel organization={organizationEntity} />
+          : <AppLoader />
       }
     </>
 

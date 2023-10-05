@@ -13,6 +13,7 @@ function App() {
   const [user, setUser] = React.useState<UserEntity | undefined>()
   const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
   const { setVisible } = useImportantContactAlertContext()
+  const [userName, setUserName] = React.useState<string | undefined>()
 
   var isLoading = false
 
@@ -22,6 +23,7 @@ function App() {
     const start = performance.now();
     const { ticket }: GetTicketResponse = await zafClient.get("ticket");
     if (!ticket) zafUtil.showToast('Cannot fetch ticket, Please refresh', 'error')
+    setUserName(ticket.requester.name)
     const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(ticket.requester.id)
     setUser(_user)
     const { organizationEntity: organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
@@ -60,12 +62,13 @@ function App() {
   return (
     <>
       {
-        user && organization
+        userName || user || organization
           ? <TicketPanel
+            userName={userName}
             user={user}
             organization={organization}
-          ></TicketPanel>
-          : <AppLoader></AppLoader>
+          />
+          : <AppLoader />
       }
     </>
   )

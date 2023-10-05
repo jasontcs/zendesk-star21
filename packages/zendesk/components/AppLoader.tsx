@@ -1,10 +1,11 @@
 import React from 'react';
 import { Row, Col, Grid } from '@zendeskgarden/react-grid';
-import { Spinner } from '@zendeskgarden/react-loaders';
 import { SM } from '@zendeskgarden/react-typography';
 import { zafUtil } from '../common';
 import styled from 'styled-components';
 import { IGardenTheme } from '@zendeskgarden/react-theming';
+import { Avatar } from '@zendeskgarden/react-avatars';
+import logo from "../assets/logo-white.png";
 
 export const AppLoader = () => {
   const [showMessage, setShowMessage] = React.useState(false)
@@ -25,7 +26,9 @@ export const AppLoader = () => {
   return <Grid gutters={false}>
     <Row alignItems="center">
       <Col textAlign="center">
-        <Spinner />
+        <Avatar size='small'>
+          <img alt="image avatar" src={logo} className='spinner'/>
+        </Avatar>
       </Col>
     </Row>
     {

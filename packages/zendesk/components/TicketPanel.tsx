@@ -11,11 +11,13 @@ import { RequesterTicketCounter } from "./RequesterTicketsCounter"
 import zafClient from "../sdk"
 import styled from "styled-components"
 import { IGardenTheme } from "@zendeskgarden/react-theming"
+import { ConditonalWrapper } from "./ConditonalWrapper"
 
 
 type TicketPanelProps = {
-    user: UserEntity,
-    organization: OrganizationEntity,
+    userName?: string,
+    user?: UserEntity,
+    organization?: OrganizationEntity,
 }
 
 const StyledSpacer = styled.div`
@@ -23,27 +25,39 @@ const StyledSpacer = styled.div`
 `;
 
 export const TicketPanel = ({
+    userName,
     user,
     organization,
 }: TicketPanelProps) => {
 
     const titleOnClick = () => {
-        zafClient.invoke('routeTo', 'user', user.id)
+        user && zafClient.invoke('routeTo', 'user', user.id)
     }
 
     return (
-        <ImportantContactAlert user={user}>
-            <RequesterTitle requester={user.name}></RequesterTitle>
-            <StyledSpacer></StyledSpacer>
-            <hr style={{margin: 0}}></hr>
-            <StyledSpacer></StyledSpacer>
-            <RequesterTicketCounter tickets={user.requestedTickets} titleOnClick={titleOnClick}></RequesterTicketCounter>
-            <NoSupportServices types={organization.services}></NoSupportServices>
-            <ImportantContactTags isVip={user.isVip} userFlags={user.userFlags.filter((flag) => !(flag.type instanceof UserFlagTypeVip))}></ImportantContactTags>
-            <OrganizationServices organizationServices={organization.services}></OrganizationServices>
-            {user.specialRequirements && <SpecialRequirements title={user.specialRequirementsTitle} content={user.specialRequirements} important></SpecialRequirements>}
-            {organization.specialRequirements && <SpecialRequirements title={organization.specialRequirementsTitle} content={organization.specialRequirements}></SpecialRequirements>}
-            <CustomerGuideButton guideUrl={organization.guideUrl}></CustomerGuideButton>
-        </ImportantContactAlert>
+        <>
+            <RequesterTitle requester={userName ?? user?.name} />
+            <StyledSpacer />
+            <hr style={{ margin: 0 }} />
+            <StyledSpacer />
+
+
+            <ConditonalWrapper
+                condition={!!user}
+                wrapper={children =>
+                    <ImportantContactAlert user={user!}>
+                        {children}
+                    </ImportantContactAlert>}
+            >
+                {user && <RequesterTicketCounter tickets={user.requestedTickets} titleOnClick={titleOnClick} />}
+                {organization && <NoSupportServices types={organization.services} />}
+                {user && <ImportantContactTags isVip={user.isVip} userFlags={user.userFlags.filter((flag) => !(flag.type instanceof UserFlagTypeVip))} />}
+                {organization && <OrganizationServices organizationServices={organization.services} />}
+                {user?.specialRequirements && <SpecialRequirements title={user.specialRequirementsTitle} content={user.specialRequirements} important />}
+                {organization?.specialRequirements && <SpecialRequirements title={organization.specialRequirementsTitle} content={organization.specialRequirements} />}
+
+            </ConditonalWrapper>
+            <CustomerGuideButton guideUrl={organization?.guideUrl} isLoading={!organization} />
+        </>
     )
 }

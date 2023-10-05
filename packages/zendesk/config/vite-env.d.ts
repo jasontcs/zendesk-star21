@@ -4,4 +4,5 @@ declare module '*.svg' {
     const src: string
     export default src
 }
+declare module "*.png";
 /// <reference types="vite-plugin-svgr/client" />
