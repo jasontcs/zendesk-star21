@@ -3,7 +3,7 @@ import zafClient from "../sdk/index";
 import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
 import { ZafData } from "./data";
 import { OrganizationEntity, ServiceEntity, ServiceType, TicketEntity, UserEntity, UserFlagEntity, UserFlagTypeAuthorized, UserFlagTypeVip } from "./entity";
-import { OrganizationField, UserField } from "./http_model";
+import { OrganizationField, User, UserField } from "./http_model";
 
 const zafData = new ZafData()
 
@@ -21,37 +21,7 @@ export class ZafDomain {
             prep?.authorisedFieldKeys ?? zafData.getAuthorisedFieldKeys(),
         ])
         const specialRequirementsTitle = fields.find((field) => field.key == 'special_requirements')!.title
-        const userEntity = new UserEntity(
-            user.id,
-            user.name,
-            user.tags.flatMap(
-                (tag) => {
-                    const field = fields.find((field) => field.tag == tag)
-                    return field
-                        ? [new UserFlagEntity(
-                            field.id,
-                            field.key,
-                            field.title,
-                            field.tag,
-                            _authorisedFieldKeys.includes(field.key) ? new UserFlagTypeAuthorized() : undefined
-                        )]
-                        : []
-                }
-            ),
-            user.organization_id,
-            user.user_fields['special_requirements'],
-            specialRequirementsTitle,
-            tickets.map(
-                (ticket) => {
-                    return new TicketEntity(
-                        ticket.id,
-                        ticket.status as "new" | "open" | "pending" | "hold" | "solved" | "closed",
-                        new Date(ticket.updated_at),
-                        ticket.subject,
-                    )
-                }
-            )
-        )
+        const userEntity = this.getUserEntity(user, fields, _authorisedFieldKeys, specialRequirementsTitle, tickets)
         return { userEntity, userFields: fields, authorisedFieldKeys: _authorisedFieldKeys, }
     }
 
@@ -78,28 +48,7 @@ export class ZafDomain {
         ])
         const userSpecialRequirementsTitle = _userFields.find((field) => field.key == 'special_requirements')!.title
         const organizationSpecialRequirementsTitle = _fields.find((field) => field.key == 'special_requirements')!.title
-        const users = rawUsers.map((user) => new UserEntity(
-            user.id,
-            user.name,
-            user.tags.flatMap(
-                (tag) => {
-                    const field = _userFields.find((field) => field.tag == tag)
-                    return field
-                        ? [new UserFlagEntity(
-                            field.id,
-                            field.key,
-                            field.title,
-                            field.tag,
-                            _authorisedFieldKeys.includes(field.key) ? new UserFlagTypeAuthorized() : undefined
-                        )]
-                        : []
-                }
-            ),
-            user.organization_id,
-            user.user_fields['special_requirements'],
-            userSpecialRequirementsTitle,
-            [],
-        ))
+        const users = rawUsers.map((user) => this.getUserEntity(user, _userFields, _authorisedFieldKeys, userSpecialRequirementsTitle, []))
 
         const organizationEntity = new OrganizationEntity(
             organization.id,
@@ -188,5 +137,42 @@ export class ZafDomain {
         }
 
         return true
+    }
+
+    private getUserEntity(user: User, userFields: UserField[], authorisedFieldKeys: string[], specialRequirementsTitle: string, tickets: Ticket[]) {
+        const userEntity = new UserEntity(
+            user.id,
+            user.name,
+            Object.entries(user.user_fields)
+                .filter(e => typeof e[1] == 'boolean')
+                .flatMap(
+                    (e) => {
+                        const field = userFields.find((field) => field.key == e[0])
+                        return field && e[1] === true
+                            ? [new UserFlagEntity(
+                                field.id,
+                                field.key,
+                                field.title,
+                                field.tag,
+                                authorisedFieldKeys.includes(field.key) ? new UserFlagTypeAuthorized() : undefined
+                            )]
+                            : []
+                    }
+                ),
+            user.organization_id,
+            user.user_fields['special_requirements'],
+            specialRequirementsTitle,
+            tickets.map(
+                (ticket) => {
+                    return new TicketEntity(
+                        ticket.id,
+                        ticket.status as "new" | "open" | "pending" | "hold" | "solved" | "closed",
+                        new Date(ticket.updated_at),
+                        ticket.subject,
+                    )
+                }
+            )
+        )
+        return userEntity
     }
 }
