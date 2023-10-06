@@ -49,7 +49,6 @@ export class ZafData {
         var nextPage: string | null | undefined = undefined
         var users: User[] = []
         const queries = tags?.map(tag => ` tags:${tag}`).join('') ?? ''
-        console.log('queries', queries)
 
         while (nextPage === undefined || nextPage !== null) {
             const response: any = await zafClient.request<any>(nextPage ?? (`/api/v2/users/search?query=organization:${id}` + queries))
