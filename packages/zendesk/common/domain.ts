@@ -64,7 +64,7 @@ export class ZafDomain {
             prep?.userFields ?? zafData.getUserFields(),
         ])
 
-        const keys = [UserFlagTypeVip.key, ..._authorisedFieldKeys.map(key => _userFields.find(field => field.key == key)!.tag)]
+        const keys = [UserFlagTypeVip.key, ..._authorisedFieldKeys].map(key => _userFields.find(field => field.key == key)!.tag)
         const [
             _fields,
             organization,
