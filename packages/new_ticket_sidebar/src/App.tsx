@@ -62,7 +62,7 @@ function App() {
         'ticket.requester.name.changed',
       ], requesterNameChanged)
     }
-  })
+  }, [])
 
   React.useEffect(() => {
     zafUtil.on([
@@ -73,7 +73,7 @@ function App() {
         'ticket.save',
       ], zafDomain.ticketOnSave)
     }
-  })
+  }, [])
 
   React.useEffect(() => {
     zafUtil.resizeWindow()

@@ -64,7 +64,7 @@ function App() {
         'ticket.save',
       ], zafDomain.ticketOnSave)
     }
-  })
+  }, [])
   
   React.useEffect(() => {
     zafUtil.resizeWindow()
