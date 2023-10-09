@@ -3,7 +3,7 @@ import zafClient from "../sdk/index";
 import { Organization, OrganizationField, TicketForm, User, UserField } from "./http_model";
 import { IMetadataSettings, OrganizationServiceSetting, Ticket } from "./api_model";
 import { PALETTE } from "@zendeskgarden/react-theming";
-import { zafUtil } from ".";
+import { zafConfig, zafUtil } from ".";
 
 export class ZafData {
 
@@ -92,7 +92,7 @@ export class ZafData {
             
         } catch (e) {
             console.error('Organization Service Setting Error: ' + e)
-            const fallback = "[\r\n    {\r\n       \"key\": \"managed\",\r\n       \"title\": \"Managed\",\r\n       \"color\": \"red\",\r\n       \"no_support_field_key\": \"mdm\"\r\n    },\r\n    {\r\n       \"key\": \"mobility\",\r\n       \"title\": \"Mobility\",\r\n       \"color\": \"black\",\r\n       \"no_support_field_key\": \"mobile_no_support\"\r\n    },\r\n    {\r\n       \"key\": \"projects\",\r\n       \"title\": \"Projects\",\r\n       \"color\": \"green\",\r\n       \"no_support_field_key\": null\r\n    },\r\n    {\r\n       \"key\": \"tco\",\r\n       \"title\": \"Cloud\",\r\n       \"color\": \"blue\",\r\n       \"no_support_field_key\": \"tco_no_support\"\r\n    },\r\n    {\r\n       \"key\": \"m365\",\r\n       \"title\": \"Cloud\",\r\n       \"color\": \"blue\",\r\n       \"no_support_field_key\": \"o365_no_support\"\r\n    },\r\n    {\r\n       \"key\": \"teams_room\",\r\n       \"title\": \"Cloud\",\r\n       \"color\": \"blue\",\r\n       \"no_support_field_key\": \"teams_room_no_support\"\r\n    },\r\n    {\r\n       \"key\": \"cloud\",\r\n       \"title\": \"Cloud\",\r\n       \"color\": \"blue\",\r\n       \"no_support_field_key\": null\r\n    }\r\n ]"
+            const fallback = zafConfig.defaultOrganizationsServicesSetting
             return JSON.parse(fallback)
         }
     }
