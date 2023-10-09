@@ -69,8 +69,9 @@ function App() {
       {
         userName || user || organization
           ? <TicketPanel
-            user={user}
-            organization={organization}
+          userName={userName}
+          user={user}
+          organization={organization}
           />
           : <AppLoader />
       }
