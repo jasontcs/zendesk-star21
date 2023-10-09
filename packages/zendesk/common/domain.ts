@@ -58,17 +58,20 @@ export class ZafDomain {
                 setting.key,
                 setting.title,
                 setting.color,
-                organization.tags.reduce<ServiceEntity | undefined>((previous, current) => {
+                Object.entries(organization.organization_fields)
+                    .filter(e => typeof e[1] == 'boolean')
+                .reduce<ServiceEntity | undefined>((previous, current) => {
                     if (previous) return previous
-                    const field = _fields.find((field) => field.tag == current)
-                    return field && field?.key == setting.no_support_field_key ?
+                    const field = _fields.find((field) => field.key == current[0])
+                    return field && current[1] === true && field?.key == setting.no_support_field_key ?
                         new ServiceEntity(field.id, field.title, field.description) : undefined
                 }, undefined),
-                organization.tags
+                Object.entries(organization.organization_fields)
+                    .filter(e => typeof e[1] == 'boolean')
                     .flatMap(
-                        (tag) => {
-                            const field = _fields.find((field) => field.tag == tag)
-                            return setting.key == field?.description
+                        (e) => {
+                            const field = _fields.find((field) => field.key == e[0])
+                            return field && e[1] === true && setting.key == field?.description
                                 ? [new ServiceEntity(
                                     field.id,
                                     field.title,
