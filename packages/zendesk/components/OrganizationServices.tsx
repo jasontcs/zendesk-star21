@@ -25,12 +25,12 @@ export const OrganizationServices = ({ organizationServices }: OrganizationServi
                         .filter((type) => !type.noService)
                         .flatMap((type) => type.items.map((service) => [type, service] as [ServiceType, ServiceEntity])
                         ).map((service, index) => <TableRow isFocused={false} key={service[1].id} isStriped={index % 2 == 0} style={{ height: 'initial' }}>
-                            <Cell width="100px" style={{ textAlign: "center", paddingBlock: '2px' }}>
+                            <Cell width="100px" style={{ textAlign: "center", paddingBlock: '4px' }}>
                                 <Tag hue={service[0].color} style={{ width: "100%" }}>
                                     <span>{service[0].title}</span>
                                 </Tag>
                             </Cell>
-                            <Cell style={{ textAlign: "right", paddingBlock: '2px' }}>
+                            <Cell style={{ textAlign: "right", paddingBlock: '4px' }}>
                                 <MD>
                                     <Span isBold>{service[1].name}</Span>
                                 </MD>
