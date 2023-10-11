@@ -47,10 +47,12 @@ function App() {
     fetchAll();
     zafUtil.on([
       'app.activated',
+      'ticket.requester.id.changed',
     ], fetchAll)
     return () => {
       zafUtil.off([
         'app.activated',
+        'ticket.requester.id.changed',
       ], fetchAll)
     }
   }, []);
@@ -63,6 +65,21 @@ function App() {
       zafUtil.off([
         'ticket.save',
       ], zafDomain.ticketOnSave)
+    }
+  }, [])
+
+  function requesterNameChanged(name: string) {
+    setUserName(name)
+  }
+
+  React.useEffect(() => {
+    zafUtil.on([
+      'ticket.requester.name.changed',
+    ], requesterNameChanged)
+    return () => {
+      zafUtil.off([
+        'ticket.requester.name.changed',
+      ], requesterNameChanged)
     }
   }, [])
   
