@@ -40,8 +40,8 @@ export const RequesterTicketCounter = ({ tickets, titleOnClick }: RequesterTicke
         },
         {
             tickets: [
-                ...map.get('solved')?.filter((t) => zafUtil.numDaysBetween(t.updateAt, new Date()) > 30) ?? [],
-                ...map.get('closed')?.filter((t) => zafUtil.numDaysBetween(t.updateAt, new Date()) > 30) ?? [],
+                ...map.get('solved')?.filter((t) => zafUtil.numDaysBetween(t.updateAt, new Date()) <= 30) ?? [],
+                ...map.get('closed')?.filter((t) => zafUtil.numDaysBetween(t.updateAt, new Date()) <= 30) ?? [],
             ],
             background: '#87929d',
             title: 'Solved',
