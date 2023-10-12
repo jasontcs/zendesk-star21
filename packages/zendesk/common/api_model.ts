@@ -19,7 +19,7 @@ export interface Ticket {
 }
 
 export interface Assignee {
-    user:  User;
+    user?:  User;
 }
 
 export interface User {

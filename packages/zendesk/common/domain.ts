@@ -111,7 +111,7 @@ export class ZafDomain {
 
         const isStar21 = organization.id == yourOrganization
         const isInternalForm = whitelistedInternalForms.includes(form.id)
-        const isAdmin = adminID.includes(agent.user.id)
+        const isAdmin = agent.user && adminID.includes(agent.user.id)
         const isBlockedForms = blockedForms.includes(form.id)
         const isBlockedOrg = blockedOrgs.includes(organization.id)
 
