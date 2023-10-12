@@ -62,10 +62,17 @@ export class ZafData {
 
     async getUserTickets(id: number): Promise<Ticket[]> {
         const start = performance.now();
-        const response = await zafClient.request<any>(`/api/v2/users/${id}/tickets/requested`)
+        var nextPage: string | null | undefined = undefined
+        var tickets: Ticket[] = []
+
+        while (nextPage === undefined || nextPage !== null) {
+            const response: any = await zafClient.request<any>(nextPage ?? (`/api/v2/users/${id}/tickets/requested`))
+            nextPage = response.next_page
+            tickets = tickets.concat(response.tickets)
+        }
         const end = performance.now();
         this.logDuration('getUserTickets:' + id, end - start)
-        return response.tickets
+        return tickets
     }
 
     async getTicketForm(id: number): Promise<TicketForm> {
