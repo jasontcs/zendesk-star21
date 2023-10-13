@@ -26,11 +26,11 @@ export class ZafDomain {
         return { userEntity, userFields: fields, authorisedFieldKeys: _authorisedFieldKeys, }
     }
 
-    async patchUserTickets(user: UserEntity): Promise<UserEntity> {
+    async patchUserActiveTickets(user: UserEntity): Promise<UserEntity> {
         const [
             tickets,
         ] = await Promise.all([
-            zafData.getUserTickets(user.id),
+            zafData.getUserActiveTickets(user.id),
         ])
         const patched = user
         user.requestedTickets = this.getTicketEntities(tickets)

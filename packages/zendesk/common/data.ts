@@ -60,7 +60,7 @@ export class ZafData {
         return users
     }
 
-    async getUserTickets(id: number): Promise<Ticket[]> {
+    async getUserActiveTickets(id: number): Promise<Ticket[]> {
         const start = performance.now();
         var nextPage: string | null | undefined = undefined
         var tickets: Ticket[] = []
