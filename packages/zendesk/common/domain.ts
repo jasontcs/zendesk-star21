@@ -34,7 +34,7 @@ export class ZafDomain {
         ])
         const patched = user
         user.requestedTickets = this.getTicketEntities(tickets)
-        return patched
+        return structuredClone(patched)
     }
 
     async getOrganization(id: number, prep?: { fields?: OrganizationField[], userFields?: UserField[], servicesSettings?: OrganizationServiceSetting[], authorisedFieldKeys?: string[] }) {
