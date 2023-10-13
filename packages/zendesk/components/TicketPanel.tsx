@@ -50,7 +50,7 @@ export const TicketPanel = ({
                         {children}
                     </ImportantContactAlert>}
             >
-                {(!user || !organization) && <AppLoader />}
+                {(!user || !organization || !user.requestedTickets) && <AppLoader />}
                 {user?.requestedTickets && <RequesterTicketCounter tickets={user.requestedTickets} titleOnClick={titleOnClick} />}
                 {organization && <NoSupportServices types={organization.services} />}
                 {user && <ImportantContactTags isVip={user.isVip} userFlags={user.userFlags.filter((flag) => !(flag.type instanceof UserFlagTypeVip))} />}

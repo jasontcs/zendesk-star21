@@ -66,9 +66,9 @@ export class ZafData {
         var tickets: Ticket[] = []
 
         while (nextPage === undefined || nextPage !== null) {
-            const response: any = await zafClient.request<any>(nextPage ?? (`/api/v2/users/${id}/tickets/requested`))
+            const response: any = await zafClient.request<any>(nextPage ?? (`/api/v2/search.json?query=type:ticket requester:${id} status<solved`))
             nextPage = response.next_page
-            tickets = tickets.concat(response.tickets)
+            tickets = tickets.concat(response.results)
         }
         const end = performance.now();
         this.logDuration('getUserTickets:' + id, end - start)
