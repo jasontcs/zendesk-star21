@@ -7,7 +7,7 @@ export class UserEntity {
         organizationId: number,
         specialRequirements: string | undefined,
         specialRequirementsTitle: string,
-        requestedTickets: TicketEntity[]
+        requestedTickets: TicketEntity[] | undefined
     ) {
         this.id = id
         this.name = name
@@ -24,7 +24,7 @@ export class UserEntity {
     organizationId: number
     specialRequirements?: string
     specialRequirementsTitle: string
-    requestedTickets: TicketEntity[]
+    requestedTickets?: TicketEntity[]
 
     get isVip() {
         return this.userFlags.some((flag) => flag.type instanceof UserFlagTypeVip)

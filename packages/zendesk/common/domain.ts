@@ -17,12 +17,24 @@ export class ZafDomain {
         ] = await Promise.all([
             prep?.userFields ?? zafData.getUserFields(),
             zafData.getUser(id),
-            zafData.getUserTickets(id),
+            // zafData.getUserTickets(id),
+            undefined,
             prep?.authorisedFieldKeys ?? zafData.getAuthorisedFieldKeys(),
         ])
         const specialRequirementsTitle = fields.find((field) => field.key == 'special_requirements')!.title
         const userEntity = this.getUserEntity(user, fields, _authorisedFieldKeys, specialRequirementsTitle, tickets)
         return { userEntity, userFields: fields, authorisedFieldKeys: _authorisedFieldKeys, }
+    }
+
+    async patchUserTickets(user: UserEntity): Promise<UserEntity> {
+        const [
+            tickets,
+        ] = await Promise.all([
+            zafData.getUserTickets(user.id),
+        ])
+        const patched = user
+        user.requestedTickets = this.getTicketEntities(tickets)
+        return patched
     }
 
     async getOrganization(id: number, prep?: { fields?: OrganizationField[], userFields?: UserField[], servicesSettings?: OrganizationServiceSetting[], authorisedFieldKeys?: string[] }) {
@@ -142,7 +154,7 @@ export class ZafDomain {
         return true
     }
 
-    private getUserEntity(user: User, userFields: UserField[], authorisedFieldKeys: string[], specialRequirementsTitle: string, tickets: Ticket[]) {
+    private getUserEntity(user: User, userFields: UserField[], authorisedFieldKeys: string[], specialRequirementsTitle: string, tickets: Ticket[] | undefined) {
         const userEntity = new UserEntity(
             user.id,
             user.name,
@@ -165,17 +177,22 @@ export class ZafDomain {
             user.organization_id,
             user.user_fields['special_requirements'],
             specialRequirementsTitle,
-            tickets.map(
-                (ticket) => {
-                    return new TicketEntity(
-                        ticket.id,
-                        ticket.status as "new" | "open" | "pending" | "hold" | "solved" | "closed",
-                        new Date(ticket.updated_at),
-                        ticket.subject,
-                    )
-                }
-            )
+            this.getTicketEntities(tickets),
         )
         return userEntity
+    }
+
+    private getTicketEntities(tickets: Ticket[] | undefined) {
+        if (!tickets) return undefined
+        return tickets.map(
+            (ticket) => {
+                return new TicketEntity(
+                    ticket.id,
+                    ticket.status as "new" | "open" | "pending" | "hold" | "solved" | "closed",
+                    new Date(ticket.updated_at),
+                    ticket.subject,
+                )
+            }
+        )
     }
 }

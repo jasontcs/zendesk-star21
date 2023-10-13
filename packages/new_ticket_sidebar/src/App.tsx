@@ -22,6 +22,8 @@ function App() {
     setUser(_user)
     const { organizationEntity: _organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
     setOrganization(_organization)
+    const patched = await zafDomain.patchUserTickets(_user)
+    setUser(patched)
 
     if (
       (user?.isVip === false || user?.isAuthorized === false) &&
