@@ -72,26 +72,24 @@ export class ZafDomain {
                 setting.color,
                 Object.entries(organization.organization_fields)
                     .filter(e => typeof e[1] == 'boolean')
-                .reduce<ServiceEntity | undefined>((previous, current) => {
-                    if (previous) return previous
-                    const field = _fields.find((field) => field.key == current[0])
-                    return field && current[1] === true && field?.key == setting.no_support_field_key ?
-                        new ServiceEntity(field.id, field.title, field.description) : undefined
-                }, undefined),
-                Object.entries(organization.organization_fields)
-                    .filter(e => typeof e[1] == 'boolean')
-                    .flatMap(
-                        (e) => {
-                            const field = _fields.find((field) => field.key == e[0])
-                            return field && e[1] === true && setting.key == field?.description
-                                ? [new ServiceEntity(
-                                    field.id,
-                                    field.title,
-                                    field.description,
-                                )]
-                                : []
-                        }
-                    )
+                    .reduce<ServiceEntity | undefined>((previous, current) => {
+                        if (previous) return previous
+                        const field = _fields.find((field) => field.key == current[0])
+                        return field && current[1] === true && field?.key == setting.no_support_field_key ?
+                            new ServiceEntity(field.id, field.title, field.description) : undefined
+                    }, undefined),
+
+                _fields
+                    .filter(field => {
+                        return field.type == 'checkbox'
+                            && Object.entries(organization.organization_fields).find(e => e[0] == field.key && e[1] === true)
+                            && setting.key == field?.description
+                    })
+                    .map(field => new ServiceEntity(
+                        field.id,
+                        field.title,
+                        field.description,
+                    ))
             ),
             ),
             organization.organization_fields['special_requirements'],

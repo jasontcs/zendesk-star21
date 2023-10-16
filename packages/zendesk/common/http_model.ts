@@ -68,65 +68,66 @@ export interface User {
 }
 
 export interface OrganizationField {
-    active:                boolean;
-    created_at:            Date;
-    description:           string;
-    id:                    number;
-    key:                   string;
-    position:              number;
-    raw_description:       string;
-    raw_title:             string;
+    active: boolean;
+    created_at: Date;
+    description: string;
+    id: number;
+    key: string;
+    position: number;
+    raw_description: string;
+    raw_title: string;
     regexp_for_validation: null;
-    tag:                   string;
-    title:                 string;
-    type:                  string;
-    updated_at:            Date;
-    url:                   string;
+    tag: string;
+    title: string;
+    type: OrganizationFieldType;
+    updated_at: Date;
+    url: string;
 }
+export type OrganizationFieldType = "checkbox" | "date" | "decimal" | "dropdown" | "integer" | "lookup" | "regexp" | "text" | "textarea"
 export interface TicketForm {
-    active:               boolean;
-    agent_conditions:     AgentCondition[];
-    created_at:           Date;
-    default:              boolean;
-    display_name:         string;
-    end_user_conditions:  EndUserCondition[];
-    end_user_visible:     boolean;
-    id:                   number;
-    in_all_brands:        boolean;
-    name:                 string;
-    position:             number;
-    raw_display_name:     string;
-    raw_name:             string;
+    active: boolean;
+    agent_conditions: AgentCondition[];
+    created_at: Date;
+    default: boolean;
+    display_name: string;
+    end_user_conditions: EndUserCondition[];
+    end_user_visible: boolean;
+    id: number;
+    in_all_brands: boolean;
+    name: string;
+    position: number;
+    raw_display_name: string;
+    raw_name: string;
     restricted_brand_ids: number[];
-    ticket_field_ids:     number[];
-    updated_at:           Date;
-    url:                  string;
+    ticket_field_ids: number[];
+    updated_at: Date;
+    url: string;
 }
 
 export interface AgentCondition {
-    child_fields:    AgentConditionChildField[];
+    child_fields: AgentConditionChildField[];
     parent_field_id: number;
-    value:           string;
+    value: string;
 }
 
 export interface AgentConditionChildField {
-    id:                   number;
-    is_required:          boolean;
+    id: number;
+    is_required: boolean;
     required_on_statuses: RequiredOnStatuses;
 }
 
 export interface RequiredOnStatuses {
     statuses?: string[];
-    type:      string;
+    type: string;
 }
 
 export interface EndUserCondition {
-    child_fields:    EndUserConditionChildField[];
+    child_fields: EndUserConditionChildField[];
     parent_field_id: number;
-    value:           string;
+    value: string;
 }
 
 export interface EndUserConditionChildField {
-    id:          number;
+    id: number;
     is_required: boolean;
 }
