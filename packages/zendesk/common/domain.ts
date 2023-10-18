@@ -32,9 +32,15 @@ export class ZafDomain {
         ] = await Promise.all([
             zafData.getUserActiveTickets(user.id),
         ])
-        const patched = user
-        user.requestedTickets = this.getTicketEntities(tickets)
-        return structuredClone(patched)
+        return new UserEntity(
+            user.id, 
+            user.name, 
+            user.userFlags,
+            user.organizationId,
+            user.specialRequirements,
+            user.specialRequirementsTitle,
+            this.getTicketEntities(tickets),
+        )
     }
 
     async getOrganization(id: number, prep?: { fields?: OrganizationField[], userFields?: UserField[], servicesSettings?: OrganizationServiceSetting[], authorisedFieldKeys?: string[] }) {
