@@ -18,7 +18,7 @@ import { AppLoader } from "."
 type TicketPanelProps = {
     userName?: string,
     user?: UserEntity,
-    organization?: OrganizationEntity,
+    organization?: OrganizationEntity | null,
 }
 
 const StyledSpacer = styled.div`
@@ -50,7 +50,7 @@ export const TicketPanel = ({
                         {children}
                     </ImportantContactAlert>}
             >
-                {(!user || !organization || !user.requestedTickets) && <AppLoader />}
+                {(!user || organization === undefined || !user.requestedTickets) && <AppLoader />}
                 {user?.requestedTickets && <RequesterTicketCounter tickets={user.requestedTickets} titleOnClick={titleOnClick} />}
                 {organization && <NoSupportServices types={organization.services} />}
                 {user && <ImportantContactTags isVip={user.isVip} userFlags={user.userFlags.filter((flag) => !(flag.type instanceof UserFlagTypeVip))} />}
@@ -58,7 +58,7 @@ export const TicketPanel = ({
                 {user?.specialRequirements && <SpecialRequirements title={user.specialRequirementsTitle} content={user.specialRequirements} important />}
                 {organization?.specialRequirements && <SpecialRequirements title={organization.specialRequirementsTitle} content={organization.specialRequirements} />}
             </ConditonalWrapper>
-            <CustomerGuideButton guideUrl={organization?.guideUrl} isLoading={!organization} />
+            <CustomerGuideButton guideUrl={organization?.guideUrl} isLoading={organization === undefined} />
         </>
     )
 }

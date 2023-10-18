@@ -33,8 +33,8 @@ export class ZafDomain {
             zafData.getUserActiveTickets(user.id),
         ])
         return new UserEntity(
-            user.id, 
-            user.name, 
+            user.id,
+            user.name,
             user.userFlags,
             user.organizationId,
             user.specialRequirements,
@@ -125,11 +125,11 @@ export class ZafDomain {
         const blockedOrgs = settings.settings?.blockedOrgs?.split(',').map((e) => Number(e)) ?? []
         const adminID = settings.settings?.adminOverrideID?.split(',').map((e) => Number(e)) ?? []
 
-        const isStar21 = organization.id == yourOrganization
+        const isStar21 = organization?.id == yourOrganization
         const isInternalForm = whitelistedInternalForms.includes(form.id)
         const isAdmin = agent.user && adminID.includes(agent.user.id)
         const isBlockedForms = blockedForms.includes(form.id)
-        const isBlockedOrg = blockedOrgs.includes(organization.id)
+        const isBlockedOrg = organization?.id ? blockedOrgs.includes(organization.id) : false
 
         if (!isStar21 && isInternalForm) {
             if (isAdmin) {

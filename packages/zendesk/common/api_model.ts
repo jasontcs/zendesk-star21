@@ -7,25 +7,25 @@ export interface Errors {
 }
 
 export interface Ticket {
-    id:             number;
-    tags:           string[];
-    assignee:       Assignee;
-    requester:      User;
-    status:         string;
-    form:           Form;
-    organization:   Organization;
-    updated_at:     string;
-    subject:        string;
+    id: number;
+    tags: string[];
+    assignee: Assignee;
+    requester: User;
+    status: string;
+    form: Form;
+    organization?: Organization;
+    updated_at: string;
+    subject: string;
 }
 
 export interface Assignee {
-    user?:  User;
+    user?: User;
 }
 
 export interface User {
-    name:          string;
-    id:            number;
-    tags:          string[];
+    name: string;
+    id: number;
+    tags: string[];
 }
 
 export interface Form {
@@ -33,19 +33,19 @@ export interface Form {
 }
 
 export interface GetOrganizationResponse {
-    errors:       Errors;
+    errors: Errors;
     organization: Organization;
 }
 
 export interface Organization {
-    id:                 number;
-    tags:               string[];
-    name:               string;
-    domains:            string;
-    details:            string;
-    notes:              string;
-    sharedTickets:      boolean;
-    sharedComments:     boolean;
+    id: number;
+    tags: string[];
+    name: string;
+    domains: string;
+    details: string;
+    notes: string;
+    sharedTickets: boolean;
+    sharedComments: boolean;
     organizationFields: any;
 }
 
@@ -69,5 +69,5 @@ export interface OrganizationServiceSetting {
 
 export interface GetUserResponse {
     errors: Errors;
-    user:   User;
+    user: User;
 }

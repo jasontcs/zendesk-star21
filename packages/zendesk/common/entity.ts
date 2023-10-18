@@ -4,7 +4,7 @@ export class UserEntity {
         id: number,
         name: string,
         userFlags: UserFlagEntity[],
-        organizationId: number,
+        organizationId: number | undefined,
         specialRequirements: string | undefined,
         specialRequirementsTitle: string,
         requestedTickets: TicketEntity[] | undefined
@@ -21,7 +21,7 @@ export class UserEntity {
     id: number
     name: string
     userFlags: UserFlagEntity[]
-    organizationId: number
+    organizationId?: number
     specialRequirements?: string
     specialRequirementsTitle: string
     requestedTickets?: TicketEntity[]
@@ -63,7 +63,7 @@ export class UserFlagTypeVip extends UserFlagType {
     static key = 'mms_vip'
 }
 
-export class UserFlagTypeAuthorized extends UserFlagType {}
+export class UserFlagTypeAuthorized extends UserFlagType { }
 
 export class UserFlagTypeOther extends UserFlagType { }
 

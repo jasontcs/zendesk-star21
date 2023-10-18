@@ -11,7 +11,7 @@ import { useImportantContactAlertContext } from "@app/zendesk/components/Importa
 
 function App() {
   const [user, setUser] = React.useState<UserEntity | undefined>()
-  const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
+  const [organization, setOrganization] = React.useState<OrganizationEntity | undefined | null>()
   const { setVisible } = useImportantContactAlertContext()
   const [userName, setUserName] = React.useState<string | undefined>()
 
@@ -26,8 +26,12 @@ function App() {
     setUserName(ticket.requester.name)
     const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(ticket.requester.id)
     setUser(_user)
-    const { organizationEntity: organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
-    setOrganization(organization)
+    if (_user.organizationId) {
+      const { organizationEntity: organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
+      setOrganization(organization)
+    } else {
+      setOrganization(null)
+    }
     const patched = await zafDomain.patchUserActiveTickets(_user)
     setUser(patched)
 
@@ -84,7 +88,7 @@ function App() {
       ], requesterNameChanged)
     }
   }, [])
-  
+
   React.useEffect(() => {
     zafUtil.resizeWindow()
   })

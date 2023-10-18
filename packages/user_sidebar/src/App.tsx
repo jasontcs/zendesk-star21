@@ -11,7 +11,7 @@ import { useImportantContactAlertContext } from "@app/zendesk/components/Importa
 
 function App() {
   const [user, setUser] = React.useState<UserEntity | undefined>()
-  const [organization, setOrganization] = React.useState<OrganizationEntity | undefined>()
+  const [organization, setOrganization] = React.useState<OrganizationEntity | undefined | null>()
   const { setVisible } = useImportantContactAlertContext()
   const [userName, setUserName] = React.useState<string | undefined>()
 
@@ -26,8 +26,12 @@ function App() {
     setUserName(userRaw.name)
     const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(userRaw.id)
     setUser(_user)
-    const { organizationEntity: _organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
-    setOrganization(_organization)
+    if (_user.organizationId) {
+      const { organizationEntity: _organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
+      setOrganization(_organization)
+    } else {
+      setOrganization(null)
+    }
     const patched = await zafDomain.patchUserActiveTickets(_user)
     setUser(patched)
 
@@ -71,9 +75,9 @@ function App() {
       {
         userName || user || organization
           ? <TicketPanel
-          userName={userName}
-          user={user}
-          organization={organization}
+            userName={userName}
+            user={user}
+            organization={organization}
           />
           : <AppLoader />
       }

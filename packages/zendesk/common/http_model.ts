@@ -49,7 +49,7 @@ export interface User {
     name: string;
     notes: string;
     only_private_comments: boolean;
-    organization_id: number;
+    organization_id?: number;
     phone: string;
     restricted_agent: boolean;
     role: string;
