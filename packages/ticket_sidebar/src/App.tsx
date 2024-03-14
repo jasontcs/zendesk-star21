@@ -26,8 +26,8 @@ function App() {
     setUserName(ticket.requester.name)
     const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(ticket.requester.id)
     setUser(_user)
-    if (_user.organizationId) {
-      const { organizationEntity: organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
+    if (ticket.organization?.id) {
+      const { organizationEntity: organization } = await zafDomain.getOrganization(ticket.organization?.id, { userFields, authorisedFieldKeys })
       setOrganization(organization)
     } else {
       setOrganization(null)
@@ -54,11 +54,13 @@ function App() {
     zafUtil.on([
       'app.activated',
       'ticket.requester.id.changed',
+      'ticket.organization.changed',
     ], fetchAll)
     return () => {
       zafUtil.off([
         'app.activated',
         'ticket.requester.id.changed',
+        'ticket.organization.changed',
       ], fetchAll)
     }
   }, []);

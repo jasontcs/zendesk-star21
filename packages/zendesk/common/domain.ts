@@ -104,9 +104,13 @@ export class ZafDomain {
         return { organizationEntity, fields: _fields, userFields: _userFields, servicesSettings: _servicesSettings, authorisedFieldKeys: _authorisedFieldKeys }
     }
 
-    async ticketOnSave() {
+    async getCurrentTicket() {
         const ticket: Ticket = await zafClient.get('ticket').then((r: any) => r.ticket)
+        return ticket
+    }
 
+    async ticketOnSave() {
+        const ticket = await this.getCurrentTicket()
         if (ticket.status !== 'solved') return true
 
         const agent = ticket.assignee

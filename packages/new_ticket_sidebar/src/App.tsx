@@ -14,14 +14,15 @@ function App() {
 
   var isLoading: number | undefined
 
-  async function requesterChanged(id: number) {
+  async function requesterChanged() {
     if (isLoading) return
-    isLoading = id
+    const ticket = await zafDomain.getCurrentTicket()
+    isLoading = ticket.requester.id
     const start = performance.now();
-    const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(id)
+    const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(ticket.requester.id)
     setUser(_user)
-    if (_user.organizationId) {
-      const { organizationEntity: _organization } = await zafDomain.getOrganization(_user.organizationId, { userFields, authorisedFieldKeys })
+    if (ticket.organization?.id) {
+      const { organizationEntity: _organization } = await zafDomain.getOrganization(ticket.organization.id, { userFields, authorisedFieldKeys })
       setOrganization(_organization)
     } else {
       setOrganization(null)
@@ -47,10 +48,12 @@ function App() {
     console.log('new_ticket_sidebar', 'useEffect')
     zafUtil.on([
       'ticket.requester.id.changed',
+      'ticket.organization.changed',
     ], requesterChanged)
     return () => {
       zafUtil.off([
         'ticket.requester.id.changed',
+        'ticket.organization.changed',
       ], requesterChanged)
     }
   }, [])
