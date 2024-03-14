@@ -26,6 +26,7 @@ export interface User {
     name: string;
     id: number;
     tags: string[];
+    organizations: Organization[];
 }
 
 export interface Form {

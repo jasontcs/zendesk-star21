@@ -21,8 +21,9 @@ function App() {
     const start = performance.now();
     const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(ticket.requester.id)
     setUser(_user)
-    if (ticket.organization?.id) {
-      const { organizationEntity: _organization } = await zafDomain.getOrganization(ticket.organization.id, { userFields, authorisedFieldKeys })
+    const organizationId = ticket.organization?.id ?? ticket.requester.organizations[0].id
+    if (organizationId) {
+      const { organizationEntity: _organization } = await zafDomain.getOrganization(organizationId, { userFields, authorisedFieldKeys })
       setOrganization(_organization)
     } else {
       setOrganization(null)
