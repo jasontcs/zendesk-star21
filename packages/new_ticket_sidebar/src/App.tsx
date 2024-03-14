@@ -74,14 +74,18 @@ function App() {
     }
   }, [])
 
+  function ticketOnSave() {
+    zafDomain.ticketOnSave()
+  }
+
   React.useEffect(() => {
     zafUtil.on([
       'ticket.save',
-    ], zafDomain.ticketOnSave)
+    ], ticketOnSave)
     return () => {
       zafUtil.off([
         'ticket.save',
-      ], zafDomain.ticketOnSave)
+      ], ticketOnSave)
     }
   }, [])
 
