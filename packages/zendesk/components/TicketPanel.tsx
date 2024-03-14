@@ -56,7 +56,7 @@ export const TicketPanel = ({
                 {user && <ImportantContactTags isVip={user.isVip} userFlags={user.userFlags.filter((flag) => !(flag.type instanceof UserFlagTypeVip))} />}
                 {organization && <OrganizationServices organizationServices={organization.services} />}
                 {user?.specialRequirements && <SpecialRequirements title={user.specialRequirementsTitle} content={user.specialRequirements} important />}
-                {organization?.specialRequirements && <SpecialRequirements title={organization.specialRequirementsTitle} content={organization.specialRequirements} />}
+                {organization?.specialRequirements && <SpecialRequirements title={organization.specialRequirementsTitle} content={organization.specialRequirements} important />}
             </ConditonalWrapper>
             <CustomerGuideButton guideUrl={organization?.guideUrl} isLoading={organization === undefined} />
         </>
