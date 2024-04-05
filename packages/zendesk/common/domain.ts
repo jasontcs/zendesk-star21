@@ -135,6 +135,14 @@ export class ZafDomain {
         const isBlockedForms = blockedForms.includes(form.id)
         const isBlockedOrg = organization?.id ? blockedOrgs.includes(organization.id) : false
 
+        if (!organization) {
+            if (isAdmin) {
+                zafUtil.showToast("Validation Override\nBypassed: No organisation selected", 'error')
+                return true
+            }
+            return 'No organisation selected, please update the requester or add an Organisation to the requester'
+        }
+
         if (!isStar21 && isInternalForm) {
             if (isAdmin) {
                 zafUtil.showToast("Validation Override\nBypassed: Star21 requesters can only submit on a Internal IT Form", 'error')
