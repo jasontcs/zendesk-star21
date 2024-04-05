@@ -21,7 +21,7 @@ function App() {
     const start = performance.now();
     const { userEntity: _user, userFields, authorisedFieldKeys } = await zafDomain.getUser(ticket.requester.id)
     setUser(_user)
-    const organizationId = ticket.organization?.id ?? ticket.requester.organizations[0].id
+    const organizationId = ticket.organization?.id ?? ticket.requester.organizations[0]?.id
     if (organizationId) {
       const { organizationEntity: _organization } = await zafDomain.getOrganization(organizationId, { userFields, authorisedFieldKeys })
       setOrganization(_organization)
@@ -93,7 +93,7 @@ function App() {
     zafUtil.resizeWindow()
   })
 
-  if (!user || !organization) return (
+  if (!user) return (
     <NoSelectRequesterLabel />
   )
   return (

@@ -13,6 +13,7 @@ import styled from "styled-components"
 import { IGardenTheme } from "@zendeskgarden/react-theming"
 import { ConditonalWrapper } from "./ConditonalWrapper"
 import { AppLoader } from "."
+import { NoOrganizationLabel } from "./NoOrganizationLabel"
 
 
 type TicketPanelProps = {
@@ -52,6 +53,7 @@ export const TicketPanel = ({
             >
                 {(!user || organization === undefined || !user.requestedTickets) && <AppLoader />}
                 {user?.requestedTickets && <RequesterTicketCounter tickets={user.requestedTickets} titleOnClick={titleOnClick} />}
+                {organization === null && <NoOrganizationLabel />}
                 {organization && <NoSupportServices types={organization.services} />}
                 {user && <ImportantContactTags isVip={user.isVip} userFlags={user.userFlags.filter((flag) => !(flag.type instanceof UserFlagTypeVip))} />}
                 {organization && <OrganizationServices organizationServices={organization.services} />}
