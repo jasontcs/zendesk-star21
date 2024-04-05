@@ -111,7 +111,6 @@ export class ZafDomain {
 
     async ticketOnSave() {
         const ticket = await this.getCurrentTicket()
-        if (ticket.status !== 'solved') return true
 
         const agent = ticket.assignee
         const organization = ticket.organization
@@ -142,6 +141,8 @@ export class ZafDomain {
             }
             return 'No organisation selected, please update the requester or add an Organisation to the requester'
         }
+
+        if (ticket.status !== 'solved') return true
 
         if (!isStar21 && isInternalForm) {
             if (isAdmin) {
