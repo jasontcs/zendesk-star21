@@ -66,7 +66,7 @@ function App() {
   }, []);
 
   async function ticketOnSave() {
-    await zafDomain.ticketOnSave()
+    return await zafDomain.ticketOnSave()
   }
 
   React.useEffect(() => {

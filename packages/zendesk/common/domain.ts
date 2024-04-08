@@ -135,11 +135,7 @@ export class ZafDomain {
         const isBlockedOrg = organization?.id ? blockedOrgs.includes(organization.id) : false
 
         if (!organization) {
-            if (isAdmin) {
-                zafUtil.showToast("Validation Override\nBypassed: No organisation selected", 'error')
-                return true
-            }
-            return 'No organisation selected, please update the requester or add an Organisation to the requester'
+            throw 'No organisation selected, please update the requester or add an Organisation to the requester'
         }
 
         if (ticket.status !== 'solved') return true
@@ -149,7 +145,7 @@ export class ZafDomain {
                 zafUtil.showToast("Validation Override\nBypassed: Star21 requesters can only submit on a Internal IT Form", 'error')
                 return true
             }
-            return 'This form can only be used for requesters that are Star21 employees'
+            throw 'This form can only be used for requesters that are Star21 employees'
         }
 
         if (isBlockedOrg) {
@@ -157,7 +153,7 @@ export class ZafDomain {
                 zafUtil.showToast("Validation Override\nBypassed: You cannot solve this ticket under this organisation.", 'error')
                 return true
             }
-            return 'You cannot solve this ticket under this organisation. Please select the correct organisation in the dropdown on the left!'
+            throw 'You cannot solve this ticket under this organisation. Please select the correct organisation in the dropdown on the left!'
         }
 
         if (isBlockedForms) {
@@ -165,7 +161,7 @@ export class ZafDomain {
                 zafUtil.showToast("Validation Override\nBypassed: You can not solve on this form. Please select the correct form", 'error')
                 return true
             }
-            return 'You can not solve on this form. Please select the correct form'
+            throw 'You can not solve on this form. Please select the correct form'
         }
 
         return true
