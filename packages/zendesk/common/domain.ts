@@ -134,11 +134,11 @@ export class ZafDomain {
         const isBlockedForms = blockedForms.includes(form.id)
         const isBlockedOrg = organization?.id ? blockedOrgs.includes(organization.id) : false
 
+        if (ticket.status !== 'solved') return true
+
         if (!organization) {
             throw 'No organisation selected, please update the requester or add an Organisation to the requester'
         }
-
-        if (ticket.status !== 'solved') return true
 
         if (!isStar21 && isInternalForm) {
             if (isAdmin) {
