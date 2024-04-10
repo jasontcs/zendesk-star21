@@ -156,7 +156,7 @@ export class ZafDomain {
             throw 'You cannot solve this ticket under this organisation. Please select the correct organisation in the dropdown on the left!'
         }
 
-        if (isBlockedForms) {
+        if (isBlockedForms || (isStar21 && !isInternalForm)) {
             if (isAdmin) {
                 zafUtil.showToast("Validation Override\nBypassed: You can not solve on this form. Please select the correct form", 'error')
                 return true
